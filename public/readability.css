@@ -1,0 +1,45 @@
+/* Larger, accessible type scale layered over the original visual design. */
+[hidden] { display: none !important; }
+body { font-size: 16px; }
+nav > a, summary { font-size: 15px; }
+.workspace, .date { font-size: 14px; }
+.breadcrumb, .eyebrow { font-size: 12px; }
+h1 { font-size: 38px; }
+h2 { font-size: 18px; }
+.button, input, select { font-size: 15px; }
+.period-line, .metric-label { font-size: 14px; }
+.metric-foot, .subtle { font-size: 12px; }
+.metric > strong small { font-size: 14px; }
+.panel-heading p, .quick-panel p { font-size: 14px; }
+.legend, .chart-note { font-size: 12px; }
+.chart-axis, .bar-group > span { font-size: 11px; }
+.quick-panel .eyebrow { font-size: 11px; }
+.quick-panel strong { font-size: 14px; }
+.quick-panel small { font-size: 12px; }
+table { font-size: 14px; }
+th { font-size: 12px; }
+td small, .status { font-size: 12px; }
+.count, .stock-row small { font-size: 12px; }
+.stock-row strong, .panel-bottom, .pagination { font-size: 14px; }
+.stock-number { font-size: 16px; }
+.empty small { font-size: 13px; }
+footer { font-size: 12px; }
+.form-grid label { font-size: 14px; }
+.report-toolbar p { font-size: 14px; }
+.inventory-filters label > span { font-size: 12px; }
+.group-tag { font-size: 13px; }
+.stock-indicator { font-size: 14px; }
+.minimum-note { font-size: 12px !important; }
+.form-intro p { font-size: 14px; }
+.product-form-grid label { font-size: 14px; }
+.product-form-grid label > small { font-size: 12px; }
+.input-with-unit i { font-size: 14px; }
+.threshold-guide .stock-indicator { font-size: 13px; }
+
+@media (max-width: 800px) {
+    nav > a, summary { font-size: 14px; }
+    h1 { font-size: 32px; }
+    .page-heading p, .button { font-size: 14px; }
+    .metric-label { font-size: 13px; }
+    .chart-note, footer { font-size: 11px; }
+}
