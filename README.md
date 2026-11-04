@@ -24,7 +24,7 @@ php artisan migrate
 php artisan serve
 ```
 
-Update the PostgreSQL credentials in `.env` before migration. Open http://127.0.0.1:8000.
+Update the PostgreSQL credentials in `.env` before migration. Open http://127.0.0.1:8001.
 
 For a safe transfer from the existing SQLite installation, follow [POSTGRESQL.md](POSTGRESQL.md).
 
@@ -43,7 +43,7 @@ docker compose exec app php artisan key:generate
 docker compose exec app php artisan migrate
 ```
 
-Open http://127.0.0.1:8000. Run `docker compose exec app php artisan db:seed` for optional sample data.
+Open http://127.0.0.1:8001. Run `docker compose exec app php artisan db:seed` for optional sample data.
 
 ## Tests
 

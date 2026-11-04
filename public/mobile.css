@@ -1,0 +1,111 @@
+/* Phone-first refinements. Loaded after the module styles so they apply everywhere. */
+.logout-form{margin:0}.logout-form button{border:1px solid #dce4dd;border-radius:6px;padding:8px 10px;background:#fff;color:#52655b;font:600 12px 'DM Sans',sans-serif}
+@media (max-width: 800px) {
+    body { overflow-x: hidden; }
+
+    .nav-wrap {
+        display: block;
+        min-height: 0;
+        padding: 14px 16px 10px;
+    }
+
+    .brand { font-size: 24px; }
+
+    .nav-wrap nav {
+        width: calc(100% + 8px);
+        margin: 10px -4px -2px;
+        padding: 2px 4px 8px;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 6px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .nav-wrap nav::-webkit-scrollbar { display: none; }
+    .nav-wrap nav > a, .nav-wrap summary { flex: 0 0 auto; padding: 10px 12px; }
+    .nav-dropdown { position: static; flex: 0 0 auto; }
+    .nav-dropdown .dropdown {
+        position: fixed;
+        z-index: 50;
+        top: 76px;
+        left: 12px;
+        right: 12px;
+        min-width: 0;
+        max-height: calc(100dvh - 92px);
+        overflow-y: auto;
+    }
+
+    main { padding: 20px 16px 36px; }
+    .breadcrumb { margin-bottom: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .page-heading { align-items: flex-start; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+    .page-heading .heading-actions, .page-heading > .button { align-self: stretch; width: 100%; }
+    .heading-actions { width: 100%; align-items: stretch; }
+    .heading-actions .button { width: 100%; }
+    h1 { font-size: 29px; line-height: 1.15; }
+    h2 { font-size: 17px; }
+
+    .panel, .voucher-card { border-radius: 9px; }
+    .panel-heading, .report-toolbar { padding: 18px 16px; }
+    .search, .inventory-filters, .report-filters { align-items: stretch; width: 100%; }
+    .search { flex-wrap: wrap; }
+    .search input { flex-basis: 100%; }
+    .search button, .search > a { flex: 1; text-align: center; }
+    .inventory-filters, .report-filters { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .inventory-filters label, .report-filters label, .filter-search { min-width: 0 !important; width: 100%; }
+    .inventory-filters .button, .report-filters .button { width: 100%; }
+
+    .report-summary, .metrics { grid-template-columns: 1fr; }
+    .metric { padding: 17px; }
+    .table-scroll { -webkit-overflow-scrolling: touch; }
+    .table-scroll::after { content: 'Swipe sideways to see all columns'; display: block; padding: 9px 14px; color: #76847b; font-size: 12px; white-space: nowrap; }
+    th { padding: 12px 14px; }
+    td { padding: 14px; }
+    .pagination { padding: 15px; gap: 14px; flex-wrap: wrap; }
+
+    dialog { width: calc(100% - 20px); max-height: calc(100dvh - 20px); }
+    .dialog-heading, .dialog-footer { padding: 17px; }
+    .form-grid { grid-template-columns: 1fr; padding: 17px; }
+    .dialog-footer { flex-direction: column-reverse; }
+    .dialog-footer .button { width: 100%; }
+
+    .voucher-heading { margin-bottom: 18px; }
+    .voucher-chip { min-width: 0; }
+    .voucher-grid { padding: 18px 16px; gap: 16px; }
+    .order-lines-heading { align-items: flex-start; flex-direction: column; gap: 12px; padding: 18px 16px 10px; }
+    .order-lines-heading .button { width: 100%; }
+    .order-lines { padding: 8px 12px 18px; overflow: visible; }
+    .order-line {
+        min-width: 0;
+        grid-template-columns: 32px repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 14px 10px;
+    }
+    .order-line > label { min-width: 0; }
+    .order-line .line-number { grid-column: 1; grid-row: 1; align-self: end; }
+    .order-line .item-product { grid-column: 2 / -1; }
+    .order-line .item-description { grid-column: 1 / -1; }
+    .order-line .line-amount { grid-column: 1 / -2; }
+    .order-line .remove-line { grid-column: -2; align-self: end; }
+    .order-settlement { padding: 18px 16px; gap: 16px; }
+    .charge-grid { grid-template-columns: 1fr 1fr; }
+    .view-totals { padding: 16px; gap: 10px; }
+    .voucher-actions { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 18px 0 0; }
+    .voucher-action { min-height: 60px; font-size: 13px; }
+    .voucher-action b { font-size: 18px; }
+    .product-form-actions { align-items: stretch; flex-direction: column-reverse; }
+    .product-form-actions .button { width: 100%; }
+    footer { align-items: flex-start; flex-direction: column; padding: 0 16px 18px; }
+}
+
+@media (max-width: 480px) {
+    .inventory-filters, .report-filters, .charge-grid { grid-template-columns: 1fr; }
+    .order-line { grid-template-columns: 1fr; }
+    .order-line .line-number { grid-column: 1; grid-row: auto; justify-self: start; }
+    .order-line .item-product, .order-line .item-description, .order-line .line-amount, .order-line .remove-line { grid-column: 1; }
+    .order-line .remove-line { justify-self: end; }
+    .voucher-actions { grid-template-columns: 1fr 1fr; }
+    .voucher-action { min-height: 56px; }
+}

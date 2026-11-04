@@ -7,7 +7,7 @@
         <h1>Inventory report<span class="accent">.</span></h1>
         <p>Track product rates, opening balances, and minimum stock levels.</p>
     </div>
-    <a class="button primary" href="{{ route('products.create') }}">＋ Add Product</a>
+    <div class="row-actions"><a class="button" href="{{ route('products.size-rates') }}">Size Rates & GST</a><a class="button primary" href="{{ route('products.create') }}">＋ Add Product</a></div>
 </section>
 
 <section class="metrics inventory-metrics" aria-label="Inventory totals">

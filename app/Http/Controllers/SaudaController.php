@@ -18,7 +18,7 @@ class SaudaController
         $status = in_array($request->query('status'), ['Open', 'Partial', 'Completed'], true) ? $request->query('status') : '';
         $search = is_string($request->query('q')) ? mb_substr(trim($request->query('q')), 0, 120) : '';
         $query = DB::table('saudas as s')->join('parties as pa', 's.party_id', '=', 'pa.id')->join('products as p', 's.product_id', '=', 'p.id')
-            ->select('s.*', 'pa.name as party_name', 'p.name as product_name', 'p.unit');
+            ->select('s.*', 'pa.name as party_name', 'p.group_name as group_head_name', 'p.unit');
         if ($type !== '') {
             $query->where('s.type', $type);
         }
@@ -26,12 +26,16 @@ class SaudaController
             $query->where('s.status', $status);
         }
         if ($search !== '') {
-            $query->where(fn ($builder) => $builder->where('s.reference', 'like', '%'.$search.'%')->orWhere('pa.name', 'like', '%'.$search.'%')->orWhere('p.name', 'like', '%'.$search.'%'));
+            $query->where(fn ($builder) => $builder->where('s.reference', 'like', '%'.$search.'%')->orWhere('pa.name', 'like', '%'.$search.'%')->orWhere('p.group_name', 'like', '%'.$search.'%'));
         }
 
         $saudas = $query->orderByDesc('s.date')->orderByDesc('s.id')->paginate(20)->withQueryString();
+        $pendingTotals = DB::table('saudas')
+            ->whereIn('status', ['Open', 'Partial'])
+            ->selectRaw("type, COUNT(*) as count, COALESCE(SUM(quantity - fulfilled_quantity), 0) as balance")
+            ->groupBy('type')->get()->keyBy('type');
 
-        return view('saudas.index', compact('saudas', 'type', 'status', 'search'));
+        return view('saudas.index', compact('saudas', 'type', 'status', 'search', 'pendingTotals'));
     }
 
     public function create(): View
@@ -66,10 +70,29 @@ class SaudaController
     {
         $sauda = DB::table('saudas')->where('id', $id)->first();
         abort_unless($sauda, 404);
-        if ((float) $sauda->fulfilled_quantity > 0) {
-            throw ValidationException::withMessages(['sauda' => 'A partially or fully used Sauda cannot be edited.']);
+        if ($sauda->status === 'Completed') {
+            throw ValidationException::withMessages(['sauda' => 'A completed Sauda cannot be edited.']);
         }
         $data = $this->validateSauda($request);
+
+        if ((float) $sauda->fulfilled_quantity > 0) {
+            $errors = [];
+            if ($data['type'] !== $sauda->type) {
+                $errors['type'] = 'Sauda type cannot be changed after an entry has been recorded.';
+            }
+            if ((int) $data['party_id'] !== (int) $sauda->party_id) {
+                $errors['party_id'] = 'Party cannot be changed after an entry has been recorded.';
+            }
+            if ((int) $data['product_id'] !== (int) $sauda->product_id) {
+                $errors['group_head_id'] = 'Group Head cannot be changed after an entry has been recorded.';
+            }
+            if ((float) $data['quantity'] < (float) $sauda->fulfilled_quantity) {
+                $errors['quantity'] = 'Committed quantity cannot be lower than the already used quantity of '.number_format($sauda->fulfilled_quantity, 3).' Ton.';
+            }
+            if ($errors !== []) {
+                throw ValidationException::withMessages($errors);
+            }
+        }
         $this->ensureUniqueSauda($data, $id);
         DB::table('saudas')->where('id', $id)->update($this->attributes($data) + ['updated_at' => now()]);
 
@@ -91,22 +114,42 @@ class SaudaController
     private function formView(?object $sauda = null): View
     {
         $parties = DB::table('parties')->orderBy('name')->get();
-        $products = DB::table('products')->orderBy('name')->get();
+        $groupHeads = DB::table('group_heads')->orderBy('name')->get();
+        $selectedGroupHeadId = null;
+        if ($sauda) {
+            $groupName = DB::table('products')->where('id', $sauda->product_id)->value('group_name');
+            $selectedGroupHeadId = DB::table('group_heads')->whereRaw('LOWER(name) = ?', [mb_strtolower((string) $groupName)])->value('id');
+        }
 
-        return view('saudas.form', compact('sauda', 'parties', 'products'));
+        return view('saudas.form', compact('sauda', 'parties', 'groupHeads', 'selectedGroupHeadId'));
     }
 
     /** @return array{type:string,party_id:int,product_id:int,quantity:string,rate:string,date:string} */
     private function validateSauda(Request $request): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'type' => ['required', Rule::in(['purchase', 'sale'])],
             'party_id' => ['required', 'integer', 'exists:parties,id'],
-            'product_id' => ['required', 'integer', 'exists:products,id'],
+            'group_head_id' => ['required', 'integer', 'exists:group_heads,id'],
             'quantity' => ['required', 'numeric', 'decimal:0,3', 'min:0.001', 'max:1000000'],
             'rate' => ['required', 'numeric', 'decimal:0,2', 'min:0.01', 'max:10000000'],
             'date' => ['required', 'date_format:Y-m-d'],
         ]);
+
+        $groupName = DB::table('group_heads')->where('id', $data['group_head_id'])->value('name');
+        $products = DB::table('products')->whereRaw('LOWER(group_name) = ?', [mb_strtolower((string) $groupName)])->orderBy('id')->get(['id']);
+
+        if ($products->isEmpty()) {
+            throw ValidationException::withMessages(['group_head_id' => 'No product exists under this Group Head. Add a product first.']);
+        }
+        return [
+            'type' => $data['type'],
+            'party_id' => $data['party_id'],
+            'product_id' => $products->first()->id,
+            'quantity' => $data['quantity'],
+            'rate' => $data['rate'],
+            'date' => $data['date'],
+        ];
     }
 
     /** @param array{type:string,party_id:int,product_id:int,quantity:string,rate:string,date:string} $data */

@@ -8,6 +8,7 @@ use App\Http\Controllers\SaudaController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
+Route::redirect('/login', '/');
 Route::get('/', [WorkspaceController::class, 'home'])->name('home');
 Route::get('/inventory', [WorkspaceController::class, 'inventory'])->name('inventory.index');
 Route::get('/inventory/products/create', [WorkspaceController::class, 'createProduct'])->name('products.create');
@@ -15,6 +16,10 @@ Route::post('/inventory/products', [WorkspaceController::class, 'storeProduct'])
 Route::get('/inventory/products/{id}/edit', [WorkspaceController::class, 'editProduct'])->whereNumber('id')->name('products.edit');
 Route::put('/inventory/products/{id}', [WorkspaceController::class, 'updateProduct'])->whereNumber('id')->name('products.update');
 Route::delete('/inventory/products/{id}', [WorkspaceController::class, 'destroyProduct'])->whereNumber('id')->name('products.destroy');
+Route::get('/inventory/size-rates', [WorkspaceController::class, 'sizeRates'])->name('products.size-rates');
+Route::get('/inventory/size-rates/new', [WorkspaceController::class, 'createSizeRate'])->name('products.size-rates.create');
+Route::post('/inventory/size-rates', [WorkspaceController::class, 'storeSizeRate'])->name('products.size-rates.store');
+Route::put('/inventory/size-rates/{id}', [WorkspaceController::class, 'updateSizeRate'])->whereNumber('id')->name('products.size-rates.update');
 Route::resource('saudas', SaudaController::class)->except('show');
 Route::get('/dispatch', [DispatchController::class, 'index'])->name('dispatch.index');
 Route::get('/dispatch/print', [DispatchController::class, 'print'])->name('dispatch.print');
@@ -32,5 +37,10 @@ Route::get('/{module}/{id}', [OrderController::class, 'show'])->where('module', 
 Route::get('/{module}/{id}/edit', [OrderController::class, 'edit'])->where('module', 'purchase-orders|sale-orders')->whereNumber('id')->name('orders.edit');
 Route::put('/{module}/{id}', [OrderController::class, 'update'])->where('module', 'purchase-orders|sale-orders')->whereNumber('id')->name('orders.update');
 Route::patch('/{module}/{id}/move', [OrderController::class, 'move'])->where('module', 'purchase-orders|sale-orders')->whereNumber('id')->name('orders.move');
+Route::get('/{module}/entry/create', [WorkspaceController::class, 'createRecord'])->where('module', 'purchase|sale')->name('stock-entry.create');
+Route::get('/{module}/{id}/print', [WorkspaceController::class, 'printRecord'])->where('module', 'purchase|sale')->whereNumber('id')->name('records.print');
+Route::get('/{module}/{id}/edit-entry', [WorkspaceController::class, 'editRecord'])->where('module', 'purchase|sale')->whereNumber('id')->name('records.edit');
+Route::put('/{module}/{id}/entry', [WorkspaceController::class, 'updateRecord'])->where('module', 'purchase|sale')->whereNumber('id')->name('records.update');
+Route::delete('/{module}/{id}/entry', [WorkspaceController::class, 'destroyRecord'])->where('module', 'purchase|sale')->whereNumber('id')->name('records.destroy');
 Route::get('/{module}', [WorkspaceController::class, 'index'])->where('module', 'purchase|sale|purchase-orders|sale-orders')->name('module');
 Route::post('/{module}', [WorkspaceController::class, 'storeRecord'])->where('module', 'purchase|sale')->name('records.store');
