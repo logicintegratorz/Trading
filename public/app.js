@@ -191,7 +191,7 @@ document.querySelectorAll('[data-rate-master]').forEach(form => {
     const updateRates = () => {
         const purchaseValue = Number(purchase.value) || 0;
         const saleValue = Number(sale.value) || 0;
-        if (differenceRate) differenceRate.value = purchaseValue.toFixed(2);
+        if (differenceRate) differenceRate.value = saleValue.toFixed(2);
         const gstHalf = (Number(totalGst.value) || 0) / 2;
         cgst.value = gstHalf.toFixed(2);
         sgst.value = gstHalf.toFixed(2);
@@ -272,4 +272,55 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
         reference.querySelector('[data-global-base-rate]').addEventListener('input', event => { rows.querySelectorAll('[data-stock-row]').forEach(row => { row.querySelector('[data-row-base]').value = event.target.value; row.querySelector('[data-row-base]').dispatchEvent(new Event('input')); }); });
     }
     form.querySelectorAll('[data-charge], [data-gst]').forEach(input => input.addEventListener('input', total));
+});
+
+// Gate photos are converted in the browser before submit. This keeps uploads
+// small and ensures the saved photo is always WebP. The original file is only
+// sent as a safe fallback when browser conversion is unavailable.
+document.querySelectorAll('[data-webp-upload]').forEach(input => {
+    const form = input.closest('form');
+    const output = input.parentElement.querySelector('[data-webp-output]');
+    if (!form || !output) return;
+
+    let conversion = null;
+    const compress = () => {
+        const file = input.files?.[0];
+        output.value = '';
+        if (!file) return Promise.resolve();
+        conversion = new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            const image = new Image();
+            reader.onerror = reject;
+            image.onerror = reject;
+            image.onload = () => {
+                const maximum = 1600;
+                const scale = Math.min(1, maximum / Math.max(image.width, image.height));
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.max(1, Math.round(image.width * scale));
+                canvas.height = Math.max(1, Math.round(image.height * scale));
+                canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+                output.value = canvas.toDataURL('image/webp', 0.78);
+                resolve();
+            };
+            reader.onload = event => { image.src = event.target.result; };
+            reader.readAsDataURL(file);
+        });
+        return conversion;
+    };
+
+    input.addEventListener('change', () => { compress().catch(() => { output.value = ''; }); });
+    form.addEventListener('submit', async event => {
+        if (!input.files?.length) return;
+        event.preventDefault();
+        try {
+            await (conversion || compress());
+            // The compressed WebP data is now submitted; do not also validate
+            // the original phone-camera file on the server.
+            if (output.value) input.disabled = true;
+            form.submit();
+        } catch (_) {
+            // If conversion fails, submit the original valid image as fallback.
+            form.submit();
+        }
+    }, { once: true });
 });

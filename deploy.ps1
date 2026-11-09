@@ -103,7 +103,7 @@ compose exec -T web nginx -t
 compose exec -T --user www-data app php artisan up --no-interaction
 maintenance_started=0
 
-for path in /up / /inventory /saudas /purchase-orders /sale-orders /reports /app.css /app.js; do
+for path in /up / /inventory /saudas /purchase-orders /sale-orders /reports /gate /app.css /app.js; do
     curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 \
         --max-time 20 -o /dev/null "https://trading.logicintegratorz.cloud$path"
     printf 'OK %s\n' "$path"

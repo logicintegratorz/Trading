@@ -302,8 +302,8 @@ class WorkspaceController
             'sale_rate' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000'],
             'gst_percent' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:100'],
         ]);
-        // Purchase voucher Difference is the selected size's Purchase Rate, excluding GST.
-        $data['difference_rate'] = (float) $data['purchase_rate'];
+        // Voucher Difference always starts from the selected product's Sale Rate.
+        $data['difference_rate'] = (float) $data['sale_rate'];
 
         DB::table('products')->where('id', $id)->update([
             'purchase_rate_cents' => $this->money($data['purchase_rate']),

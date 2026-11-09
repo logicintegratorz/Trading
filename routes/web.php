@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DispatchController;
+use App\Http\Controllers\GateController;
 use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
@@ -23,6 +24,13 @@ Route::put('/inventory/size-rates/{id}', [WorkspaceController::class, 'updateSiz
 Route::resource('saudas', SaudaController::class)->except('show');
 Route::get('/dispatch', [DispatchController::class, 'index'])->name('dispatch.index');
 Route::get('/dispatch/print', [DispatchController::class, 'print'])->name('dispatch.print');
+Route::get('/gate', [GateController::class, 'index'])->name('gate.index');
+Route::get('/gate/create', [GateController::class, 'create'])->name('gate.create');
+Route::post('/gate', [GateController::class, 'store'])->name('gate.store');
+Route::get('/gate/{id}/photo', [GateController::class, 'photo'])->whereNumber('id')->name('gate.photo');
+Route::get('/gate/{id}/edit', [GateController::class, 'edit'])->whereNumber('id')->name('gate.edit');
+Route::put('/gate/{id}', [GateController::class, 'update'])->whereNumber('id')->name('gate.update');
+Route::delete('/gate/{id}', [GateController::class, 'destroy'])->whereNumber('id')->name('gate.destroy');
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/reports/{report}', [ReportController::class, 'show'])->where('report', 'po|so|size-purchase|size-sale|inventory|stock-alert')->name('reports.show');
 Route::get('/masters/{master}', [MasterDataController::class, 'index'])->where('master', 'group-heads|parties')->name('masters.index');
