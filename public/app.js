@@ -5,6 +5,224 @@ if (dialog?.hasAttribute('data-auto-open')) dialog.showModal();
 document.addEventListener('click', event => document.querySelectorAll('.nav-dropdown[open]').forEach(menu => { if (!menu.contains(event.target)) menu.open = false; }));
 document.addEventListener('keydown', event => { if (event.key === 'Escape') document.querySelectorAll('.nav-dropdown').forEach(menu => menu.open = false); });
 
+// Keyboard-first data entry: Enter, Right Arrow and Down Arrow advance
+// through editable fields. Left Arrow at an input's start and Up Arrow go
+// back. Computed cells and row action buttons are deliberately skipped.
+const usableFormFields = form => [...form.querySelectorAll('input, select, textarea, button[type="submit"], button[data-search-select-trigger]')]
+    .filter(field => !field.disabled && field.type !== 'hidden' && !field.readOnly && field.getClientRects().length)
+    .filter(field => !field.hasAttribute('data-keyboard-skip'));
+const moveFormFocus = (field, direction) => {
+    const form = field.closest('form');
+    if (!form) return;
+    const fields = usableFormFields(form);
+    const current = fields.indexOf(field);
+    const next = fields[current + direction];
+    if (next) {
+        next.focus();
+        if (typeof next.select === 'function' && next.matches('input:not([type="date"]):not([type="file"])')) next.select();
+    }
+};
+document.addEventListener('keydown', event => {
+    const field = event.target;
+    if (!(field instanceof HTMLElement) || event.defaultPrevented || field.matches('[data-select-search], textarea, [contenteditable="true"], button, a, input[type="file"], input[type="checkbox"], input[type="radio"]')) return;
+
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        moveFormFocus(field, 1);
+        return;
+    }
+
+    const cursorAtStart = field.matches('input, textarea') && typeof field.selectionStart === 'number' && field.selectionStart === 0 && field.selectionEnd === 0;
+    const cursorAtEnd = field.matches('input, textarea') && typeof field.selectionEnd === 'number' && field.selectionEnd === field.value.length;
+    const isNumber = field.matches('input[type="number"]');
+    if ((event.key === 'ArrowLeft' && (cursorAtStart || field.matches('select'))) || (event.key === 'ArrowUp' && !isNumber)) {
+        event.preventDefault();
+        moveFormFocus(field, -1);
+    }
+    if ((event.key === 'ArrowRight' && (cursorAtEnd || field.matches('select'))) || (event.key === 'ArrowDown' && !field.matches('select') && !isNumber)) {
+        event.preventDefault();
+        moveFormFocus(field, 1);
+    }
+});
+
+// Every standard dropdown gets the same compact, internally searchable menu.
+// A rare browser-native select can opt out with data-native-select.
+const searchableSelect = select => !select.multiple && !select.hasAttribute('data-native-select');
+const enhanceSearchableSelects = (root = document) => {
+    const selects = root instanceof HTMLSelectElement
+        ? [root]
+        : [...root.querySelectorAll?.('select') || []];
+    selects.filter(select => searchableSelect(select) && !select.dataset.searchReady).forEach(select => {
+        select.dataset.searchReady = 'true';
+        const wrapper = document.createElement('div');
+        const trigger = document.createElement('button');
+        const menu = document.createElement('div');
+        const search = document.createElement('input');
+        const options = document.createElement('div');
+        const labelText = select.matches('[data-row-product], [data-product-select], [data-sauda-product], select[name="product_id"]') ? 'product' : 'party';
+        wrapper.className = 'search-select';
+        trigger.type = 'button';
+        trigger.className = 'search-select-trigger';
+        trigger.dataset.searchSelectTrigger = 'true';
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.className = 'search-select-menu';
+        menu.hidden = true;
+        search.type = 'search';
+        search.className = 'search-select-input';
+        search.dataset.selectSearch = 'true';
+        search.placeholder = `Search ${labelText}`;
+        search.autocomplete = 'off';
+        search.setAttribute('aria-label', `Search ${labelText} options`);
+        options.className = 'search-select-options';
+        select.before(wrapper);
+        wrapper.append(trigger, select, menu);
+        menu.append(search, options);
+        select.classList.add('search-select-native');
+
+        const visibleOptions = () => {
+            const query = search.value.trim().toLocaleLowerCase();
+            return [...select.options].filter(option => option.value && !option.disabled && !option.hidden && (!query || option.textContent.toLocaleLowerCase().includes(query)));
+        };
+        const refreshTrigger = () => {
+            const option = select.options[select.selectedIndex];
+            trigger.textContent = option?.value ? option.textContent : `Select ${labelText}`;
+        };
+        const close = () => {
+            menu.hidden = true;
+            trigger.setAttribute('aria-expanded', 'false');
+        };
+        const choose = option => {
+            select.value = option.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+            refreshTrigger();
+            close();
+            trigger.focus();
+        };
+        const render = () => {
+            const matches = visibleOptions();
+            options.replaceChildren();
+            if (!matches.length) {
+                const empty = document.createElement('p');
+                empty.className = 'search-select-empty';
+                empty.textContent = `No matching ${labelText}`;
+                options.append(empty);
+                return;
+            }
+            matches.forEach(option => {
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = 'search-select-option';
+                item.textContent = option.textContent;
+                item.dataset.value = option.value;
+                item.setAttribute('role', 'option');
+                item.setAttribute('aria-selected', String(option.value === select.value));
+                item.addEventListener('click', () => choose(option));
+                item.addEventListener('keydown', event => {
+                    const items = [...options.querySelectorAll('.search-select-option')];
+                    const index = items.indexOf(item);
+                    if (event.key === 'ArrowDown') {
+                        event.preventDefault();
+                        (items[index + 1] || items[0])?.focus();
+                    }
+                    if (event.key === 'ArrowUp') {
+                        event.preventDefault();
+                        if (index === 0) search.focus(); else items[index - 1]?.focus();
+                    }
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        choose(option);
+                    }
+                    if (event.key === 'Escape') {
+                        event.preventDefault();
+                        close();
+                        trigger.focus();
+                    }
+                    if (event.key === 'ArrowLeft') {
+                        event.preventDefault();
+                        close();
+                        moveFormFocus(trigger, -1);
+                    }
+                    if (event.key === 'ArrowRight') {
+                        event.preventDefault();
+                        close();
+                        moveFormFocus(trigger, 1);
+                    }
+                });
+                options.append(item);
+            });
+        };
+        const open = () => {
+            document.querySelectorAll('.search-select-menu:not([hidden])').forEach(other => {
+                if (other !== menu) other.hidden = true;
+            });
+            menu.hidden = false;
+            trigger.setAttribute('aria-expanded', 'true');
+            search.value = '';
+            render();
+            search.focus();
+        };
+        refreshTrigger();
+        trigger.addEventListener('click', () => menu.hidden ? open() : close());
+        trigger.addEventListener('keydown', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (select.value) moveFormFocus(trigger, 1); else open();
+            }
+            if (event.key === ' ' || event.key === 'ArrowDown') {
+                event.preventDefault();
+                open();
+            }
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                event.preventDefault();
+                moveFormFocus(trigger, -1);
+            }
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                moveFormFocus(trigger, 1);
+            }
+        });
+        search.addEventListener('input', render);
+        search.addEventListener('keydown', event => {
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                options.querySelector('.search-select-option')?.focus();
+            }
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const matches = visibleOptions();
+                if (matches.length === 1) choose(matches[0]);
+            }
+            if (event.key === 'ArrowLeft' && search.selectionStart === 0 && search.selectionEnd === 0) {
+                event.preventDefault();
+                close();
+                trigger.focus();
+            }
+            if (event.key === 'ArrowUp' && search.selectionStart === 0 && search.selectionEnd === 0) {
+                event.preventDefault();
+                close();
+                trigger.focus();
+            }
+        });
+        select.addEventListener('change', () => {
+            refreshTrigger();
+            render();
+        });
+    });
+};
+enhanceSearchableSelects();
+document.addEventListener('click', event => document.querySelectorAll('.search-select').forEach(wrapper => {
+    if (!wrapper.contains(event.target)) {
+        const menu = wrapper.querySelector('.search-select-menu');
+        const trigger = wrapper.querySelector('[data-search-select-trigger]');
+        if (menu) menu.hidden = true;
+        trigger?.setAttribute('aria-expanded', 'false');
+    }
+}));
+new MutationObserver(mutations => mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+    if (node.nodeType === Node.ELEMENT_NODE) enhanceSearchableSelects(node);
+}))).observe(document.body, { childList: true, subtree: true });
+
 document.querySelectorAll('[data-auto-filter]').forEach(form => {
     let debounceTimer;
     const submitButton = form.querySelector('[data-filter-submit]');
@@ -225,9 +443,53 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
         form.querySelector('[data-stock-gst]').textContent = `₹${gst.toFixed(2)}`;
         form.querySelector('[data-stock-grand]').textContent = `₹${(taxable + gst).toFixed(2)}`;
     };
-        const bind = row => { const group=row.querySelector('[data-row-group]'), product=row.querySelector('[data-row-product]'), difference=row.querySelector('[data-row-difference]'), base=row.querySelector('[data-row-base]'), rate=row.querySelector('[data-row-rate]'), globalBase=form.querySelector('[data-global-base-rate]'); addQuickCreate(group,'group-heads','Group Head'); difference.readOnly=false; difference.type='number'; difference.min='0'; difference.step='0.01'; difference.name=rate.name.replace('[rate]','[difference]'); base.readOnly=false; base.type='number'; base.min='0'; base.step='0.01'; base.name=rate.name.replace('[rate]','[base_rate]'); const sync=()=>{ [...product.options].forEach(o=>{if(!o.value)return;o.hidden=!!group.value&&o.dataset.group!==group.value;}); const opt=product.options[product.selectedIndex]; if(opt?.value){if(!difference.dataset.initialized){difference.value=opt.dataset.difference||'0.00';difference.dataset.initialized='1';} if(!base.value) base.value=(globalBase?.value || opt.dataset.purchase || '0.00');} rate.value=((Number(base.value)||0)+(Number(difference.value)||0)).toFixed(2); total();}; group.addEventListener('change',()=>{difference.dataset.initialized='';sync();});product.addEventListener('change',()=>{difference.dataset.initialized='';sync();});difference.addEventListener('input',sync);base.addEventListener('input',sync);row.querySelectorAll('input').forEach(i=>i.addEventListener('input',total));row.querySelector('[data-remove-row]').addEventListener('click',()=>{if(rows.children.length>1){row.remove();total();}});sync();};
-    const add=()=>{const index=Date.now();const box=document.createElement('div');box.innerHTML=template.innerHTML.replaceAll('__INDEX__',index).trim();const row=box.firstElementChild;rows.appendChild(row);bind(row);return row;};
+    const updateSaudaProgress = () => {
+        const balanceLabel = form.querySelector('[data-sauda-balance]');
+        const selected = sauda.options[sauda.selectedIndex];
+        if (!balanceLabel) return;
+        if (!selected?.value) {
+            balanceLabel.textContent = 'Direct entry';
+            return;
+        }
+        const available = Number(selected.dataset.balance) || 0;
+        const entered = [...rows.querySelectorAll('[data-row-qty]')].reduce((sum, quantity) => sum + (Number(quantity.value) || 0), 0);
+        const remaining = available - entered;
+        balanceLabel.textContent = remaining >= -0.0001
+            ? Math.max(0, remaining).toFixed(3) + ' Ton '
+            : 'Over by ' + Math.abs(remaining).toFixed(3) + ' Ton';
+        rows.querySelectorAll('[data-row-qty]').forEach(quantity => quantity.setCustomValidity(
+            remaining < -0.0001 ? 'Total quantity cannot exceed the available Sauda balance of ' + available.toFixed(3) + ' Ton.' : ''
+        ));
+    };
+        const getGlobalBaseRate = () => form.querySelector('[data-global-base-rate]')?.value?.trim() || '';
+        const setRowBaseRate = (row, value = getGlobalBaseRate()) => {
+            const base = row.querySelector('[data-row-base]');
+            if (!base || value === '') return;
+            base.value = value;
+            base.dispatchEvent(new Event('input'));
+        };
+        const bind = row => { const group=row.querySelector('[data-row-group]'), product=row.querySelector('[data-row-product]'), difference=row.querySelector('[data-row-difference]'), base=row.querySelector('[data-row-base]'), rate=row.querySelector('[data-row-rate]'); addQuickCreate(group,'group-heads','Group Head'); difference.readOnly=false; difference.type='number'; difference.min='0'; difference.step='0.01'; difference.name=rate.name.replace('[rate]','[difference]'); base.readOnly=false; base.type='number'; base.min='0'; base.step='0.01'; base.name=rate.name.replace('[rate]','[base_rate]'); const sync=()=>{ [...product.options].forEach(o=>{if(!o.value)return;o.hidden=!!group.value&&o.dataset.group!==group.value;}); const opt=product.options[product.selectedIndex]; if(opt?.value&&!difference.dataset.initialized){difference.value=opt.dataset.difference||'0.00';difference.dataset.initialized='1';} if(!base.value) base.value=(getGlobalBaseRate() || opt?.dataset.purchase || '0.00'); rate.value=((Number(base.value)||0)+(Number(difference.value)||0)).toFixed(2); total(); updateSaudaProgress();}; group.addEventListener('change',()=>{difference.dataset.initialized='';sync();});product.addEventListener('change',()=>{difference.dataset.initialized='';sync();});difference.addEventListener('input',sync);base.addEventListener('input',sync);row.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{total();updateSaudaProgress();}));row.querySelector('[data-remove-row]').addEventListener('click',()=>{if(rows.children.length>1){row.remove();total();updateSaudaProgress();}});sync();};
+    const add=()=>{const index=Date.now();const box=document.createElement('div');box.innerHTML=template.innerHTML.replaceAll('__INDEX__',index).trim();const row=box.firstElementChild;rows.appendChild(row);bind(row);setRowBaseRate(row);return row;};
     form.querySelector('[data-add-row]').addEventListener('click',add); filter.addEventListener('change',()=>rows.querySelectorAll('[data-row-group]').forEach(el=>{el.value=filter.value;el.dispatchEvent(new Event('change'));}));
+    // Party and Sauda stay in sync. A changed customer only sees that
+    // customer's open Sauda entries, and the first matching Sauda loads its
+    // complete voucher details automatically.
+    let syncingPartyAndSauda = false;
+    const filterSaudasForParty = partyId => {
+        [...sauda.options].forEach(option => {
+            if (!option.value) return;
+            option.hidden = Boolean(partyId && option.dataset.party !== partyId);
+        });
+        const selected = sauda.options[sauda.selectedIndex];
+        if (selected?.value && !selected.hidden) return selected;
+        return [...sauda.options].find(option => option.value && !option.hidden) || sauda.options[0];
+    };
+    party.addEventListener('change', () => {
+        if (syncingPartyAndSauda) return;
+        const matchingSauda = filterSaudasForParty(party.value);
+        sauda.value = matchingSauda?.value || '';
+        sauda.dispatchEvent(new Event('change'));
+    });
     sauda.addEventListener('change',()=>{
         const o = sauda.options[sauda.selectedIndex];
         if (!o.value) {
@@ -236,7 +498,11 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
         }
         // A Sauda is one committed deal. Replace unfinished voucher rows so no values
         // from the previously selected deal remain in the new voucher.
+        syncingPartyAndSauda = true;
         party.value = o.dataset.party || '';
+        party.dispatchEvent(new Event('change'));
+        syncingPartyAndSauda = false;
+        filterSaudasForParty(party.value);
         filter.value = o.dataset.group || '';
         form.querySelector('[data-sauda-balance]').textContent = o.dataset.balance ? `${Number(o.dataset.balance).toFixed(3)} Ton` : '0.000 Ton';
         rows.replaceChildren();
@@ -268,8 +534,10 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
         reference.className = 'voucher-reference-strip';
         reference.innerHTML = '<label>City<input name="city" placeholder="Enter city"></label><label>TIN<input name="tin" placeholder="Enter TIN"></label><label>B.Rate<input type="number" min="0" step="0.01" data-global-base-rate placeholder="Set B.Rate for all rows"></label><label>Terms<input name="terms" placeholder="Payment terms"></label>';
         top.after(reference);
-        if (form.dataset.initialRate) reference.querySelector('[data-global-base-rate]').value = form.dataset.initialRate;
-        reference.querySelector('[data-global-base-rate]').addEventListener('input', event => { rows.querySelectorAll('[data-stock-row]').forEach(row => { row.querySelector('[data-row-base]').value = event.target.value; row.querySelector('[data-row-base]').dispatchEvent(new Event('input')); }); });
+        const globalBaseRate = reference.querySelector('[data-global-base-rate]');
+        if (form.dataset.initialRate) globalBaseRate.value = form.dataset.initialRate;
+        rows.querySelectorAll('[data-stock-row]').forEach(row => setRowBaseRate(row));
+        globalBaseRate.addEventListener('input', event => rows.querySelectorAll('[data-stock-row]').forEach(row => setRowBaseRate(row, event.target.value)));
     }
     form.querySelectorAll('[data-charge], [data-gst]').forEach(input => input.addEventListener('input', total));
 });

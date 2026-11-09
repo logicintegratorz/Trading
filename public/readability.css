@@ -43,3 +43,36 @@ footer { font-size: 12px; }
     .metric-label { font-size: 13px; }
     .chart-note, footer { font-size: 11px; }
 }
+
+/* Professional operating scale: readable at a desk without browser zoom. */
+body { font-size: 17px; line-height: 1.5; }
+nav > a, summary, .workspace { font-size: 16px; }
+.breadcrumb, .eyebrow { font-size: 13px; }
+h1 { font-size: 40px; line-height: 1.15; }
+h2 { font-size: 20px; }
+p, .page-heading p, .panel-heading p, .quick-panel p { font-size: 16px; }
+.button, input, select, textarea, .search-select-trigger, .search-select-input { font-size: 16px; }
+input, select, textarea, .search-select-trigger { min-height: 44px; }
+.voucher-parties label, .voucher-line-entry label, .voucher-charges label, .voucher-reference-strip label, .voucher-grid label, .product-form-grid label, .rate-master-grid label, .form-grid label { font-size: 15px; }
+table { font-size: 15px; }
+th { font-size: 13px; }
+td small, .status, .count, .stock-row small { font-size: 13px; }
+.voucher-lines-title p, .voucher-lines-title > span, .line-add-bar strong, .voucher-remaining, .voucher-summary > div { font-size: 14px; }
+.search-select-menu { font-size: 16px; }
+.search-select-option { padding: 11px 12px; }
+.voucher-line-entry { overflow: visible; }
+.voucher-line-entry label { position: relative; }
+.sauda-quantity-summary { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px; margin:0 0 24px; }
+.sauda-quantity-summary > div { background:#fff; border:1px solid #dce6df; border-radius:10px; padding:16px 20px; }
+.sauda-quantity-summary span { display:block; color:#647771; font-size:14px; margin-bottom:6px; }
+.sauda-quantity-summary strong { color:#183e34; font-size:22px; font-variant-numeric:tabular-nums; }
+.sauda-quantity-summary strong small { color:#71817c; font-size:14px; font-weight:600; }
+.sauda-quantity-summary .sauda-remaining { border-color:#a9ceb5; background:#f0f8f2; }
+
+@media (max-width: 800px) {
+    body { font-size: 16px; }
+    h1 { font-size: 32px; }
+    h2 { font-size: 19px; }
+    .button, input, select, textarea, .search-select-trigger, .search-select-input { font-size: 16px; }
+    .sauda-quantity-summary { grid-template-columns:1fr; gap:10px; }
+}

@@ -1,81 +1,1702 @@
-[Thu Nov  5 23:11:02 2026] PHP 8.4.27 Development Server (http://127.0.0.1:8001) started
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59476 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59476 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:65009 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:51338 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:62482 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:65009 [200]: GET /inventory.css
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:51338 [200]: GET /order.css?v=2
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:62482 [200]: GET /app.css
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:65009 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:51338 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:62482 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:52946 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:52946 [200]: GET /reports.css?v=2
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:51947 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:51947 [200]: GET /workflow.css?v=2
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:52946 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:52302 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:51947 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:52302 [200]: GET /simplified-workflow.css?v=1
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:52302 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:50712 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:50712 [200]: GET /readability.css?v=2
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:50712 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59143 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59915 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59143 [200]: GET /mobile.css?v=1
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59915 [200]: GET /nav-icons.css?v=1
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59143 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59915 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59217 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59217 [200]: GET /app.js?v=6
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:59217 Closing
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:64136 Accepted
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:64136 [200]: GET /favicon.ico
-[Thu Nov  5 23:11:17 2026] 127.0.0.1:64136 Closing
-[Thu Nov  5 23:11:42 2026] 127.0.0.1:59250 Accepted
-[Thu Nov  5 23:11:43 2026] 127.0.0.1:59250 Closing
-[Thu Nov  5 23:11:43 2026] 127.0.0.1:49670 Accepted
-[Thu Nov  5 23:13:50 2026] 127.0.0.1:49670 Closed without sending a request; it was probably just an unused speculative preconnection
-[Thu Nov  5 23:13:50 2026] 127.0.0.1:49670 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:51960 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55176 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:51960 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55176 [200]: GET /app.css
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55176 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55828 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52681 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:58123 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:58251 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:57065 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55882 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55828 [200]: GET /inventory.css
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52681 [200]: GET /order.css?v=2
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:58123 [200]: GET /reports.css?v=2
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:58251 [200]: GET /workflow.css?v=2
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:57065 [200]: GET /simplified-workflow.css?v=1
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55882 [200]: GET /readability.css?v=2
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55828 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52681 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:58123 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:58251 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:57065 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:55882 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:61918 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:49167 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:61918 [200]: GET /mobile.css?v=1
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:49167 [200]: GET /nav-icons.css?v=1
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:61918 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:49167 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52811 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52811 [200]: GET /app.js?v=6
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52811 Closing
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52989 Accepted
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52989 [200]: GET /favicon.ico
-[Thu Nov  5 23:13:59 2026] 127.0.0.1:52989 Closing
-[Thu Nov  5 23:14:02 2026] 127.0.0.1:50491 Accepted
-[Thu Nov  5 23:14:03 2026] 127.0.0.1:63855 Accepted
-[Thu Nov  5 23:14:03 2026] 127.0.0.1:50491 Closing
-[Thu Nov  5 23:14:03 2026] 127.0.0.1:63855 [200]: GET /favicon.ico
-[Thu Nov  5 23:14:03 2026] 127.0.0.1:63855 Closing
+[Mon Nov  9 13:09:43 2026] PHP 8.4.27 Development Server (http://127.0.0.1:8001) started
+[Mon Nov  9 13:09:51 2026] 127.0.0.1:63518 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:63518 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50060 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:49770 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50060 [200]: GET /app.css
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50347 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:49770 [200]: GET /inventory.css
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:62513 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50347 [200]: GET /order.css?v=2
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:56562 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:62513 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50060 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:49672 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:56562 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:49770 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:60398 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:49672 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50347 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:58121 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:60398 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:62513 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50696 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:58121 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:56562 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50696 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:49672 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:60398 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:58121 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:50696 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:64515 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:64515 [200]: GET /app.js?v=6
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:64515 Closing
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:55070 Accepted
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:55070 [200]: GET /favicon.ico
+[Mon Nov  9 13:10:05 2026] 127.0.0.1:55070 Closing
+[Mon Nov  9 13:10:28 2026] 127.0.0.1:63874 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:63874 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58190 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58190 [200]: GET /app.css
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58190 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:62215 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:57742 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:62215 [200]: GET /inventory.css
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58041 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:57742 [200]: GET /order.css?v=2
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52521 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58041 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:50602 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52521 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:62215 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:57753 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:50602 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:57742 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52524 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:57753 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58041 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:51428 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52521 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:50602 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52524 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:57753 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:51428 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52524 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:51428 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58905 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58905 [200]: GET /app.js?v=6
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:58905 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52820 Accepted
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52820 [200]: GET /favicon.ico
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:52820 Closing
+[Mon Nov  9 13:10:30 2026] 127.0.0.1:55787 Accepted
+[Mon Nov  9 13:10:33 2026] 127.0.0.1:55787 Closing
+[Mon Nov  9 13:11:54 2026] 127.0.0.1:56398 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:56398 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:63531 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:63531 [200]: GET /app.css
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62148 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:63531 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62557 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62148 [200]: GET /inventory.css
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:53203 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62557 [200]: GET /order.css?v=2
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62822 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:65238 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:53203 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62148 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:50462 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62822 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:65238 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62557 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:50462 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:52940 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:53203 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:54010 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:62822 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:65238 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:50462 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:52940 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:54010 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:52940 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:54010 Closing
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:56471 Accepted
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:56471 [200]: GET /app.js?v=6
+[Mon Nov  9 13:11:55 2026] 127.0.0.1:56471 Closing
+[Mon Nov  9 13:11:56 2026] 127.0.0.1:51660 Accepted
+[Mon Nov  9 13:11:56 2026] 127.0.0.1:51660 [200]: GET /favicon.ico
+[Mon Nov  9 13:11:56 2026] 127.0.0.1:51660 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:57931 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:57931 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:61147 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:61147 [200]: GET /app.css
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:55786 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:51171 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:53625 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:61147 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:52855 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:57058 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:55786 [200]: GET /inventory.css
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:51171 [200]: GET /order.css?v=2
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:53625 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:52855 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:57058 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:60983 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:60983 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:55786 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:59207 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:51171 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:53625 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:52855 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:57058 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:59207 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:60983 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:49208 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:59207 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:49208 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:49208 Closing
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:58503 Accepted
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:58503 [200]: GET /app.js?v=6
+[Mon Nov  9 13:18:16 2026] 127.0.0.1:58503 Closing
+[Mon Nov  9 13:18:17 2026] 127.0.0.1:62059 Accepted
+[Mon Nov  9 13:18:17 2026] 127.0.0.1:62059 [200]: GET /favicon.ico
+[Mon Nov  9 13:18:17 2026] 127.0.0.1:62059 Closing
+[Mon Nov  9 13:19:03 2026] 127.0.0.1:65408 Accepted
+[Mon Nov  9 13:19:03 2026] 127.0.0.1:63298 Accepted
+[Mon Nov  9 13:19:04 2026] 127.0.0.1:63298 [200]: GET /favicon.ico
+[Mon Nov  9 13:19:04 2026] 127.0.0.1:63298 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:65408 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:50023 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:50023 [200]: GET /app.css
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:50023 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59227 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:52199 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59227 [200]: GET /inventory.css
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59227 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:52199 [200]: GET /order.css?v=2
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:55571 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:52199 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:54601 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:53790 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59469 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:55571 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:54601 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:53790 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59469 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:55571 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:54601 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:53790 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59469 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:60497 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:60497 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59840 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59840 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:60497 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:59840 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:55755 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:55755 [200]: GET /app.js?v=6
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:55755 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:57471 Accepted
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:57471 [200]: GET /favicon.ico
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:57471 Closing
+[Mon Nov  9 13:19:07 2026] 127.0.0.1:58432 Accepted
+[Mon Nov  9 13:19:08 2026] 127.0.0.1:58432 Closing
+[Mon Nov  9 13:19:09 2026] 127.0.0.1:51208 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51208 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51059 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51059 [200]: GET /app.css
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51059 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51986 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:62134 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51986 [200]: GET /order.css?v=2
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54649 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:62134 [200]: GET /inventory.css
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:55424 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54649 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54906 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:55424 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51986 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:55867 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54906 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:62134 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:61109 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:55867 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54649 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54470 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:61109 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:55424 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54470 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54906 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:55867 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:61109 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:54470 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:64741 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:64741 [200]: GET /app.js?v=6
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:64741 Closing
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51599 Accepted
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51599 [200]: GET /favicon.ico
+[Mon Nov  9 13:19:10 2026] 127.0.0.1:51599 Closing
+[Mon Nov  9 13:19:51 2026] 127.0.0.1:54987 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54987 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:60249 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:60249 [200]: GET /app.css
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:60249 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:50214 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:53322 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:50214 [200]: GET /inventory.css
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:53846 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:53322 [200]: GET /order.css?v=2
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54674 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:53846 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:58332 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54674 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:50214 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:63235 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:58332 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:53322 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54841 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:63235 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:53846 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54350 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54841 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54674 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54350 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:58332 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:63235 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54841 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:54350 Closing
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:58940 Accepted
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:58940 [200]: GET /app.js?v=6
+[Mon Nov  9 13:19:52 2026] 127.0.0.1:58940 Closing
+[Mon Nov  9 13:19:53 2026] 127.0.0.1:54540 Accepted
+[Mon Nov  9 13:19:53 2026] 127.0.0.1:54540 [200]: GET /favicon.ico
+[Mon Nov  9 13:19:53 2026] 127.0.0.1:54540 Closing
+[Mon Nov  9 13:20:05 2026] 127.0.0.1:51678 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:51678 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:57726 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:57726 [200]: GET /app.css
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:57726 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:59997 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63709 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:59997 [200]: GET /inventory.css
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63915 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63709 [200]: GET /order.css?v=2
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:50379 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63915 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:56493 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:50379 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:59997 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:58533 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:56493 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63709 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:58533 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63915 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63414 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:50379 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:55962 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:56493 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:58533 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63414 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:55962 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63414 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:55962 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:54321 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:54321 [200]: GET /app.js?v=6
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:54321 Closing
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63587 Accepted
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63587 [200]: GET /favicon.ico
+[Mon Nov  9 13:20:06 2026] 127.0.0.1:63587 Closing
+[Mon Nov  9 13:20:20 2026] 127.0.0.1:61919 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:61919 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:59815 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:59815 [200]: GET /app.css
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:59815 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:53196 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:53196 [200]: GET /inventory.css
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:53196 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:59124 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:58919 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:49758 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:49786 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:58534 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:59124 [200]: GET /order.css?v=2
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:58919 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:49758 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:49786 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:51539 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:58534 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:51539 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:59124 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:53911 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:58919 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:49758 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:49786 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:58534 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:53911 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:51539 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:53911 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:54349 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:54349 [200]: GET /app.js?v=6
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:54349 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:62268 Accepted
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:62268 [200]: GET /favicon.ico
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:62268 Closing
+[Mon Nov  9 13:20:21 2026] 127.0.0.1:53430 Accepted
+[Mon Nov  9 13:20:22 2026] 127.0.0.1:53430 Closing
+[Mon Nov  9 13:20:23 2026] 127.0.0.1:62942 Accepted
+[Mon Nov  9 13:20:23 2026] 127.0.0.1:62942 Closing
+[Mon Nov  9 13:20:23 2026] 127.0.0.1:59325 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:59325 [200]: GET /app.css
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:59325 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:52338 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:52338 [200]: GET /inventory.css
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:52338 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:59469 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:56250 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:61490 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:57292 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:59469 [200]: GET /order.css?v=2
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:56480 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:56250 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:61490 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:57292 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:53039 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:56480 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:59469 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:53039 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:56250 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:54613 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:61490 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:57292 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:54613 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:56480 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:53039 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:54613 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:57983 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:57983 [200]: GET /app.js?v=6
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:57983 Closing
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:49720 Accepted
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:49720 [200]: GET /favicon.ico
+[Mon Nov  9 13:20:24 2026] 127.0.0.1:49720 Closing
+[Mon Nov  9 13:29:10 2026] 127.0.0.1:55907 Accepted
+[Mon Nov  9 13:29:10 2026] 127.0.0.1:53494 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:55907 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:53494 [200]: GET /app.css?v=7
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:53494 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:63938 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:57535 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:49288 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:55344 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:62428 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:52453 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:63938 [200]: GET /inventory.css
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:57535 [200]: GET /order.css?v=2
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:49288 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:55344 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:62428 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:52453 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:63938 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:57535 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:49288 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:55344 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:62428 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:52453 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:65362 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:52914 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:65362 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:52914 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:65362 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:52914 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:60561 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:60561 [200]: GET /app.js?v=7
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:60561 Closing
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:51853 Accepted
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:51853 [200]: GET /favicon.ico
+[Mon Nov  9 13:29:11 2026] 127.0.0.1:51853 Closing
+[Mon Nov  9 13:31:48 2026] 127.0.0.1:64680 Accepted
+[Mon Nov  9 13:31:48 2026] 127.0.0.1:53557 Accepted
+[Mon Nov  9 13:31:48 2026] 127.0.0.1:64680 [200]: GET /favicon.ico
+[Mon Nov  9 13:31:48 2026] 127.0.0.1:64680 Closing
+[Mon Nov  9 13:31:48 2026] 127.0.0.1:53557 Closing
+[Mon Nov  9 13:31:49 2026] 127.0.0.1:61144 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:61144 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50337 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50337 [200]: GET /app.css?v=7
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50337 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:60402 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:61287 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:62255 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50032 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:63634 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50192 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:60402 [200]: GET /inventory.css
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:61287 [200]: GET /order.css?v=2
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:62255 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50032 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:63634 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50192 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:60402 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:61287 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:62255 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50032 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:63634 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:50192 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:53449 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:62263 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:53449 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:62263 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:53449 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:62263 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:49852 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:49852 [200]: GET /app.js?v=7
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:49852 Closing
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:52843 Accepted
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:52843 [200]: GET /favicon.ico
+[Mon Nov  9 13:31:50 2026] 127.0.0.1:52843 Closing
+[Mon Nov  9 13:31:51 2026] 127.0.0.1:58119 Accepted
+[Mon Nov  9 13:31:51 2026] 127.0.0.1:58119 [200]: GET /favicon.ico
+[Mon Nov  9 13:31:51 2026] 127.0.0.1:58119 Closing
+[Mon Nov  9 13:36:57 2026] 127.0.0.1:58300 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:58300 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:56208 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:56208 [200]: GET /app.css?v=8
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:56208 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:63436 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:53551 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:62219 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:60460 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:52827 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:56839 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:63436 [200]: GET /inventory.css
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:53551 [200]: GET /order.css?v=2
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:62219 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:60460 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:52827 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:56839 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:63436 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:60106 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:53551 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:62219 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:60460 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:52827 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:56839 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:54834 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:60106 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:60106 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:54834 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:54834 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:50983 Accepted
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:50983 [200]: GET /app.js?v=8
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:50983 Closing
+[Mon Nov  9 13:36:58 2026] 127.0.0.1:61369 Accepted
+[Mon Nov  9 13:36:59 2026] 127.0.0.1:61369 Closing
+[Mon Nov  9 13:36:59 2026] 127.0.0.1:59461 Accepted
+[Mon Nov  9 13:36:59 2026] 127.0.0.1:59461 [200]: GET /favicon.ico
+[Mon Nov  9 13:36:59 2026] 127.0.0.1:59461 Closing
+[Mon Nov  9 13:37:04 2026] 127.0.0.1:50336 Accepted
+[Mon Nov  9 13:37:04 2026] 127.0.0.1:56806 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:50336 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:56806 [200]: GET /app.css?v=8
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63555 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:54646 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63241 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:56806 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:62295 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63555 [200]: GET /inventory.css
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:62533 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:54646 [200]: GET /order.css?v=2
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63241 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:62295 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:62533 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:51392 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63555 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:51392 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:54646 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63241 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:62295 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:62533 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:51392 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:58376 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:58754 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:58376 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:58754 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:58376 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:58754 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63531 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63531 [200]: GET /app.js?v=8
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:63531 Closing
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:59436 Accepted
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:59436 [200]: GET /favicon.ico
+[Mon Nov  9 13:37:05 2026] 127.0.0.1:59436 Closing
+[Mon Nov  9 13:37:25 2026] 127.0.0.1:49714 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:49714 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62460 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62460 [200]: GET /app.css?v=8
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:55773 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:55773 [200]: GET /inventory.css
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62460 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:58436 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:64306 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:60813 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:55773 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:58436 [200]: GET /order.css?v=2
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:64306 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:60813 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:58436 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:64306 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:60813 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62877 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:54501 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:60750 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62877 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:54501 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:60750 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62877 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:54501 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:60750 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62391 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62391 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:62391 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:58653 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:58653 [200]: GET /app.js?v=8
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:58653 Closing
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:52635 Accepted
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:52635 [200]: GET /favicon.ico
+[Mon Nov  9 13:37:26 2026] 127.0.0.1:52635 Closing
+[Mon Nov  9 13:38:09 2026] 127.0.0.1:50544 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:50544 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:57675 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:57675 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:55400 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:55400 [200]: GET /app.css?v=8
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:55400 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:62020 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:62020 [200]: GET /inventory.css
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:62020 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:57160 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:56710 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:53636 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:51438 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:56930 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:57160 [200]: GET /order.css?v=2
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:56710 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:53636 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:51438 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:56930 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:60010 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:60010 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:57160 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:56710 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:53636 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:51438 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:56930 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:60010 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:54289 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:54289 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:54289 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:65076 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:65076 [200]: GET /app.js?v=8
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:65076 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:59078 Accepted
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:59078 [200]: GET /favicon.ico
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:59078 Closing
+[Mon Nov  9 13:38:12 2026] 127.0.0.1:58016 Accepted
+[Mon Nov  9 13:38:13 2026] 127.0.0.1:58016 Closing
+[Mon Nov  9 13:38:20 2026] 127.0.0.1:55849 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:55849 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:64707 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:64707 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:65000 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:61384 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:61388 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:65000 [200]: GET /app.css?v=8
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:55410 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:61384 [200]: GET /inventory.css
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:61388 [200]: GET /order.css?v=2
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:58793 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:55410 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:54932 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:58793 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:65000 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:63749 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:54932 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:61384 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:61388 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:60188 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:63749 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:55410 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:62670 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:58793 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:54932 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:60188 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:63749 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:62670 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:60188 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:62670 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:64662 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:64662 [200]: GET /app.js?v=8
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:64662 Closing
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:51504 Accepted
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:51504 [200]: GET /favicon.ico
+[Mon Nov  9 13:38:21 2026] 127.0.0.1:51504 Closing
+[Mon Nov  9 13:38:22 2026] 127.0.0.1:58473 Accepted
+[Mon Nov  9 13:38:22 2026] 127.0.0.1:58473 Closing
+[Mon Nov  9 13:38:27 2026] 127.0.0.1:51864 Accepted
+[Mon Nov  9 13:38:27 2026] 127.0.0.1:51864 Closing
+[Mon Nov  9 13:38:27 2026] 127.0.0.1:55711 Accepted
+[Mon Nov  9 13:38:27 2026] 127.0.0.1:55711 [200]: GET /app.css?v=8
+[Mon Nov  9 13:38:27 2026] 127.0.0.1:55711 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:58340 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:59944 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:58340 [200]: GET /inventory.css
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:59944 [200]: GET /order.css?v=2
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:50440 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:64350 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:50440 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:58340 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63757 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:64350 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:59944 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:51795 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63757 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63020 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:51795 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:50440 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:59850 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63020 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:64350 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:59850 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63757 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:51795 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63020 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:59850 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63977 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63977 [200]: GET /app.js?v=8
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:63977 Closing
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:65461 Accepted
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:65461 [200]: GET /favicon.ico
+[Mon Nov  9 13:38:28 2026] 127.0.0.1:65461 Closing
+[Mon Nov  9 13:39:55 2026] 127.0.0.1:52184 Accepted
+[Mon Nov  9 13:39:55 2026] 127.0.0.1:52184 [200]: GET /favicon.ico
+[Mon Nov  9 13:39:55 2026] 127.0.0.1:52184 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:56986 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:56986 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:61982 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:61982 [200]: GET /app.css?v=8
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:61982 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:51980 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:49388 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:64720 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:64287 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:53797 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:57302 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:51980 [200]: GET /inventory.css
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:49388 [200]: GET /order.css?v=2
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:64720 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:64287 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:53797 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:57302 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:51980 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:49388 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:64720 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:64287 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:53797 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:57302 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:52677 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:62850 Accepted
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:52677 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:62850 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:52677 Closing
+[Mon Nov  9 13:39:57 2026] 127.0.0.1:62850 Closing
+[Mon Nov  9 13:39:58 2026] 127.0.0.1:56164 Accepted
+[Mon Nov  9 13:39:58 2026] 127.0.0.1:56164 [200]: GET /app.js?v=8
+[Mon Nov  9 13:39:58 2026] 127.0.0.1:56164 Closing
+[Mon Nov  9 13:39:58 2026] 127.0.0.1:57624 Accepted
+[Mon Nov  9 13:39:58 2026] 127.0.0.1:57624 [200]: GET /favicon.ico
+[Mon Nov  9 13:39:58 2026] 127.0.0.1:57624 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:52723 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:64580 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:64580 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:52723 [200]: GET /app.css?v=8
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:52723 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62920 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62920 [200]: GET /inventory.css
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62920 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62915 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:63259 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62760 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:56636 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62915 [200]: GET /order.css?v=2
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:56074 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:63259 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62760 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:56636 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62143 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:56074 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62915 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62143 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:63259 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62760 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:56636 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:57141 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:56074 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:62143 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:57141 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:57141 Closing
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:65107 Accepted
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:65107 [200]: GET /app.js?v=8
+[Mon Nov  9 13:40:15 2026] 127.0.0.1:65107 Closing
+[Mon Nov  9 13:40:16 2026] 127.0.0.1:62415 Accepted
+[Mon Nov  9 13:40:16 2026] 127.0.0.1:62415 [200]: GET /favicon.ico
+[Mon Nov  9 13:40:16 2026] 127.0.0.1:62415 Closing
+[Mon Nov  9 13:41:32 2026] 127.0.0.1:60072 Accepted
+[Mon Nov  9 13:41:33 2026] 127.0.0.1:60072 Closing
+[Mon Nov  9 13:41:33 2026] 127.0.0.1:65212 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:65212 [200]: GET /app.css?v=8
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:51439 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:60954 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:51439 [200]: GET /inventory.css
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:53963 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:60954 [200]: GET /order.css?v=2
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:65212 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:55680 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:53963 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:63278 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:55680 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:51439 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:63120 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:63278 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:60954 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:50332 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:63120 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:53963 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:51273 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:50332 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:55680 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:51273 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:63278 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:63120 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:50332 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:51273 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:52514 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:52514 [200]: GET /app.js?v=8
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:52514 Closing
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:53019 Accepted
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:53019 [200]: GET /favicon.ico
+[Mon Nov  9 13:41:34 2026] 127.0.0.1:53019 Closing
+[Mon Nov  9 13:41:35 2026] 127.0.0.1:53321 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:53321 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62599 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62599 [200]: GET /app.css?v=8
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:60408 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:59039 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:63961 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:60408 [200]: GET /inventory.css
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62599 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:63776 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:59039 [200]: GET /order.css?v=2
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:63961 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:58759 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:63776 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:56566 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:58759 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:60408 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62403 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:56566 [200]: GET /readability.css?v=2
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:59039 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:63961 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:51914 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62403 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:63776 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:51914 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:58759 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:56566 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62403 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:51914 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62062 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62062 [200]: GET /app.js?v=8
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:62062 Closing
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:50501 Accepted
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:50501 [200]: GET /favicon.ico
+[Mon Nov  9 13:41:36 2026] 127.0.0.1:50501 Closing
+[Mon Nov  9 13:41:50 2026] 127.0.0.1:50764 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:50764 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:50695 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:50695 [200]: GET /app.css?v=9
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:50695 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:62864 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:64241 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:57431 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:64490 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:52077 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:62972 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:62864 [200]: GET /inventory.css
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:64241 [200]: GET /order.css?v=2
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:57431 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:64490 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:52077 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:62972 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:62864 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:64241 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:57431 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:64490 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:52077 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:62972 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:61242 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:61242 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:61242 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:56163 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:56163 [200]: GET /app.js?v=9
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:56163 Closing
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:61605 Accepted
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:61605 [200]: GET /favicon.ico
+[Mon Nov  9 13:41:51 2026] 127.0.0.1:61605 Closing
+[Mon Nov  9 13:42:26 2026] 127.0.0.1:59203 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:59203 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:62066 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:62066 [200]: GET /app.css?v=9
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:62066 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:60635 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:60635 [200]: GET /inventory.css
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:60635 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:65312 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:64823 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:53900 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:56893 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:59540 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:65312 [200]: GET /order.css?v=2
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:64823 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:53900 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:56893 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:59540 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:65312 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:64823 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:53900 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:56893 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:59540 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:63305 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:63305 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:63305 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:57253 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:57253 [200]: GET /app.js?v=9
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:57253 Closing
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:60006 Accepted
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:60006 [200]: GET /favicon.ico
+[Mon Nov  9 13:42:27 2026] 127.0.0.1:60006 Closing
+[Mon Nov  9 13:42:30 2026] 127.0.0.1:59306 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:59306 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:61432 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:61432 [200]: GET /app.css?v=9
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:61432 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:53406 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:53007 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:56442 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:59693 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:58630 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:54693 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:53406 [200]: GET /inventory.css
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:53007 [200]: GET /order.css?v=2
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:56442 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:59693 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:58630 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:54693 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:53406 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:53007 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:56442 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:59693 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:58630 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:54693 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:55502 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:55502 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:55502 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:49258 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:49258 [200]: GET /app.js?v=9
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:49258 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:54923 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:54923 [200]: GET /favicon.ico
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:54923 Closing
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:58764 Accepted
+[Mon Nov  9 13:42:31 2026] 127.0.0.1:58764 Closing
+[Mon Nov  9 13:42:32 2026] 127.0.0.1:63566 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:63566 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:54889 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:54889 [200]: GET /app.css?v=9
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:54889 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:57725 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:64232 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:57725 [200]: GET /inventory.css
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:64232 [200]: GET /order.css?v=2
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:56079 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:57725 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58840 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:64232 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:56079 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:57463 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58840 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:61631 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:56079 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58840 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58781 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:57463 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:61631 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58781 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:57463 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:61631 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58781 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58247 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58247 [200]: GET /app.js?v=9
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:58247 Closing
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:53668 Accepted
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:53668 [200]: GET /favicon.ico
+[Mon Nov  9 13:42:33 2026] 127.0.0.1:53668 Closing
+[Mon Nov  9 13:43:11 2026] 127.0.0.1:50932 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:50932 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:65392 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:65392 [200]: GET /app.css?v=9
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:65392 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:55968 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:55968 [200]: GET /inventory.css
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:55968 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:55690 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:55690 [200]: GET /order.css?v=2
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:58362 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:55690 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:65219 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:53532 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:63725 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:58362 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:65219 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:53532 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:63725 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:58362 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:65219 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:53532 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:63725 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:61536 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:61536 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:61536 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:50673 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:50673 [200]: GET /app.js?v=9
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:50673 Closing
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:56812 Accepted
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:56812 [200]: GET /favicon.ico
+[Mon Nov  9 13:43:12 2026] 127.0.0.1:56812 Closing
+[Mon Nov  9 13:43:57 2026] 127.0.0.1:56365 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:56365 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:65512 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:65512 [200]: GET /app.css?v=9
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:65512 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:54065 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:55303 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:59464 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:55612 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:52437 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:54065 [200]: GET /inventory.css
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:62345 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:55303 [200]: GET /order.css?v=2
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:59464 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:55612 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:52437 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:62345 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:54065 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:55303 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:59464 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:55612 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:52437 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:62345 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:59266 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:59266 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:59266 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:51769 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:51769 [200]: GET /app.js?v=9
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:51769 Closing
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:62444 Accepted
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:62444 [200]: GET /favicon.ico
+[Mon Nov  9 13:43:58 2026] 127.0.0.1:62444 Closing
+[Mon Nov  9 13:44:01 2026] 127.0.0.1:61386 Accepted
+[Mon Nov  9 13:44:04 2026] 127.0.0.1:61386 Closing
+[Mon Nov  9 13:44:04 2026] 127.0.0.1:53691 Accepted
+[Mon Nov  9 13:44:04 2026] 127.0.0.1:53691 [200]: GET /favicon.ico
+[Mon Nov  9 13:44:04 2026] 127.0.0.1:53691 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:58321 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:56050 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:58321 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:56050 [200]: GET /app.css?v=9
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:52942 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:59551 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:55512 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:56050 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:49369 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:52942 [200]: GET /inventory.css
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:57233 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:59551 [200]: GET /order.css?v=2
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:55512 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:49369 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:56230 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:57233 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:56230 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:52942 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:60737 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:59551 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:55512 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:49369 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:57233 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:56230 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:60737 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:60737 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:62487 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:62487 [200]: GET /app.js?v=9
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:62487 Closing
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:57596 Accepted
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:57596 [200]: GET /favicon.ico
+[Mon Nov  9 13:44:15 2026] 127.0.0.1:57596 Closing
+[Mon Nov  9 13:48:34 2026] 127.0.0.1:62095 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:62095 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:55545 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:55545 [200]: GET /app.css?v=9
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:55545 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:60280 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:59981 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:63112 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:61734 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:52729 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:49671 [200]: GET /inventory.css
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:60280 [200]: GET /order.css?v=2
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:59981 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:63112 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:61734 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:52729 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:60280 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:59981 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:63112 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:61734 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:52729 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:56638 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:60170 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:56638 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:60170 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:56638 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:60170 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:65429 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:65429 [200]: GET /app.js?v=9
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:65429 Closing
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:59760 Accepted
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:59760 [200]: GET /favicon.ico
+[Mon Nov  9 13:48:35 2026] 127.0.0.1:59760 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:59779 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:59779 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:59087 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:59087 [200]: GET /app.css?v=9
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:59087 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:57103 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:61350 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:62715 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:57989 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:63203 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:53016 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:57103 [200]: GET /inventory.css
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:61350 [200]: GET /order.css?v=2
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:62715 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:57989 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:63203 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:53016 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:57103 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:61350 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:62715 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:57989 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:63203 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:53016 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:51365 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:51592 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:51365 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:51592 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:51365 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:51592 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:49867 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:49867 [200]: GET /app.js?v=9
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:49867 Closing
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:56082 Accepted
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:56082 [200]: GET /favicon.ico
+[Mon Nov  9 13:49:10 2026] 127.0.0.1:56082 Closing
+[Mon Nov  9 13:49:11 2026] 127.0.0.1:50062 Accepted
+[Mon Nov  9 13:49:11 2026] 127.0.0.1:50062 Closing
+[Mon Nov  9 13:49:15 2026] 127.0.0.1:63495 Accepted
+[Mon Nov  9 13:49:16 2026] 127.0.0.1:63495 Closing
+[Mon Nov  9 13:49:16 2026] 127.0.0.1:50338 Accepted
+[Mon Nov  9 13:49:16 2026] 127.0.0.1:50338 [200]: GET /print.css
+[Mon Nov  9 13:49:16 2026] 127.0.0.1:50338 Closing
+[Mon Nov  9 13:49:16 2026] 127.0.0.1:64939 Accepted
+[Mon Nov  9 13:49:16 2026] 127.0.0.1:64939 [200]: GET /favicon.ico
+[Mon Nov  9 13:49:16 2026] 127.0.0.1:64939 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:62950 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:62950 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:51165 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:51165 [200]: GET /app.css?v=9
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:50255 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:51165 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52395 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:49293 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52518 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:50255 [200]: GET /inventory.css
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:58704 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52395 [200]: GET /order.css?v=2
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:49293 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52518 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:58704 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:59943 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:50255 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52667 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:59943 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52395 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:49293 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52518 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:54208 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52667 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:58704 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:59943 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:52667 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:54208 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:54208 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:49671 [200]: GET /app.js?v=9
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:57183 Accepted
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:57183 [200]: GET /favicon.ico
+[Mon Nov  9 13:49:55 2026] 127.0.0.1:57183 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:51367 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:51367 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:50910 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:50910 [200]: GET /app.css?v=9
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:50910 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:59968 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:59968 [200]: GET /inventory.css
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:59968 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:51505 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:51505 [200]: GET /order.css?v=2
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:56439 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:56439 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:51505 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:63378 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:56439 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:58478 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62607 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:63378 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:58478 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62483 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:63378 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62607 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:58478 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62607 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:53441 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62483 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:53441 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62483 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:53441 Closing
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62129 Accepted
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62129 [200]: GET /app.js?v=10
+[Mon Nov  9 13:53:41 2026] 127.0.0.1:62129 Closing
+[Mon Nov  9 13:53:42 2026] 127.0.0.1:59533 Accepted
+[Mon Nov  9 13:53:42 2026] 127.0.0.1:59533 [200]: GET /favicon.ico
+[Mon Nov  9 13:53:42 2026] 127.0.0.1:59533 Closing
+[Mon Nov  9 13:57:31 2026] 127.0.0.1:63135 Accepted
+[Mon Nov  9 13:57:31 2026] 127.0.0.1:63135 [200]: GET /favicon.ico
+[Mon Nov  9 13:57:31 2026] 127.0.0.1:63135 Closing
+[Mon Nov  9 13:57:33 2026] 127.0.0.1:59019 Accepted
+[Mon Nov  9 13:57:33 2026] 127.0.0.1:61163 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:59019 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:61163 [200]: GET /app.css?v=9
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:61163 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:61404 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:57770 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:61404 [200]: GET /inventory.css
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:55644 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:57770 [200]: GET /order.css?v=2
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:62606 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54898 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:55644 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:61404 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54162 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:62606 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54898 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:57770 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54162 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:58363 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:55644 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54181 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:62606 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54898 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:58363 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54181 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54162 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:58363 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:54181 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:57454 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:57454 [200]: GET /app.js?v=10
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:57454 Closing
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:51036 Accepted
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:51036 [200]: GET /favicon.ico
+[Mon Nov  9 13:57:34 2026] 127.0.0.1:51036 Closing
+[Mon Nov  9 13:57:40 2026] 127.0.0.1:61731 Accepted
+[Mon Nov  9 13:57:40 2026] 127.0.0.1:61731 [200]: GET /favicon.ico
+[Mon Nov  9 13:57:40 2026] 127.0.0.1:61731 Closing
+[Mon Nov  9 13:57:53 2026] 127.0.0.1:54125 Accepted
+[Mon Nov  9 13:57:53 2026] 127.0.0.1:54125 Closing
+[Mon Nov  9 13:57:53 2026] 127.0.0.1:52170 Accepted
+[Mon Nov  9 13:57:53 2026] 127.0.0.1:52170 [200]: GET /app.css?v=9
+[Mon Nov  9 13:57:53 2026] 127.0.0.1:52170 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:51338 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:62258 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:55827 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:53088 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59879 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59034 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:51338 [200]: GET /inventory.css
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:62258 [200]: GET /order.css?v=2
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:55827 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:53088 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59879 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59034 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:51338 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:62258 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:55827 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:53088 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59879 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59034 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:62106 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:62106 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:51320 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:62106 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:51320 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:51320 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:55408 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:55408 [200]: GET /app.js?v=10
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:55408 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:49823 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:49823 [200]: GET /favicon.ico
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:49823 Closing
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59860 Accepted
+[Mon Nov  9 13:57:54 2026] 127.0.0.1:59860 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60442 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60442 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60262 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60262 [200]: GET /app.css?v=9
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:64252 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:51857 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:64252 [200]: GET /inventory.css
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:57290 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:51857 [200]: GET /order.css?v=2
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60262 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60049 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:57290 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:58251 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60049 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:64252 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:62669 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:58251 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:51857 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:54761 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:62669 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:57290 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60004 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:54761 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60049 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60004 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:58251 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:62669 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:54761 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:60004 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:50743 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:50743 [200]: GET /app.js?v=10
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:50743 Closing
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:55412 Accepted
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:55412 [200]: GET /favicon.ico
+[Mon Nov  9 13:57:57 2026] 127.0.0.1:55412 Closing
+[Mon Nov  9 13:58:06 2026] 127.0.0.1:65519 Accepted
+[Mon Nov  9 13:58:06 2026] 127.0.0.1:65519 [200]: GET /favicon.ico
+[Mon Nov  9 13:58:06 2026] 127.0.0.1:65519 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:52540 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:52540 [200]: GET /app.css?v=9
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:52540 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:60326 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:65141 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:54443 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:63281 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:59473 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:60326 [200]: GET /inventory.css
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:65141 [200]: GET /order.css?v=2
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:54443 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:49671 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:63281 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:59473 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:60326 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:65141 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:54443 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:63281 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:59473 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:53989 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:54287 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:53989 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:54287 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:53989 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:54287 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:56631 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:56631 [200]: GET /app.js?v=10
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:56631 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:62867 Accepted
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:62867 [200]: GET /favicon.ico
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:62867 Closing
+[Mon Nov  9 13:58:41 2026] 127.0.0.1:51646 Accepted
+[Mon Nov  9 13:58:42 2026] 127.0.0.1:51646 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52561 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52561 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52958 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52958 [200]: GET /app.css?v=9
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52958 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:56157 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:56157 [200]: GET /inventory.css
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:51084 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:51084 [200]: GET /order.css?v=2
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:62854 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:56157 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52694 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:63532 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:51084 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:62854 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52694 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:63532 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:49671 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:54614 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:59224 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:54614 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:62854 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:59224 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:52694 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:63532 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:54614 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:59224 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:60987 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:60987 [200]: GET /app.js?v=10
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:60987 Closing
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:59792 Accepted
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:59792 [200]: GET /favicon.ico
+[Mon Nov  9 13:58:44 2026] 127.0.0.1:59792 Closing
+[Mon Nov  9 13:59:03 2026] 127.0.0.1:51935 Accepted
+[Mon Nov  9 13:59:03 2026] 127.0.0.1:51935 [200]: GET /favicon.ico
+[Mon Nov  9 13:59:03 2026] 127.0.0.1:51935 Closing
+[Mon Nov  9 13:59:07 2026] 127.0.0.1:54719 Accepted
+[Mon Nov  9 13:59:07 2026] 127.0.0.1:57560 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:54719 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57560 [200]: GET /app.css?v=9
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57560 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57380 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:53538 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:54079 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:60094 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:51774 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57380 [200]: GET /inventory.css
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:53538 [200]: GET /order.css?v=2
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:54079 [200]: GET /reports.css?v=2
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:60094 [200]: GET /workflow.css?v=2
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:49671 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:51774 [200]: GET /readability.css?v=3
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57380 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:53538 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:54079 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:60094 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:51774 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57599 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:50600 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57599 [200]: GET /mobile.css?v=1
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:50600 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:57599 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:50600 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:55631 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:55631 [200]: GET /app.js?v=10
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:55631 Closing
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:64312 Accepted
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:64312 [200]: GET /favicon.ico
+[Mon Nov  9 13:59:08 2026] 127.0.0.1:64312 Closing
+[Mon Nov  9 14:02:59 2026] 127.0.0.1:51821 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:51821 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:64260 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:64260 [200]: GET /app.css?v=9
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:64260 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:60622 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:52599 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:60622 [200]: GET /inventory.css
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:52599 [200]: GET /order.css?v=2
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:64546 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:54663 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:60622 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:52991 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:52599 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:64546 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:54663 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:52991 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:51423 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:64546 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:54663 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:52991 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:50664 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:51423 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:50664 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:56697 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:51423 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:50664 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:56697 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:56697 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:50724 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:50724 [200]: GET /app.js?v=11
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:50724 Closing
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:51869 Accepted
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:51869 [200]: GET /favicon.ico
+[Mon Nov  9 14:03:00 2026] 127.0.0.1:51869 Closing
+[Mon Nov  9 14:03:09 2026] 127.0.0.1:54340 Accepted
+[Mon Nov  9 14:03:09 2026] 127.0.0.1:54340 [200]: GET /favicon.ico
+[Mon Nov  9 14:03:09 2026] 127.0.0.1:54340 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:65128 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:63400 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:65128 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:63400 [200]: GET /app.css?v=9
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:63400 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:50707 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:61612 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:52204 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:51289 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49741 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:50707 [200]: GET /inventory.css
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:61612 [200]: GET /order.css?v=2
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:52204 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:51289 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49741 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:50707 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:61612 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:52204 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:51289 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49741 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:61611 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:60250 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:61611 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:60250 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:61611 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:60250 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 [200]: GET /app.js?v=11
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 [200]: GET /favicon.ico
+[Mon Nov  9 14:03:12 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 14:03:19 2026] 127.0.0.1:62478 Accepted
+[Mon Nov  9 14:03:19 2026] 127.0.0.1:50572 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:62478 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:50572 [200]: GET /app.css?v=9
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:50572 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:64233 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:63273 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:50077 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:61836 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:59400 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:55313 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:64233 [200]: GET /inventory.css
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:63273 [200]: GET /order.css?v=2
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:50077 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:61836 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:59400 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:55313 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:64233 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:63273 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:50077 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:61836 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:59400 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:55313 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:62662 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:62136 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:62662 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:62136 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:62662 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:62136 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:54452 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:54452 [200]: GET /app.js?v=11
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:54452 Closing
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:53294 Accepted
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:53294 [200]: GET /favicon.ico
+[Mon Nov  9 14:03:20 2026] 127.0.0.1:53294 Closing
+[Mon Nov  9 14:03:46 2026] 127.0.0.1:62972 Accepted
+[Mon Nov  9 14:03:46 2026] 127.0.0.1:62972 Closing
+[Mon Nov  9 14:03:46 2026] 127.0.0.1:52769 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:52769 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:57817 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:57817 [200]: GET /app.css?v=9
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:57817 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:59102 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:62687 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:59102 [200]: GET /inventory.css
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:54354 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:49671 [200]: GET /order.css?v=2
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:60810 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:62687 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:54354 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:61271 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:60810 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:59102 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:61271 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:58419 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:62687 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:54354 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:60810 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:61271 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:49747 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:58419 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:49747 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:58419 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:49747 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:61872 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:61872 [200]: GET /app.js?v=11
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:61872 Closing
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:63490 Accepted
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:63490 [200]: GET /favicon.ico
+[Mon Nov  9 14:03:47 2026] 127.0.0.1:63490 Closing
+[Mon Nov  9 14:03:51 2026] 127.0.0.1:52758 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:64748 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:52758 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:64748 [200]: GET /app.css?v=9
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:64748 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:49363 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:57617 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:49363 [200]: GET /inventory.css
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:64261 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:57617 [200]: GET /order.css?v=2
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:54923 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:64261 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:54442 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:54923 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:49363 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:57610 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:54442 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:57617 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:62561 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:57610 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:64261 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:56677 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:62561 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:54923 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:56677 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:54442 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:57610 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:62561 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:56677 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:61960 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:61960 [200]: GET /app.js?v=11
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:61960 Closing
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:52613 Accepted
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:52613 [200]: GET /favicon.ico
+[Mon Nov  9 14:03:52 2026] 127.0.0.1:52613 Closing
+[Mon Nov  9 14:05:31 2026] 127.0.0.1:57212 Accepted
+[Mon Nov  9 14:05:31 2026] 127.0.0.1:61476 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:57212 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:61476 [200]: GET /app.css?v=9
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:61476 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:51310 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:52233 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:59960 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64900 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:57727 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:61578 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:51310 [200]: GET /inventory.css
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:52233 [200]: GET /order.css?v=2
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:59960 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64900 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:57727 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:61578 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:51310 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:52233 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:59960 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64900 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:57727 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:61578 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:50676 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64413 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:50676 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64413 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:50676 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64413 Closing
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64589 Accepted
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64589 [200]: GET /app.js?v=12
+[Mon Nov  9 14:05:32 2026] 127.0.0.1:64589 Closing
+[Mon Nov  9 14:05:33 2026] 127.0.0.1:61437 Accepted
+[Mon Nov  9 14:05:33 2026] 127.0.0.1:61437 [200]: GET /favicon.ico
+[Mon Nov  9 14:05:33 2026] 127.0.0.1:61437 Closing
+[Mon Nov  9 14:05:43 2026] 127.0.0.1:63174 Accepted
+[Mon Nov  9 14:05:43 2026] 127.0.0.1:63174 [200]: GET /favicon.ico
+[Mon Nov  9 14:05:43 2026] 127.0.0.1:63174 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:50459 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:50421 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:50459 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:50421 [200]: GET /app.css?v=9
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:50421 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:55537 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:59137 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:63012 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:53164 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:49196 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:55537 [200]: GET /inventory.css
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:59137 [200]: GET /order.css?v=2
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:63012 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:53164 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:49196 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:64774 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:55537 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:63478 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:64774 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:59137 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:63012 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:53164 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:49196 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:63478 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:60996 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:64774 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:60996 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:63478 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:60996 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:65033 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:65033 [200]: GET /app.js?v=12
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:65033 Closing
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:55569 Accepted
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:55569 [200]: GET /favicon.ico
+[Mon Nov  9 14:05:48 2026] 127.0.0.1:55569 Closing
+[Mon Nov  9 14:06:36 2026] 127.0.0.1:58375 Accepted
+[Mon Nov  9 14:06:36 2026] 127.0.0.1:58375 [200]: GET /favicon.ico
+[Mon Nov  9 14:06:36 2026] 127.0.0.1:58375 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65158 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65227 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65158 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65227 [200]: GET /app.css?v=9
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65227 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:55710 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:52574 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:54933 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:55710 [200]: GET /inventory.css
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:49671 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:52574 [200]: GET /order.css?v=2
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:54933 [200]: GET /reports.css?v=2
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:57111 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:49671 [200]: GET /workflow.css?v=2
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65476 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:57111 [200]: GET /simplified-workflow.css?v=1
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:55710 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65476 [200]: GET /readability.css?v=3
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:52574 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:54933 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65220 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:49671 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:57111 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65476 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:53596 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65220 [200]: GET /mobile.css?v=1
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:53596 [200]: GET /nav-icons.css?v=1
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:65220 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:53596 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:56664 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:56664 [200]: GET /app.js?v=12
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:56664 Closing
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:50654 Accepted
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:50654 [200]: GET /favicon.ico
+[Mon Nov  9 14:06:47 2026] 127.0.0.1:50654 Closing
+[Mon Nov  9 14:06:50 2026] 127.0.0.1:65508 Accepted
+[Mon Nov  9 14:06:50 2026] 127.0.0.1:65508 [200]: GET /favicon.ico
+[Mon Nov  9 14:06:50 2026] 127.0.0.1:65508 Closing

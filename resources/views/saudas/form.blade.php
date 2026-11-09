@@ -2,8 +2,11 @@
 @section('title', $sauda ? 'Edit Sauda' : 'New Sauda')
 @section('content')
 @php($isPartiallyUsed = $sauda && (float) $sauda->fulfilled_quantity > 0)
+@php($totalQuantity = $sauda ? (float) $sauda->quantity : 0)
+@php($usedQuantity = $sauda ? (float) $sauda->fulfilled_quantity : 0)
+@php($remainingQuantity = max(0, $totalQuantity - $usedQuantity))
 <section class="page-heading compact-heading"><div><div class="eyebrow">SAUDA / {{ $sauda ? 'EDIT' : 'NEW' }}</div><h1>{{ $sauda ? 'Edit' : 'Create' }} Sauda<span class="accent">.</span></h1><p>Define the party, Group Head, committed quantity and rate before stock movement.</p></div><a class="button" href="{{ route('saudas.index') }}">← Back to Sauda</a></section>
-@if($sauda && (float) $sauda->fulfilled_quantity > 0)<div class="flash notice">This Sauda is partially used. You may update the quantity, rate and date; quantity cannot be lower than {{ number_format($sauda->fulfilled_quantity, 3) }} Ton. Type, Party and Group Head remain unchanged.</div>@endif
+@if($sauda && (float) $sauda->fulfilled_quantity > 0)<div class="flash notice">This Sauda is partially used. You may update the quantity, rate and date; quantity cannot be lower than {{ number_format($sauda->fulfilled_quantity, 3) }} Ton. Type, Party and Group Head remain unchanged.</div><section class="sauda-quantity-summary" aria-label="Sauda quantity summary"><div><span>Total Quantity</span><strong>{{ number_format($totalQuantity, 3) }} <small>Ton</small></strong></div><div><span>Already Used</span><strong>{{ number_format($usedQuantity, 3) }} <small>Ton</small></strong></div><div class="sauda-remaining"><span>Remaining Quantity</span><strong>{{ number_format($remainingQuantity, 3) }} <small>Ton</small></strong></div></section>@endif
 <form class="voucher-card" method="post" action="{{ $sauda ? route('saudas.update', $sauda->id) : route('saudas.store') }}">@csrf @if($sauda)@method('put')@endif
     <div class="voucher-grid">
         <label><span>Sauda Type <b>*</b></span>@if($isPartiallyUsed)<input readonly value="{{ ucfirst($sauda->type) }} Sauda"><input type="hidden" name="type" value="{{ $sauda->type }}">@else<select required name="type"><option value="">Select type</option><option value="purchase" @selected(old('type', $sauda?->type ?? request('type')) === 'purchase')>Purchase Sauda</option><option value="sale" @selected(old('type', $sauda?->type ?? request('type')) === 'sale')>Sale Sauda</option></select>@endif</label>
