@@ -38,6 +38,17 @@
         overflow-y: auto;
     }
 
+    /* Masters and Logout remain available on phones; they must not disappear
+       simply because the desktop navigation becomes compact. */
+    .workspace {
+        display: flex !important;
+        width: 100%;
+        margin: 4px 0 0;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .workspace .masters-menu .dropdown { top: auto; }
+
     main { padding: 20px 16px 36px; }
     .breadcrumb { margin-bottom: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .page-heading { align-items: flex-start; flex-direction: column; gap: 14px; margin-bottom: 22px; }
@@ -59,10 +70,31 @@
 
     .report-summary, .metrics { grid-template-columns: 1fr; }
     .metric { padding: 17px; }
-    .table-scroll { -webkit-overflow-scrolling: touch; }
+    .table-scroll { position: relative; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
     .table-scroll::after { content: 'Swipe sideways to see all columns'; display: block; padding: 9px 14px; color: #76847b; font-size: 12px; white-space: nowrap; }
     th { padding: 12px 14px; }
     td { padding: 14px; }
+    /* Keep important action controls reachable instead of hiding them beyond
+       the right edge of a wide operational table. */
+    .stock-register-table, .sauda-table, .inventory-table, .gate-table { min-width: 880px; }
+    .stock-register-table th:last-child, .stock-register-table td:last-child,
+    .sauda-table th:last-child, .sauda-table td:last-child,
+    .inventory-table th:last-child, .inventory-table td:last-child,
+    .gate-table th:last-child, .gate-table td:last-child {
+        position: sticky;
+        right: 0;
+        z-index: 2;
+        min-width: 156px;
+        white-space: normal;
+        background: #fff;
+        box-shadow: -8px 0 14px rgba(29, 52, 49, .10);
+    }
+    .stock-register-table th:last-child, .sauda-table th:last-child,
+    .inventory-table th:last-child, .gate-table th:last-child { z-index: 3; background: #fafbf9; }
+    .pending-stock-row td:last-child { background: #fff8e8 !important; }
+    .row-actions { min-width: 128px; gap: 8px; flex-wrap: wrap; }
+    .row-actions .button { min-height: 40px; padding: 8px 10px; }
+    .bundle-dispatch-toggle { font-size: 13px; }
     .pagination { padding: 15px; gap: 14px; flex-wrap: wrap; }
 
     dialog { width: calc(100% - 20px); max-height: calc(100dvh - 20px); }

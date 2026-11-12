@@ -1,25 +1,149 @@
 @extends('layout')
+
 @section('title', $title)
+
 @section('content')
-@php($isOrderModule = str_ends_with($module, 'orders'))
+@php
+    $isOrderModule = str_ends_with($module, 'orders');
+@endphp
+
 <section class="page-heading">
-    <div><div class="eyebrow">YOUR TRADING WORKSPACE</div><h1>{{ $title }}<span class="accent">.</span></h1><p>{{ $isOrderModule ? 'Create and manage order vouchers without changing inventory stock.' : ($module === 'sale' ? 'Dispatch stock only against an approved Sale Sauda.' : 'Receive stock only against an approved Purchase Sauda.') }}</p></div>
-    @if($isOrderModule)<a class="button primary" href="{{ route('orders.create', $module) }}">＋ New Order</a>@else<a class="button primary" href="{{ route('stock-entry.create', $module) }}">＋ New entry</a>@endif
+    <div>
+        <div class="eyebrow">YOUR TRADING WORKSPACE</div>
+        <h1>{{ $title }}<span class="accent">.</span></h1>
+        <p>{{ $isOrderModule ? 'Create and manage order vouchers without changing inventory stock.' : ($module === 'sale' ? 'Dispatch stock only against an approved Sale Sauda.' : 'Receive stock only against an approved Purchase Sauda.') }}</p>
+    </div>
+    @if($isOrderModule)
+        <a class="button primary" href="{{ route('orders.create', $module) }}">＋ New Order</a>
+    @else
+        <a class="button primary" href="{{ route('stock-entry.create', $module) }}">＋ New entry</a>
+    @endif
 </section>
-<section class="panel"><div class="panel-heading"><div><h2>{{ $isOrderModule ? $title.' register' : 'Stock tracking register' }}</h2><p>{{ $isOrderModule ? $rows->total().' records' : $saudas->count().' pending · '.$rows->total().' completed entries' }}</p></div><form class="search" method="get" data-auto-filter><label class="sr-only" for="search">Search records</label><input id="search" name="q" value="{{ $search }}" placeholder="Search party or reference"><button type="submit" data-filter-submit>Search</button>@if($search)<a href="/{{ $module }}">Clear</a>@endif</form></div>
-    <div class="table-scroll"><table><thead>@if($isOrderModule)<tr><th>Reference</th><th>{{ $module === 'purchase-orders' ? 'Supplier' : 'Party' }}</th><th>Date</th><th class="numeric">Quantity</th><th class="numeric">Amount</th><th>Status</th></tr>@else<tr><th>Supplier / Party</th><th>Group Head</th><th>Date</th><th class="numeric">Qty / Balance</th><th class="numeric">Rate / Amount</th><th>Status</th><th>Action</th></tr>@endif</thead><tbody>@if($isOrderModule)@forelse($rows as $row)<tr class="clickable-row" data-href="{{ route('orders.show', [$module, $row->id]) }}"><td><a href="{{ route('orders.show', [$module, $row->id]) }}">{{ $row->reference }}</a></td><td><strong>{{ $row->party }}</strong></td><td>{{ $row->date }}</td><td class="numeric">{{ $row->quantity }} Ton</td><td class="numeric">₹{{ number_format($row->total_cents / 100, 2) }}</td><td><span class="status {{ $row->status === 'Open' ? 'amber' : 'green' }}">{{ $row->status }}</span></td></tr>@empty<tr><td colspan="6" class="empty">No records found.</td></tr>@endforelse @else @foreach($saudas as $sauda)@php($balance = (float)$sauda->quantity - (float)$sauda->fulfilled_quantity)<tr class="pending-stock-row"><td><strong>{{ $sauda->party_name }}</strong></td><td>{{ $sauda->group_name }}</td><td>{{ date('d M Y', strtotime($sauda->date)) }}</td><td class="numeric"><strong>{{ number_format($balance, 3) }} Ton</strong></td><td class="numeric">₹{{ number_format($sauda->rate_cents / 100, 2) }}</td><td><span class="status amber">Pending · {{ $sauda->status }}</span></td><td><a class="button primary" href="{{ route('stock-entry.create', $module) }}?sauda_id={{ $sauda->id }}">{{ $module === 'purchase' ? 'Receive' : 'Dispatch' }}</a></td></tr>@endforeach @forelse($rows as $row)<tr><td><strong>{{ $row->party }}</strong></td><td>—</td><td>{{ $row->date }}</td><td class="numeric">{{ number_format($row->quantity, 3) }} Ton</td><td class="numeric">₹{{ number_format($row->total_cents / 100, 2) }}</td><td><span class="status green">{{ $row->status }}</span></td><td><div class="row-actions"><a class="button" target="_blank" href="{{ route('records.print', [$module, $row->id]) }}">View Receipt</a><a class="button" href="{{ route('records.edit', [$module, $row->id]) }}">Edit</a><form method="post" action="{{ route('records.destroy', [$module, $row->id]) }}" data-confirm-delete>@csrf @method('delete')<button class="button danger" type="submit">Delete</button></form></div></td></tr>@empty @if($saudas->isEmpty())<tr><td colspan="7" class="empty">No pending or completed entries found.</td></tr>@endif @endforelse @endif</tbody></table></div>
-    <div class="pagination">@if($rows->previousPageUrl())<a href="{{ $rows->previousPageUrl() }}">← Previous</a>@endif<span>Page {{ $rows->currentPage() }} of {{ $rows->lastPage() }}</span>@if($rows->nextPageUrl())<a href="{{ $rows->nextPageUrl() }}">Next →</a>@endif</div>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>{{ $isOrderModule ? $title.' register' : 'Stock tracking register' }}</h2>
+            <p>{{ $isOrderModule ? $rows->total().' records' : $saudas->count().' pending · '.$rows->total().' completed entries' }}</p>
+        </div>
+        <form class="search" method="get" data-auto-filter>
+            <label class="sr-only" for="search">Search records</label>
+            <input id="search" name="q" value="{{ $search }}" placeholder="Search party or reference">
+            <button type="submit" data-filter-submit>Search</button>
+            @if($search)<a href="/{{ $module }}">Clear</a>@endif
+        </form>
+    </div>
+
+    <div class="table-scroll">
+        <table class="stock-register-table">
+            <thead>
+                @if($isOrderModule)
+                    <tr><th>Reference</th><th>{{ $module === 'purchase-orders' ? 'Supplier' : 'Party' }}</th><th>Date</th><th class="numeric">Quantity</th><th class="numeric">Amount</th><th>Status</th></tr>
+                @else
+                    <tr><th>Supplier / Party</th><th>Group Head</th><th>Date</th><th class="numeric">Qty / Balance</th><th class="numeric">Rate / Amount</th><th>Status</th><th>Action</th></tr>
+                @endif
+            </thead>
+            <tbody>
+                @if($isOrderModule)
+                    @forelse($rows as $row)
+                        <tr class="clickable-row" data-href="{{ route('orders.show', [$module, $row->id]) }}">
+                            <td><a href="{{ route('orders.show', [$module, $row->id]) }}">{{ $row->reference }}</a></td>
+                            <td><strong>{{ $row->party }}</strong></td>
+                            <td>{{ $row->date }}</td>
+                            <td class="numeric">{{ $row->quantity }} Ton</td>
+                            <td class="numeric">₹{{ number_format($row->total_cents / 100, 2) }}</td>
+                            <td><span class="status {{ $row->status === 'Open' ? 'amber' : 'green' }}">{{ $row->status }}</span></td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6" class="empty">No records found.</td></tr>
+                    @endforelse
+                @else
+                    @foreach($saudas as $sauda)
+                        @php
+                            $balance = (float) $sauda->quantity - (float) $sauda->fulfilled_quantity;
+                            $lineCount = (int) ($sauda->line_count ?? 1);
+                        @endphp
+                        <tr class="pending-stock-row">
+                            <td><strong>{{ $sauda->party_name }}</strong></td>
+                            <td>{{ $sauda->group_name }}@if($lineCount > 1)<small>{{ $lineCount }} product lines</small>@endif</td>
+                            <td>{{ date('d M Y', strtotime($sauda->date)) }}</td>
+                            <td class="numeric"><strong>{{ number_format($balance, 3) }} Ton</strong></td>
+                            <td class="numeric">@if($lineCount > 1)Multiple rates @else ₹{{ number_format($sauda->rate_cents / 100, 2) }} @endif</td>
+                            <td><span class="status amber">Pending · {{ $sauda->status }}</span></td>
+                            <td>
+                                <div class="row-actions">
+                                    @if($module === 'sale')
+                                        <a class="button" href="{{ route('saudas.bundle.show', ['ids' => implode(',', $sauda->line_ids ?? [$sauda->id])]) }}" title="View all product lines">👁 View</a>
+                                    @endif
+                                    @php
+                                        $dispatchQuery = $module === 'sale' && $lineCount > 1
+                                            ? 'sauda_ids='.implode(',', $sauda->line_ids)
+                                            : 'sauda_id='.$sauda->id;
+                                    @endphp
+                                    <a class="button primary" href="{{ route('stock-entry.create', $module) }}?{{ $dispatchQuery }}">{{ $module === 'purchase' ? 'Receive' : 'Dispatch' }}</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @forelse($rows as $row)
+                        @php
+                            $taxable = max(0, (int) $row->total_cents + (int) $row->labour_cents + (int) $row->commission_cents + (int) $row->freight_cents + (int) $row->other_charges_cents - (int) $row->discount_cents);
+                            $gst = (int) round($taxable * ((float) $row->gst_percent / 100));
+                            $grand = $taxable + $gst;
+                        @endphp
+                        <tr>
+                            <td><strong>{{ $row->party }}</strong></td>
+                            <td>{{ $row->line_count > 1 ? $row->line_count.' product lines' : '1 product line' }}</td>
+                            <td>{{ $row->date }}</td>
+                            <td class="numeric">{{ number_format($row->quantity, 3) }} Ton</td>
+                            <td class="numeric">₹{{ number_format($grand / 100, 2) }}</td>
+                            <td><span class="status green">{{ $row->status }}</span></td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="button" target="_blank" href="{{ route('records.print', [$module, $row->id]) }}">View Receipt</a>
+                                    <a class="button" href="{{ route('records.edit', [$module, $row->id]) }}">Edit</a>
+                                    <form method="post" action="{{ route('records.destroy', [$module, $row->id]) }}" data-confirm-delete>
+                                        @csrf @method('delete')
+                                        <button class="button danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        @if($saudas->isEmpty())
+                            <tr><td colspan="7" class="empty">No pending or completed entries found.</td></tr>
+                        @endif
+                    @endforelse
+                @endif
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        @if($rows->previousPageUrl())<a href="{{ $rows->previousPageUrl() }}">← Previous</a>@endif
+        <span>Page {{ $rows->currentPage() }} of {{ $rows->lastPage() }}</span>
+        @if($rows->nextPageUrl())<a href="{{ $rows->nextPageUrl() }}">Next →</a>@endif
+    </div>
 </section>
+
 @unless($isOrderModule)
-@php($saudaLabel = $module === 'sale' ? 'Sale Sauda' : 'Purchase Sauda')
-<dialog id="create-dialog" {{ ($errors->any() || request('create')) ? 'data-auto-open' : '' }}><form method="post" action="/{{ $module }}">@csrf
-    <div class="dialog-heading"><div><span class="eyebrow">{{ $title }}</span><h2>{{ $module === 'sale' ? 'Create dispatch' : 'Receive purchase' }}</h2></div><button type="button" class="close" data-close-create aria-label="Close dialog">×</button></div>
-    @if($errors->any())<div class="error" role="alert"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
-    <div class="form-grid" data-sauda-entry>
-        <label class="wide">Select {{ $saudaLabel }}<select required name="sauda_id" data-sauda-select><option value="">Select an open {{ $saudaLabel }}</option>@foreach($saudas as $sauda)@php($remaining = (float)$sauda->quantity - (float)$sauda->fulfilled_quantity)<option value="{{ $sauda->id }}" data-party="{{ $sauda->party_name }}" data-group="{{ $sauda->group_name }}" data-remaining="{{ number_format($remaining, 3, '.', '') }}" data-rate="{{ number_format($sauda->rate_cents/100, 2, '.', '') }}" @selected((string)old('sauda_id', request('sauda_id')) === (string)$sauda->id)>{{ $sauda->reference }} · {{ $sauda->party_name }} · {{ $sauda->group_name }} · {{ number_format($remaining, 3) }} Ton left</option>@endforeach</select></label><p class="wide sauda-create-link">Need a new one? <a href="{{ route('saudas.create', ['type' => $module]) }}">Create {{ $saudaLabel }} →</a></p>
-        @if($saudas->isEmpty())<div class="wide sauda-empty"><strong>No open {{ strtolower($saudaLabel) }} found.</strong><small>{{ $module === 'sale' ? 'Purchase Sauda is used only for stock receiving. Create a Sale Sauda before dispatching stock.' : 'Sale Sauda is used only for dispatch. Create a Purchase Sauda before receiving stock.' }}</small><a class="button primary" href="{{ route('saudas.create', ['type' => $module]) }}">＋ Create {{ $saudaLabel }}</a></div>@endif
-        <label>{{ $module === 'purchase' ? 'Supplier' : 'Party' }}<input readonly data-sauda-party placeholder="Selected from {{ $saudaLabel }}"></label><label>Product <select required name="product_id" data-sauda-product><option value="">Select product</option>@foreach($products as $product)<option value="{{ $product->id }}" data-group="{{ $product->group_name }}">{{ $product->name }}</option>@endforeach</select></label><label>Remaining Qty<input readonly data-sauda-remaining placeholder="0.000 Ton"></label><label>Sauda Rate<input readonly data-sauda-rate placeholder="₹0.00"></label><label>Quantity (Ton)<input required name="quantity" type="number" min="0.001" max="1000000" step="0.001" value="{{ old('quantity') }}"></label><label>Transaction date<input required name="date" type="date" max="{{ today()->toDateString() }}" value="{{ old('date', today()->toDateString()) }}"></label>
-    </div><div class="dialog-footer"><button type="button" class="button" data-close-create>Cancel</button><button class="button primary" type="submit" @disabled($saudas->isEmpty())>{{ $module === 'sale' ? 'Dispatch & Reduce Stock' : 'Receive & Add Stock' }}</button></div>
-</form></dialog>
+@php
+    $saudaLabel = $module === 'sale' ? 'Sale Sauda' : 'Purchase Sauda';
+@endphp
+<dialog id="create-dialog" {{ ($errors->any() || request('create')) ? 'data-auto-open' : '' }}>
+    <form method="post" action="/{{ $module }}">@csrf
+        <div class="dialog-heading"><div><span class="eyebrow">{{ $title }}</span><h2>{{ $module === 'sale' ? 'Create dispatch' : 'Receive purchase' }}</h2></div><button type="button" class="close" data-close-create aria-label="Close dialog">×</button></div>
+        @if($errors->any())<div class="error" role="alert"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+        <div class="form-grid" data-sauda-entry>
+            <label class="wide">Select {{ $saudaLabel }}<select required name="sauda_id" data-sauda-select><option value="">Select an open {{ $saudaLabel }}</option>@foreach($saudas as $sauda)@php
+                $remaining = (float) $sauda->quantity - (float) $sauda->fulfilled_quantity;
+            @endphp<option value="{{ $sauda->id }}" data-party="{{ $sauda->party_name }}" data-group="{{ $sauda->group_name }}" data-remaining="{{ number_format($remaining, 3, '.', '') }}" data-rate="{{ number_format($sauda->rate_cents/100, 2, '.', '') }}" @selected((string) old('sauda_id', request('sauda_id')) === (string) $sauda->id)>{{ $sauda->reference }} · {{ $sauda->party_name }} · {{ $sauda->group_name }} · {{ number_format($remaining, 3) }} Ton left</option>@endforeach</select></label><p class="wide sauda-create-link">Need a new one? <a href="{{ route('saudas.create', ['type' => $module]) }}">Create {{ $saudaLabel }} →</a></p>
+            @if($saudas->isEmpty())<div class="wide sauda-empty"><strong>No open {{ strtolower($saudaLabel) }} found.</strong><small>{{ $module === 'sale' ? 'Purchase Sauda is used only for stock receiving. Create a Sale Sauda before dispatching stock.' : 'Sale Sauda is used only for dispatch. Create a Purchase Sauda before receiving stock.' }}</small><a class="button primary" href="{{ route('saudas.create', ['type' => $module]) }}">＋ Create {{ $saudaLabel }}</a></div>@endif
+            <label>{{ $module === 'purchase' ? 'Supplier' : 'Party' }}<input readonly data-sauda-party placeholder="Selected from {{ $saudaLabel }}"></label><label>Product <select required name="product_id" data-sauda-product><option value="">Select product</option>@foreach($products as $product)<option value="{{ $product->id }}" data-group="{{ $product->group_name }}">{{ $product->name }}</option>@endforeach</select></label><label>Remaining Qty<input readonly data-sauda-remaining placeholder="0.000 Ton"></label><label>Sauda Rate<input readonly data-sauda-rate placeholder="₹0.00"></label><label>Quantity (Ton)<input required name="quantity" type="number" min="0.001" max="1000000" step="0.001" value="{{ old('quantity') }}"></label><label>Transaction date<input required name="date" type="date" max="{{ today()->toDateString() }}" value="{{ old('date', today()->toDateString()) }}"></label>
+        </div>
+        <div class="dialog-footer"><button type="button" class="button" data-close-create>Cancel</button><button class="button primary" type="submit" @disabled($saudas->isEmpty())>{{ $module === 'sale' ? 'Dispatch & Reduce Stock' : 'Receive & Add Stock' }}</button></div>
+    </form>
+</dialog>
 @endunless
 @endsection

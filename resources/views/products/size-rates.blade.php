@@ -1,7 +1,7 @@
 @extends('layout')
 @section('title','Stock Item')
 @section('content')
-<section class="voucher-heading"><div><div class="eyebrow">INVENTORY / STOCK ITEM</div><h1>Stock Item<span class="accent">.</span></h1><p>Manage rates, GST and size settings product-wise.</p></div><a class="button" href="{{ route('inventory.index') }}">← Back to Inventory</a></section>
+<section class="voucher-heading"><div><div class="eyebrow">INVENTORY / STOCK ITEM</div><h1>Stock Item<span class="accent">.</span></h1><p>Manage rates, GST and size settings product-wise.</p></div><div class="row-actions"><a class="button" href="{{ route('products.size-rates.index') }}">← Stock Item List</a><a class="button primary" href="{{ route('products.size-rates.create') }}">＋ Add Stock Item</a></div></section>
 <form class="rate-master-card stock-item-form" method="post" action="{{ route('products.size-rates.update',$selected->id) }}" data-rate-master>@csrf @method('put')
 <div class="rate-master-head"><div><span>Stock Item</span><strong>{{ $selected->name }}</strong></div><span>Edit</span></div>
 <div class="rate-master-grid">

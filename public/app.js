@@ -1,14 +1,55 @@
 const dialog = document.querySelector('#create-dialog');
+// Treat spaces and common separators as optional in searchable dropdowns.
+// For example, "1x1x3", "1 x 1 x 3" and "1-X-1-X-3" find the same item.
+const normalizeSelectSearch = value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, '');
 document.querySelectorAll('[data-open-create]').forEach(button => button.addEventListener('click', () => dialog.showModal()));
 document.querySelectorAll('[data-close-create]').forEach(button => button.addEventListener('click', () => dialog.close()));
 if (dialog?.hasAttribute('data-auto-open')) dialog.showModal();
 document.addEventListener('click', event => document.querySelectorAll('.nav-dropdown[open]').forEach(menu => { if (!menu.contains(event.target)) menu.open = false; }));
-document.addEventListener('keydown', event => { if (event.key === 'Escape') document.querySelectorAll('.nav-dropdown').forEach(menu => menu.open = false); });
+document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll('.nav-dropdown').forEach(menu => menu.open = false);
+    document.querySelectorAll('.search-select-menu:not([hidden])').forEach(menu => {
+        menu.hidden = true;
+        menu.classList.remove('opens-up');
+        menu.closest('.search-select')?.querySelector('[data-search-select-trigger]')?.setAttribute('aria-expanded', 'false');
+    });
+});
+
+// Session activity is refreshed only while the user is actively working.
+// This prevents a 25-minute timeout during long keyboard/mouse work, while an
+// untouched page still expires normally. The server remains the source of truth
+// for both the inactivity and midnight (Asia/Kolkata) logout rules.
+(() => {
+    let lastInteractionAt = Date.now();
+    let lastKeepAliveAt = 0;
+    const markInteraction = () => { lastInteractionAt = Date.now(); };
+    ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart'].forEach(eventName => {
+        document.addEventListener(eventName, markInteraction, { passive: true });
+    });
+    const keepAlive = async () => {
+        const now = Date.now();
+        if (document.hidden || now - lastInteractionAt > 90_000 || now - lastKeepAliveAt < 60_000) return;
+        lastKeepAliveAt = now;
+        const token = document.querySelector('meta[name="csrf-token"]')?.content;
+        try {
+            const response = await fetch('/session/keep-alive', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'X-Requested-With': 'XMLHttpRequest', ...(token ? { 'X-CSRF-TOKEN': token } : {}) },
+            });
+            if (response.redirected || response.url.includes('/login')) window.location.assign(response.url);
+        } catch (_) {
+            // A transient network error must not make an active form unusable.
+        }
+    };
+    window.setInterval(keepAlive, 30_000);
+})();
 
 // Keyboard-first data entry: Enter, Right Arrow and Down Arrow advance
 // through editable fields. Left Arrow at an input's start and Up Arrow go
 // back. Computed cells and row action buttons are deliberately skipped.
-const usableFormFields = form => [...form.querySelectorAll('input, select, textarea, button[type="submit"], button[data-search-select-trigger]')]
+const usableFormFields = form => [...form.querySelectorAll('input, select, textarea, button[type="submit"], button[data-search-select-trigger], button[data-add-row], button[data-add-order-item]')]
     .filter(field => !field.disabled && field.type !== 'hidden' && !field.readOnly && field.getClientRects().length)
     .filter(field => !field.hasAttribute('data-keyboard-skip'));
 const moveFormFocus = (field, direction) => {
@@ -59,7 +100,15 @@ const enhanceSearchableSelects = (root = document) => {
         const menu = document.createElement('div');
         const search = document.createElement('input');
         const options = document.createElement('div');
-        const labelText = select.matches('[data-row-product], [data-product-select], [data-sauda-product], select[name="product_id"]') ? 'product' : 'party';
+        const labelText = (() => {
+            if (select.matches('[data-row-product], [data-product-select], [data-sauda-product], select[name="product_id"]')) return 'product';
+            if (select.matches('[data-row-group], [data-group-filter], select[name="group_name"]') || select.name === 'group' || select.name.includes('group_head')) return 'group head';
+            if (select.name === 'stock_status') return 'stock status';
+            if (select.name === 'type') return 'type';
+            if (select.name === 'status') return 'status';
+            if (select.name === 'sauda_id') return 'Sauda';
+            return 'party';
+        })();
         wrapper.className = 'search-select';
         trigger.type = 'button';
         trigger.className = 'search-select-trigger';
@@ -81,8 +130,8 @@ const enhanceSearchableSelects = (root = document) => {
         select.classList.add('search-select-native');
 
         const visibleOptions = () => {
-            const query = search.value.trim().toLocaleLowerCase();
-            return [...select.options].filter(option => option.value && !option.disabled && !option.hidden && (!query || option.textContent.toLocaleLowerCase().includes(query)));
+            const query = normalizeSelectSearch(search.value);
+            return [...select.options].filter(option => option.value && !option.disabled && !option.hidden && (!query || normalizeSelectSearch(option.textContent).includes(query)));
         };
         const refreshTrigger = () => {
             const option = select.options[select.selectedIndex];
@@ -91,13 +140,31 @@ const enhanceSearchableSelects = (root = document) => {
         const close = () => {
             menu.hidden = true;
             trigger.setAttribute('aria-expanded', 'false');
+            menu.style.removeProperty('left');
+            menu.style.removeProperty('top');
+            menu.style.removeProperty('width');
+            menu.style.removeProperty('right');
+            menu.style.removeProperty('position');
         };
-        const choose = option => {
+        const positionMenu = () => {
+            // Fixed positioning keeps a dropdown visible when its select is inside
+            // a horizontally scrolling table or an overflowed voucher section.
+            const rect = trigger.getBoundingClientRect();
+            const gutter = 12;
+            const width = Math.min(Math.max(rect.width, 220), window.innerWidth - (gutter * 2));
+            const left = Math.max(gutter, Math.min(rect.left, window.innerWidth - width - gutter));
+            menu.style.position = 'fixed';
+            menu.style.left = `${left}px`;
+            menu.style.top = `${rect.bottom + 6}px`;
+            menu.style.width = `${width}px`;
+            menu.style.right = 'auto';
+        };
+        const choose = (option, advance = false) => {
             select.value = option.value;
             select.dispatchEvent(new Event('change', { bubbles: true }));
             refreshTrigger();
             close();
-            trigger.focus();
+            if (advance) moveFormFocus(trigger, 1); else trigger.focus();
         };
         const render = () => {
             const matches = visibleOptions();
@@ -131,7 +198,7 @@ const enhanceSearchableSelects = (root = document) => {
                     }
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
-                        choose(option);
+                        choose(option, true);
                     }
                     if (event.key === 'Escape') {
                         event.preventDefault();
@@ -152,15 +219,18 @@ const enhanceSearchableSelects = (root = document) => {
                 options.append(item);
             });
         };
-        const open = () => {
+        const open = (focusFirstOption = false) => {
             document.querySelectorAll('.search-select-menu:not([hidden])').forEach(other => {
                 if (other !== menu) other.hidden = true;
             });
             menu.hidden = false;
+            // Trading operators expect each select to open downwards everywhere.
+            menu.classList.remove('opens-up');
             trigger.setAttribute('aria-expanded', 'true');
             search.value = '';
             render();
-            search.focus();
+            positionMenu();
+            if (focusFirstOption) options.querySelector('.search-select-option')?.focus(); else search.focus();
         };
         refreshTrigger();
         trigger.addEventListener('click', () => menu.hidden ? open() : close());
@@ -169,9 +239,13 @@ const enhanceSearchableSelects = (root = document) => {
                 event.preventDefault();
                 if (select.value) moveFormFocus(trigger, 1); else open();
             }
-            if (event.key === ' ' || event.key === 'ArrowDown') {
+            if (event.key === ' ') {
                 event.preventDefault();
                 open();
+            }
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                open(true);
             }
             if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
                 event.preventDefault();
@@ -191,7 +265,7 @@ const enhanceSearchableSelects = (root = document) => {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 const matches = visibleOptions();
-                if (matches.length === 1) choose(matches[0]);
+                if (matches.length === 1) choose(matches[0], true);
             }
             if (event.key === 'ArrowLeft' && search.selectionStart === 0 && search.selectionEnd === 0) {
                 event.preventDefault();
@@ -218,6 +292,18 @@ document.addEventListener('click', event => document.querySelectorAll('.search-s
         if (menu) menu.hidden = true;
         trigger?.setAttribute('aria-expanded', 'false');
     }
+}));
+window.addEventListener('resize', () => document.querySelectorAll('.search-select-menu:not([hidden])').forEach(menu => {
+    menu.hidden = true;
+    menu.closest('.search-select')?.querySelector('[data-search-select-trigger]')?.setAttribute('aria-expanded', 'false');
+}));
+document.querySelectorAll('.nav-dropdown').forEach(details => details.addEventListener('toggle', () => {
+    if (!details.open || !window.matchMedia('(max-width: 800px)').matches) return;
+    const summary = details.querySelector('summary');
+    const dropdown = details.querySelector('.dropdown');
+    if (!summary || !dropdown) return;
+    const rect = summary.getBoundingClientRect();
+    dropdown.style.top = `${rect.bottom + 6}px`;
 }));
 new MutationObserver(mutations => mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
     if (node.nodeType === Node.ELEMENT_NODE) enhanceSearchableSelects(node);
@@ -265,41 +351,26 @@ const orderForm = document.querySelector('#order-form');
 if (orderForm) {
     const rows = orderForm.querySelector('[data-order-items]');
     const template = document.querySelector('#order-item-template');
-    const total = document.querySelector('[data-order-total]');
-    const summary = document.querySelector('[data-order-summary]');
-    const currency = value => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(value);
     const updateTotal = () => {
-        let subtotal = 0;
         rows.querySelectorAll('[data-order-row]').forEach(row => {
             const quantity = Number.parseFloat(row.querySelector('[data-item-quantity]')?.value) || 0;
             const weight = Number.parseFloat(row.querySelector('[data-item-weight]')?.value) || 0;
-            const amount = quantity * (Number.parseFloat(row.querySelector('[data-item-rate]')?.value) || 0);
-            if (weight > 0 && !row.dataset.manualPacking) {
+            if (weight > 0) {
                 const pieces = Math.round(quantity * 1000 / weight);
                 row.querySelector('[data-item-pieces]').value = pieces;
-                row.querySelector('[data-item-bundles]').value = Math.ceil(pieces / 50);
+                row.querySelector('[data-item-bundles]').value = Math.ceil(pieces / 52);
             }
-            subtotal += amount;
-            row.querySelector('[data-item-amount]').textContent = currency(amount);
         });
-        const charge = name => Number.parseFloat(orderForm.querySelector(`[name="${name}"]`)?.value) || 0;
-        const taxable = Math.max(0, subtotal + charge('labour') + charge('commission') + charge('freight') + charge('other_charges') - charge('discount'));
-        const gst = taxable * (Number.parseFloat(orderForm.querySelector('[name="gst_percent"]')?.value) || 0) / 100;
-        total.textContent = currency(taxable + gst);
-        summary.textContent = `Subtotal ${currency(subtotal)} · Taxable ${currency(taxable)} · GST ${currency(gst)}`;
     };
     const renumber = () => rows.querySelectorAll('[data-order-row]').forEach((row, index) => { row.querySelector('.line-number').textContent = index + 1; });
     const bindRow = row => {
         row.addEventListener('input', updateTotal);
-        row.querySelector('[data-item-pieces]')?.addEventListener('input', () => { row.dataset.manualPacking = '1'; });
-        row.querySelector('[data-item-bundles]')?.addEventListener('input', () => { row.dataset.manualPacking = '1'; });
         row.querySelector('[data-product-select]')?.addEventListener('change', event => {
             const option = event.target.options[event.target.selectedIndex];
             if (!option?.value) return;
             row.querySelector('[data-item-description]').value = option.dataset.name || '';
-            row.querySelector('[data-item-weight]').value = option.dataset.weight || '';
-            row.querySelector('[data-item-base-rate]').value = option.dataset.baseRate || '';
-            row.querySelector('[data-item-rate]').value = option.dataset.rate || '';
+            const numbers = (option.dataset.name || '').match(/\d+(?:\.\d+)?/g);
+            row.querySelector('[data-item-weight]').value = numbers?.at(-1) || '';
             updateTotal();
         });
         row.querySelector('[data-remove-order-item]')?.addEventListener('click', () => {
@@ -315,7 +386,6 @@ if (orderForm) {
         const row = wrapper.firstElementChild;
         rows.appendChild(row); bindRow(row); renumber(); row.querySelector('[data-item-description]').focus();
     });
-    orderForm.querySelectorAll('[data-charge], [data-gst]').forEach(input => input.addEventListener('input', updateTotal));
     updateTotal();
 }
 
@@ -423,11 +493,15 @@ document.querySelectorAll('[data-rate-master]').forEach(form => {
 document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
     const rows = form.querySelector('[data-stock-rows]'); const template = form.querySelector('[data-stock-row]');
     const sauda = form.querySelector('[data-sauda]'); const party = form.querySelector('[data-party]'); const filter = form.querySelector('[data-group-filter]');
+    const isPurchaseVoucher = form.dataset.module === 'purchase';
+    const initialBundleIds = (form.dataset.initialSaudaIds || '').split(',').filter(Boolean);
+    const initialBundleOptions = initialBundleIds.map(id => [...sauda.options].find(option => option.value === id)).filter(Boolean);
     const addQuickCreate = (select, master, label) => { if (!select || select.parentElement.querySelector('[data-quick-create]')) return; const button=document.createElement('button'); button.type='button'; button.className='quick-create'; button.dataset.quickCreate='1'; button.textContent=`+ New ${label}`; button.addEventListener('click', async()=>{const name=window.prompt(`Enter new ${label} name`);if(!name?.trim())return;const token=form.querySelector('[name="_token"]')?.value;const response=await fetch(`/masters/${master}`,{method:'POST',headers:{'X-CSRF-TOKEN':token,'Content-Type':'application/x-www-form-urlencoded','Accept':'text/html'},body:new URLSearchParams({_token:token,name:name.trim()})});if(response.ok){sessionStorage.setItem(`tradeflow-new-${master}`,name.trim());window.location.reload();}else window.alert(`Could not create ${label}. It may already exist.`);}); select.after(button); };
     addQuickCreate(party,'parties','Party');
     const total = () => {
         let value = 0, totalWeight = 0;
         rows.querySelectorAll('[data-stock-row]').forEach(row => {
+            if (row.dataset.bundleRow === 'true' && !row.querySelector('[data-bundle-include]')?.checked) return;
             const quantity = Number(row.querySelector('[data-row-qty]').value) || 0;
             const amount = quantity * (Number(row.querySelector('[data-row-rate]').value) || 0);
             row.querySelector('[data-row-amount]').value = `₹${amount.toFixed(2)}`;
@@ -440,6 +514,10 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
         form.querySelector('[data-total-weight]').value = `${totalWeight.toFixed(3)} Ton`;
         form.querySelector('[data-labour-total]').value = `₹${labourAmount.toFixed(2)}`;
         form.querySelector('[data-stock-value]').textContent = `₹${value.toFixed(2)}`;
+        form.querySelector('[data-stock-labour]').textContent = `₹${labourAmount.toFixed(2)}`;
+        form.querySelector('[data-stock-discount]').textContent = `₹${charge('discount').toFixed(2)}`;
+        form.querySelector('[data-stock-taxable]').textContent = `₹${taxable.toFixed(2)}`;
+        form.querySelector('[data-stock-gst-rate]').textContent = charge('gst_percent').toFixed(2);
         form.querySelector('[data-stock-gst]').textContent = `₹${gst.toFixed(2)}`;
         form.querySelector('[data-stock-grand]').textContent = `₹${(taxable + gst).toFixed(2)}`;
     };
@@ -447,6 +525,19 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
         const balanceLabel = form.querySelector('[data-sauda-balance]');
         const selected = sauda.options[sauda.selectedIndex];
         if (!balanceLabel) return;
+        if (initialBundleOptions.length) {
+            let remaining = 0;
+            rows.querySelectorAll('[data-stock-row]').forEach(row => {
+                if (!row.querySelector('[data-bundle-include]')?.checked) return;
+                const quantity = row.querySelector('[data-row-qty]');
+                const available = Number(row.dataset.bundleBalance) || 0;
+                const entered = Number(quantity.value) || 0;
+                remaining += available - entered;
+                quantity.setCustomValidity(entered > available + 0.0001 ? `Quantity cannot exceed this product's Sale balance of ${available.toFixed(3)} Ton.` : '');
+            });
+            balanceLabel.textContent = remaining >= -0.0001 ? `${Math.max(0, remaining).toFixed(3)} Ton` : 'Check product quantities';
+            return;
+        }
         if (!selected?.value) {
             balanceLabel.textContent = 'Direct entry';
             return;
@@ -468,9 +559,15 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
             base.value = value;
             base.dispatchEvent(new Event('input'));
         };
-        const bind = row => { const group=row.querySelector('[data-row-group]'), product=row.querySelector('[data-row-product]'), difference=row.querySelector('[data-row-difference]'), base=row.querySelector('[data-row-base]'), rate=row.querySelector('[data-row-rate]'); addQuickCreate(group,'group-heads','Group Head'); difference.readOnly=false; difference.type='number'; difference.min='0'; difference.step='0.01'; difference.name=rate.name.replace('[rate]','[difference]'); base.readOnly=false; base.type='number'; base.min='0'; base.step='0.01'; base.name=rate.name.replace('[rate]','[base_rate]'); const sync=()=>{ [...product.options].forEach(o=>{if(!o.value)return;o.hidden=!!group.value&&o.dataset.group!==group.value;}); const opt=product.options[product.selectedIndex]; if(opt?.value&&!difference.dataset.initialized){difference.value=opt.dataset.difference||'0.00';difference.dataset.initialized='1';} if(!base.value) base.value=(getGlobalBaseRate() || opt?.dataset.purchase || '0.00'); rate.value=((Number(base.value)||0)+(Number(difference.value)||0)).toFixed(2); total(); updateSaudaProgress();}; group.addEventListener('change',()=>{difference.dataset.initialized='';sync();});product.addEventListener('change',()=>{difference.dataset.initialized='';sync();});difference.addEventListener('input',sync);base.addEventListener('input',sync);row.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{total();updateSaudaProgress();}));row.querySelector('[data-remove-row]').addEventListener('click',()=>{if(rows.children.length>1){row.remove();total();updateSaudaProgress();}});sync();};
-    const add=()=>{const index=Date.now();const box=document.createElement('div');box.innerHTML=template.innerHTML.replaceAll('__INDEX__',index).trim();const row=box.firstElementChild;rows.appendChild(row);bind(row);setRowBaseRate(row);return row;};
-    form.querySelector('[data-add-row]').addEventListener('click',add); filter.addEventListener('change',()=>rows.querySelectorAll('[data-row-group]').forEach(el=>{el.value=filter.value;el.dispatchEvent(new Event('change'));}));
+        const bind = row => { const group=row.querySelector('[data-row-group]'), product=row.querySelector('[data-row-product]'), difference=row.querySelector('[data-row-difference]'), base=row.querySelector('[data-row-base]'), rate=row.querySelector('[data-row-rate]'); addQuickCreate(group,'group-heads','Group Head'); difference.readOnly=false; difference.type='number'; difference.min='0'; difference.step='0.01'; difference.name=rate.name.replace('[rate]','[difference]'); base.readOnly=false; base.type='number'; base.min='0'; base.step='0.01'; base.name=rate.name.replace('[rate]','[base_rate]'); const sync=()=>{ [...product.options].forEach(o=>{if(!o.value)return;o.hidden=!!group.value&&o.dataset.group!==group.value;}); const opt=product.options[product.selectedIndex]; if(opt?.value&&!difference.dataset.initialized){difference.value=(isPurchaseVoucher ? opt.dataset.purchase : opt.dataset.difference)||'0.00';difference.dataset.initialized='1';} if(!base.value) base.value=(getGlobalBaseRate() || opt?.dataset.purchase || '0.00'); rate.value=((Number(base.value)||0)+(Number(difference.value)||0)).toFixed(2); total(); updateSaudaProgress();}; group.addEventListener('change',()=>{difference.dataset.initialized='';sync();});product.addEventListener('change',()=>{difference.dataset.initialized='';sync();});difference.addEventListener('input',sync);base.addEventListener('input',sync);row.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{total();updateSaudaProgress();}));row.querySelector('[data-remove-row]').addEventListener('click',()=>{if(rows.children.length>1){row.remove();total();updateSaudaProgress();}});sync();};
+    let rowSequence = 0;
+    const focusNewRow = row => requestAnimationFrame(() => {
+        const group = row.querySelector('[data-row-group]');
+        const trigger = group?.closest('.search-select')?.querySelector('[data-search-select-trigger]');
+        (trigger || group)?.focus();
+    });
+    const add=(focusFirstField=false)=>{const index=`${Date.now()}${rowSequence++}`;const box=document.createElement('div');box.innerHTML=template.innerHTML.replaceAll('__INDEX__',index).trim();const row=box.firstElementChild;rows.appendChild(row);bind(row);setRowBaseRate(row);if(focusFirstField)focusNewRow(row);return row;};
+    form.querySelector('[data-add-row]').addEventListener('click',()=>add(true)); filter.addEventListener('change',()=>rows.querySelectorAll('[data-row-group]').forEach(el=>{el.value=filter.value;el.dispatchEvent(new Event('change'));}));
     // Party and Sauda stay in sync. A changed customer only sees that
     // customer's open Sauda entries, and the first matching Sauda loads its
     // complete voucher details automatically.
@@ -523,7 +620,51 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
         firstRow.querySelector('[data-row-qty]').dispatchEvent(new Event('input'));
     });
     sauda.addEventListener('change',()=>{const storedRate=window.stockSaudaRates?.[sauda.value]; if(storedRate===undefined)return; const saudaRate=(Number(storedRate)/100).toFixed(2); const globalBase=form.querySelector('[data-global-base-rate]'); if(globalBase)globalBase.value=saudaRate; rows.querySelectorAll('[data-row-base]').forEach(base=>{base.value=saudaRate;base.dispatchEvent(new Event('input'));});}); add();
-    if (form.dataset.initialSauda) { sauda.value=form.dataset.initialSauda; sauda.dispatchEvent(new Event('change')); const row=rows.querySelector('[data-stock-row]'); if(row){row.querySelector('[data-row-group]').value=filter.value; row.querySelector('[data-row-group]').dispatchEvent(new Event('change')); row.querySelector('[data-row-product]').value=form.dataset.initialProduct; row.querySelector('[data-row-product]').dispatchEvent(new Event('change')); const globalBase=form.querySelector('[data-global-base-rate]'); if(globalBase) globalBase.value=form.dataset.initialRate; row.querySelector('[data-row-base]').value=form.dataset.initialRate; row.querySelector('[data-row-base]').dispatchEvent(new Event('input')); const balance=sauda.options[sauda.selectedIndex]?.dataset.balance; if(balance){row.querySelector('[data-row-qty]').value=balance; row.querySelector('[data-row-qty]').dispatchEvent(new Event('input'));}} }
+    if (initialBundleOptions.length) {
+        syncingPartyAndSauda = true;
+        party.value = initialBundleOptions[0].dataset.party || '';
+        party.dispatchEvent(new Event('change'));
+        syncingPartyAndSauda = false;
+        rows.replaceChildren();
+        filter.value = '';
+        initialBundleOptions.forEach(option => {
+            const row = add();
+            row.dataset.bundleBalance = option.dataset.balance || '0';
+            const group = row.querySelector('[data-row-group]');
+            const product = row.querySelector('[data-row-product]');
+            group.value = option.dataset.group || '';
+            group.dispatchEvent(new Event('change'));
+            product.value = option.dataset.product || '';
+            product.dispatchEvent(new Event('change'));
+            const rate = window.stockSaudaRates?.[option.value];
+            const base = rate === undefined ? '0.00' : (Number(rate) / 100).toFixed(2);
+            row.querySelector('[data-row-base]').value = base;
+            row.querySelector('[data-row-base]').dispatchEvent(new Event('input'));
+            row.querySelector('[data-row-qty]').value = option.dataset.balance || '0.000';
+            row.querySelector('[data-row-qty]').dispatchEvent(new Event('input'));
+            row.dataset.bundleRow = 'true';
+            const productCell = row.querySelector('[data-row-group]')?.closest('label');
+            if (productCell) {
+                const toggle = document.createElement('span');
+                toggle.className = 'bundle-dispatch-toggle';
+                toggle.innerHTML = '<input type="checkbox" data-bundle-include checked> Dispatch this product';
+                productCell.prepend(toggle);
+                const checkbox = toggle.querySelector('[data-bundle-include]');
+                const setIncluded = () => {
+                    const included = checkbox.checked;
+                    row.classList.toggle('bundle-row-excluded', !included);
+                    row.querySelectorAll('select, input').forEach(field => {
+                        if (field !== checkbox) field.disabled = !included;
+                    });
+                    total();
+                    updateSaudaProgress();
+                };
+                checkbox.addEventListener('change', setIncluded);
+                setIncluded();
+            }
+        });
+        updateSaudaProgress();
+    } else if (form.dataset.initialSauda) { sauda.value=form.dataset.initialSauda; sauda.dispatchEvent(new Event('change')); const row=rows.querySelector('[data-stock-row]'); if(row){row.querySelector('[data-row-group]').value=filter.value; row.querySelector('[data-row-group]').dispatchEvent(new Event('change')); row.querySelector('[data-row-product]').value=form.dataset.initialProduct; row.querySelector('[data-row-product]').dispatchEvent(new Event('change')); const globalBase=form.querySelector('[data-global-base-rate]'); if(globalBase) globalBase.value=form.dataset.initialRate; row.querySelector('[data-row-base]').value=form.dataset.initialRate; row.querySelector('[data-row-base]').dispatchEvent(new Event('input')); const balance=sauda.options[sauda.selectedIndex]?.dataset.balance; if(balance){row.querySelector('[data-row-qty]').value=balance; row.querySelector('[data-row-qty]').dispatchEvent(new Event('input'));}} }
     // Voucher terminology follows the client's established paper voucher.
     const headings = form.querySelectorAll('.multi-head span');
     if (headings[4]) headings[4].textContent = 'B.Rate';
@@ -548,27 +689,58 @@ document.querySelectorAll('[data-multi-stock-voucher]').forEach(form => {
 document.querySelectorAll('[data-webp-upload]').forEach(input => {
     const form = input.closest('form');
     const output = input.parentElement.querySelector('[data-webp-output]');
+    const status = input.parentElement.querySelector('[data-webp-status]');
     if (!form || !output) return;
+    // Android respects camera capture more reliably with the broad image/* MIME
+    // filter; the server still validates the final image type.
+    input.accept = 'image/*';
+    input.setAttribute('capture', 'environment');
 
     let conversion = null;
+    const setStatus = message => { if (status) status.textContent = message; };
     const compress = () => {
         const file = input.files?.[0];
         output.value = '';
+        input.disabled = false;
         if (!file) return Promise.resolve();
+        setStatus('Preparing photo…');
         conversion = new Promise((resolve, reject) => {
             const reader = new FileReader();
             const image = new Image();
-            reader.onerror = reject;
-            image.onerror = reject;
+            reader.onerror = () => reject(new Error('Photo could not be read.'));
+            image.onerror = () => reject(new Error('Photo format is not supported by this browser.'));
             image.onload = () => {
                 const maximum = 1600;
                 const scale = Math.min(1, maximum / Math.max(image.width, image.height));
                 const canvas = document.createElement('canvas');
                 canvas.width = Math.max(1, Math.round(image.width * scale));
                 canvas.height = Math.max(1, Math.round(image.height * scale));
-                canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
-                output.value = canvas.toDataURL('image/webp', 0.78);
-                resolve();
+                const context = canvas.getContext('2d');
+                if (!context) { reject(new Error('Photo canvas is unavailable.')); return; }
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                const encodeBlob = blob => {
+                    if (!blob || !blob.size) { reject(new Error('Compressed photo is empty.')); return; }
+                    const compressedReader = new FileReader();
+                    compressedReader.onerror = () => reject(new Error('Compressed photo could not be read.'));
+                    compressedReader.onload = () => {
+                        const dataUrl = String(compressedReader.result || '');
+                        if (!/^data:image\/(webp|jpeg);base64,/.test(dataUrl)) { reject(new Error('Invalid compressed photo.')); return; }
+                        output.value = dataUrl;
+                        setStatus('Photo compressed successfully.');
+                        resolve();
+                    };
+                    compressedReader.readAsDataURL(blob);
+                };
+                canvas.toBlob(blob => {
+                    if (blob?.type === 'image/webp') {
+                        encodeBlob(blob);
+                        return;
+                    }
+                    // iOS Safari and in-app browsers can capture a photo but may not
+                    // encode WebP. JPEG is universally supported and the server
+                    // converts it to WebP after upload.
+                    canvas.toBlob(encodeBlob, 'image/jpeg', 0.74);
+                }, 'image/webp', 0.78);
             };
             reader.onload = event => { image.src = event.target.result; };
             reader.readAsDataURL(file);
@@ -576,7 +748,7 @@ document.querySelectorAll('[data-webp-upload]').forEach(input => {
         return conversion;
     };
 
-    input.addEventListener('change', () => { compress().catch(() => { output.value = ''; }); });
+    input.addEventListener('change', () => { compress().catch(() => { output.value = ''; setStatus('Using original photo; server will compress it.'); }); });
     form.addEventListener('submit', async event => {
         if (!input.files?.length) return;
         event.preventDefault();
@@ -584,10 +756,13 @@ document.querySelectorAll('[data-webp-upload]').forEach(input => {
             await (conversion || compress());
             // The compressed WebP data is now submitted; do not also validate
             // the original phone-camera file on the server.
-            if (output.value) input.disabled = true;
+            if (/^data:image\/(webp|jpeg);base64,/.test(output.value)) input.disabled = true;
             form.submit();
         } catch (_) {
             // If conversion fails, submit the original valid image as fallback.
+            input.disabled = false;
+            output.value = '';
+            setStatus('Using original photo; server will compress it.');
             form.submit();
         }
     }, { once: true });

@@ -60,6 +60,30 @@ td small, .status, .count, .stock-row small { font-size: 13px; }
 .voucher-lines-title p, .voucher-lines-title > span, .line-add-bar strong, .voucher-remaining, .voucher-summary > div { font-size: 14px; }
 .search-select-menu { font-size: 16px; }
 .search-select-option { padding: 11px 12px; }
+/* Keep searchable dropdown controls visually inside the menu on every page. */
+.search-select-menu,
+.search-select-menu.opens-up {
+  box-sizing: border-box;
+  padding: 12px !important;
+}
+.search-select-menu > .search-select-input {
+  display: block;
+  box-sizing: border-box;
+  width: 100% !important;
+  min-height: 42px;
+  margin: 0 !important;
+  padding: 9px 11px;
+  border-radius: 7px;
+}
+.search-select-menu > .search-select-options {
+  margin: 8px 1px 1px !important;
+}
+.logout-form { display: inline; margin-left: 12px; }
+.logout-button { min-height: 34px; padding: 6px 11px; font-size: 14px; }
+.workspace .masters-menu { position: relative; }
+.workspace .masters-menu > summary { padding: 8px 10px; font-size: 14px; }
+.workspace .masters-menu > summary.active { background:#edf4ee; color:#235c47; }
+.workspace .masters-menu .dropdown { right:0; left:auto; top:42px; }
 .voucher-line-entry { overflow: visible; }
 .voucher-line-entry label { position: relative; }
 .sauda-quantity-summary { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px; margin:0 0 24px; }
@@ -76,3 +100,8 @@ td small, .status, .count, .stock-row small { font-size: 13px; }
     .button, input, select, textarea, .search-select-trigger, .search-select-input { font-size: 16px; }
     .sauda-quantity-summary { grid-template-columns:1fr; gap:10px; }
 }
+
+.bundle-dispatch-toggle { display:flex; align-items:center; gap:6px; margin:0 0 7px; color:#256147; font-size:12px; font-weight:800; white-space:nowrap; }
+.bundle-dispatch-toggle input { width:16px !important; min-height:16px !important; margin:0; }
+.bundle-row-excluded { opacity:.48; background:#fafbfa; }
+.bundle-row-excluded input, .bundle-row-excluded select { cursor:not-allowed; }

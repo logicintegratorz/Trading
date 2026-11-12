@@ -21,7 +21,7 @@
             <label><span>Date</span><input type="date" name="date" value="{{ $date }}"></label><button class="button primary" data-filter-submit>Apply</button>
         </form>
     </div>
-    <div class="table-scroll"><table>
+    <div class="table-scroll"><table class="gate-table">
         <thead><tr><th>Entry Date</th><th>Party Name</th><th>Vehicle Number</th><th>Type</th><th>Photo</th><th>Action</th></tr></thead>
         <tbody>@forelse($entries as $entry)<tr>
             <td>{{ date('d M Y', strtotime($entry->entry_date)) }}</td><td><strong>{{ $entry->party_name }}</strong></td><td>{{ $entry->vehicle_number }}</td>

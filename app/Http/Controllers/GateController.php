@@ -43,7 +43,7 @@ class GateController
             'vehicle_number' => ['required', 'string', 'max:60'],
             'type' => ['required', 'in:sale,purchase'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'photo_webp' => ['nullable', 'string', 'max:7000000'],
+            'photo_webp' => ['nullable', 'string', 'max:8000000'],
             'entry_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today', 'before_or_equal:today'],
         ]);
         $party = DB::table('parties')->where('id', $data['party_id'])->value('name');
@@ -79,7 +79,7 @@ class GateController
         $data = $request->validate([
             'party_id' => ['required', 'integer', 'exists:parties,id'], 'vehicle_number' => ['required', 'string', 'max:60'],
             'type' => ['required', 'in:sale,purchase'], 'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'photo_webp' => ['nullable', 'string', 'max:7000000'], 'entry_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today', 'before_or_equal:today'],
+            'photo_webp' => ['nullable', 'string', 'max:8000000'], 'entry_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today', 'before_or_equal:today'],
         ]);
         $party = DB::table('parties')->where('id', $data['party_id'])->value('name');
         $photoPath = $entry->photo_path;
@@ -129,12 +129,27 @@ class GateController
 
     private function storeBrowserWebp(string $encodedImage): string
     {
-        if (! str_starts_with($encodedImage, 'data:image/webp;base64,')) {
+        if (! preg_match('/^data:image\/(webp|png|jpeg);base64,/', $encodedImage, $matches)) {
             throw ValidationException::withMessages(['photo' => 'Photo compression failed. Please select the photo again.']);
         }
-        $contents = base64_decode(substr($encodedImage, strlen('data:image/webp;base64,')), true);
+        $contents = base64_decode(substr($encodedImage, strpos($encodedImage, ',') + 1), true);
         if ($contents === false || strlen($contents) === 0 || strlen($contents) > 5 * 1024 * 1024) {
             throw ValidationException::withMessages(['photo' => 'Compressed photo is invalid or exceeds 5 MB.']);
+        }
+        $imageInfo = @getimagesizefromstring($contents);
+        if (! $imageInfo || ! in_array($imageInfo['mime'] ?? '', ['image/webp', 'image/png', 'image/jpeg'], true)) {
+            throw ValidationException::withMessages(['photo' => 'The captured file is not a valid image. Please capture it again.']);
+        }
+        if ($matches[1] !== 'webp') {
+            if (! function_exists('imagewebp')) {
+                throw ValidationException::withMessages(['photo' => 'This device could not create WebP. Please choose a JPG or PNG photo and try again.']);
+            }
+            $source = @imagecreatefromstring($contents);
+            if (! $source) throw ValidationException::withMessages(['photo' => 'This captured image could not be processed. Please capture it again.']);
+            ob_start();
+            imagewebp($source, null, 78);
+            $contents = ob_get_clean();
+            imagedestroy($source);
         }
         $path = 'gate-entries/'.now()->format('Y/m').'/'.uniqid('gate_', true).'.webp';
         Storage::disk('public')->put($path, $contents);

@@ -12,13 +12,43 @@ use Illuminate\View\View;
 
 class WorkspaceController
 {
-    public const LABELS = ['purchase' => 'Receive Stock (Purchase)', 'sale' => 'Dispatch Stock (Sale)', 'inventory' => 'Inventory', 'purchase-orders' => 'Purchase Orders', 'sale-orders' => 'Sale Orders'];
+    public const LABELS = ['purchase' => 'Receive Stock (Purchase)', 'sale' => 'Dispatch Stock (Sale)', 'inventory' => 'Inventory', 'purchase-orders' => 'Purchase Orders', 'sale-orders' => 'Orders'];
 
     private function money(string|int|float $value): int
     {
         [$whole,$fraction] = array_pad(explode('.', (string) $value, 2), 2, '');
 
         return (int) $whole * 100 + (int) str_pad($fraction, 2, '0');
+    }
+
+    /** Allocate one voucher serial for the current calendar day. */
+    private function nextDailyVoucherNumber(): int
+    {
+        $sequenceDate = now()->toDateString();
+        $timestamp = now();
+
+        // The date is the primary key: at midnight a fresh row is created and
+        // serial numbering starts again from 1. The row lock keeps parallel
+        // voucher saves from receiving the same number.
+        DB::table('daily_voucher_sequences')->insertOrIgnore([
+            'sequence_date' => $sequenceDate,
+            'last_number' => 0,
+            'created_at' => $timestamp,
+            'updated_at' => $timestamp,
+        ]);
+
+        $lastNumber = (int) DB::table('daily_voucher_sequences')
+            ->where('sequence_date', $sequenceDate)
+            ->lockForUpdate()
+            ->value('last_number');
+        $nextNumber = $lastNumber + 1;
+
+        DB::table('daily_voucher_sequences')->where('sequence_date', $sequenceDate)->update([
+            'last_number' => $nextNumber,
+            'updated_at' => $timestamp,
+        ]);
+
+        return $nextNumber;
     }
 
     public function home(): View
@@ -53,14 +83,44 @@ class WorkspaceController
                 $q->where($module === 'inventory' ? 'name' : 'party', 'like', '%'.$search.'%')->orWhere($module === 'inventory' ? 'sku' : 'reference', 'like', '%'.$search.'%');
             });
         }
-        $rows = $query->orderByDesc('id')->paginate(15)->withQueryString();
+        if (in_array($module, ['purchase', 'sale'], true)) {
+            // A voucher can contain several material lines. Keep those lines together in
+            // the register so one saved purchase/sale is shown as one stock entry.
+            $voucherKey = "COALESCE(NULLIF(voucher_reference, ''), reference)";
+            $rows = $query->selectRaw(
+                $voucherKey.' as voucher_key, MIN(id) as id, MAX(id) as latest_id, MAX(reference) as reference, '
+                .'MAX(voucher_reference) as voucher_reference, MAX(party) as party, MAX(date) as date, '
+                .'SUM(quantity) as quantity, SUM(total_cents) as total_cents, MAX(labour_cents) as labour_cents, '
+                .'MAX(discount_cents) as discount_cents, MAX(commission_cents) as commission_cents, '
+                .'MAX(freight_cents) as freight_cents, MAX(other_charges_cents) as other_charges_cents, '
+                .'MAX(gst_percent) as gst_percent, MAX(status) as status, COUNT(*) as line_count'
+            )->groupByRaw($voucherKey)->orderByDesc('latest_id')->paginate(15)->withQueryString();
+        } else {
+            $rows = $query->orderByDesc('id')->paginate(15)->withQueryString();
+        }
         $products = DB::table('products')->orderBy('name')->get();
         $saudas = collect();
         if (in_array($module, ['purchase', 'sale'], true)) {
-            $saudas = DB::table('saudas as s')->join('parties as pa', 's.party_id', '=', 'pa.id')->join('products as p', 's.product_id', '=', 'p.id')
+            $saudaLines = DB::table('saudas as s')->join('parties as pa', 's.party_id', '=', 'pa.id')->join('products as p', 's.product_id', '=', 'p.id')
                 ->where('s.type', $module)->whereIn('s.status', ['Open', 'Partial'])
                 ->select('s.*', 'pa.name as party_name', 'p.group_name', 'p.stock as product_stock', 'p.unit')
                 ->orderByDesc('s.date')->get();
+            // A direct Sale with multiple product lines creates its Sauda lines in the
+            // same second. Present that one saved sale as a single pending entry.
+            $saudas = $module === 'sale'
+                ? $saudaLines->groupBy(fn ($line) => $line->order_id ? 'order-'.$line->order_id : $line->party_id.'|'.$line->date.'|'.$line->created_at)
+                    ->map(function ($lines) {
+                        $sale = $lines->first();
+                        $sale->quantity = $lines->sum('quantity');
+                        $sale->fulfilled_quantity = $lines->sum('fulfilled_quantity');
+                        $sale->line_count = $lines->count();
+                        $sale->line_ids = $lines->pluck('id')->map(fn ($id) => (int) $id)->values()->all();
+                        $sale->group_name = $lines->pluck('group_name')->unique()->implode(', ');
+                        $sale->status = $lines->contains(fn ($line) => $line->status === 'Partial') ? 'Partial' : 'Open';
+
+                        return $sale;
+                    })->values()
+                : $saudaLines;
         }
 
         return view('module', compact('module', 'title', 'rows', 'products', 'saudas', 'search'));
@@ -118,8 +178,14 @@ class WorkspaceController
         $groups = DB::table('group_heads')->orderBy('name')->get();
         $parties = DB::table('parties')->orderBy('name')->get();
         $title = $module === 'purchase' ? 'Receive Stock' : 'Sale Stock';
+        $initialSaudaIds = collect(explode(',', (string) $request->query('sauda_ids', '')))
+            ->filter(fn ($id) => ctype_digit($id))->map(fn ($id) => (int) $id)->unique()->values();
+        $initialBundle = $initialSaudaIds->isEmpty()
+            ? collect()
+            : $saudas->whereIn('id', $initialSaudaIds)->values();
+        abort_if($initialSaudaIds->isNotEmpty() && ($module !== 'sale' || $initialBundle->count() !== $initialSaudaIds->count()), 404);
 
-        return view('stock-entry-form', compact('module', 'title', 'saudas', 'products', 'parties', 'groups'));
+        return view('stock-entry-form', compact('module', 'title', 'saudas', 'products', 'parties', 'groups', 'initialSaudaIds', 'initialBundle'));
     }
 
     public function printRecord(string $module, int $id): View
@@ -149,11 +215,14 @@ class WorkspaceController
     {
         $record = DB::table('records')->where('id', $id)->where('type', $module)->first();
         abort_unless($record, 404);
+        $rateRules = $module === 'purchase'
+            ? ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000']
+            : ['required', 'numeric', 'decimal:0,2', 'min:0.01', 'max:10000000'];
         $data = $request->validate([
             'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
             'goods_number' => ['nullable', 'string', 'max:60'],
             'quantity' => ['required', 'numeric', 'decimal:0,3', 'min:0.001', 'max:1000000'],
-            'rate' => ['required', 'numeric', 'decimal:0,2', 'min:0.01', 'max:10000000'],
+            'rate' => $rateRules,
         ]);
         $data['goods_number'] = filled($data['goods_number'] ?? null) ? mb_strtoupper(trim($data['goods_number'])) : null;
         DB::transaction(function () use ($record, $data, $module): void {
@@ -164,7 +233,8 @@ class WorkspaceController
             $stockAfter = $module === 'purchase' ? (float)$product->stock - $oldQuantity + $newQuantity : (float)$product->stock + $oldQuantity - $newQuantity;
             if ($stockAfter < -0.0001) throw ValidationException::withMessages(['quantity' => 'Quantity cannot be increased because stock would become negative.']);
             if ($record->sauda_id) $this->adjustSaudaFulfilment((int)$record->sauda_id, $newQuantity - $oldQuantity);
-            $price = $this->money($data['rate']);
+            // A blank optional Purchase rate leaves its already-recorded rate unchanged.
+            $price = $this->money($data['rate'] ?? ($record->unit_price_cents / 100));
             DB::table('products')->where('id', $product->id)->update(['stock' => max(0, $stockAfter), 'cost_cents' => $module === 'purchase' ? $price : $product->cost_cents, 'updated_at' => now()]);
             DB::table('records')->where('id', $record->id)->update(['date' => $data['date'], 'goods_number' => $data['goods_number'], 'quantity' => $newQuantity, 'unit_price_cents' => $price, 'total_cents' => (int)round($price * $newQuantity), 'updated_at' => now()]);
         });
@@ -278,6 +348,31 @@ class WorkspaceController
         return redirect()->route('inventory.index')->with('success', 'Unused product deleted.');
     }
 
+    public function stockItems(Request $request): View
+    {
+        $searchInput = $request->query('q', '');
+        $groupInput = $request->query('group', '');
+        $search = is_string($searchInput) ? mb_substr(trim($searchInput), 0, 120) : '';
+        $group = is_string($groupInput) ? mb_substr(trim($groupInput), 0, 80) : '';
+
+        $query = DB::table('products');
+        if ($search !== '') {
+            $query->where(function ($builder) use ($search): void {
+                $builder->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('sku', 'like', '%'.$search.'%')
+                    ->orWhere('group_name', 'like', '%'.$search.'%');
+            });
+        }
+        if ($group !== '') {
+            $query->where('group_name', $group);
+        }
+
+        $products = $query->orderBy('group_name')->orderBy('name')->paginate(20)->withQueryString();
+        $groups = DB::table('products')->select('group_name')->distinct()->orderBy('group_name')->pluck('group_name');
+
+        return view('products.size-rates-list', compact('products', 'groups', 'search', 'group'));
+    }
+
     public function sizeRates(Request $request): View
     {
         $products = DB::table('products')->orderBy('group_name')->orderBy('name')->get();
@@ -341,9 +436,13 @@ class WorkspaceController
 
     public function storeRecord(Request $request, string $module): RedirectResponse
     {
+        $rateRules = $module === 'purchase'
+            ? ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000']
+            : ['required', 'numeric', 'decimal:0,2', 'min:0.01', 'max:10000000'];
         $data = $request->validate([
             'sauda_id' => ['nullable', 'integer', Rule::exists('saudas', 'id')->where('type', $module)],
-            'party_id' => ['required_without:sauda_id', 'nullable', 'integer', 'exists:parties,id'],
+            'sauda_ids' => ['nullable', 'string', 'max:1000'],
+            'party_id' => ['required_without_all:sauda_id,sauda_ids', 'nullable', 'integer', 'exists:parties,id'],
             'goods_number' => ['nullable', 'string', 'max:60'],
             'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
             'items' => ['required', 'array', 'min:1', 'max:40'],
@@ -351,7 +450,7 @@ class WorkspaceController
             'items.*.product_id' => ['required', 'integer', 'exists:products,id'],
             'items.*.difference' => ['required', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000'],
             'items.*.base_rate' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000'],
-            'items.*.rate' => ['required', 'numeric', 'decimal:0,2', 'min:0.01', 'max:10000000'],
+            'items.*.rate' => $rateRules,
             'items.*.quantity' => ['required', 'numeric', 'decimal:0,3', 'min:0.001', 'max:1000000'],
             'labour' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000'],
             'discount' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000'],
@@ -360,13 +459,18 @@ class WorkspaceController
             'other_charges' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:10000000'],
             'gst_percent' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:100'],
         ]);
+        $bundleSaudaIds = collect(explode(',', (string) ($data['sauda_ids'] ?? '')))
+            ->filter(fn ($id) => ctype_digit($id))->map(fn ($id) => (int) $id)->unique()->values();
+        if (filled($data['sauda_ids'] ?? null) && $bundleSaudaIds->isEmpty()) {
+            throw ValidationException::withMessages(['sauda_ids' => 'The selected Sale bundle is invalid. Please reopen it and try again.']);
+        }
         // Keep vehicle/challan references consistent in registers and printouts.
         $data['goods_number'] = filled($data['goods_number'] ?? null)
             ? mb_strtoupper(trim($data['goods_number']))
             : null;
         $productIds = collect($data['items'])->pluck('product_id');
         if ($productIds->count() !== $productIds->unique()->count()) throw ValidationException::withMessages(['items' => 'Add each product only once in a voucher. Change its quantity instead.']);
-        if ($module === 'sale' && empty($data['sauda_id'])) {
+        if ($module === 'sale' && empty($data['sauda_id']) && $bundleSaudaIds->isEmpty()) {
             DB::transaction(function () use ($data): void {
                 foreach ($data['items'] as $item) {
                     $duplicate = DB::table('saudas')->where('type', 'sale')->where('party_id', $data['party_id'])
@@ -383,18 +487,35 @@ class WorkspaceController
             return redirect()->route('module', 'sale')->with('success', 'Sale punched successfully. Each product is pending dispatch; stock will reduce only when you dispatch against it.');
         }
         $recordId = null;
-        DB::transaction(function () use ($data, $module, &$recordId) {
+        DB::transaction(function () use ($data, $module, $bundleSaudaIds, &$recordId) {
             $sauda = !empty($data['sauda_id']) ? DB::table('saudas')->where('id', $data['sauda_id'])->lockForUpdate()->first() : null;
+            $bundleSaudas = $bundleSaudaIds->isEmpty()
+                ? collect()
+                : DB::table('saudas')->whereIn('id', $bundleSaudaIds)->where('type', $module)->lockForUpdate()->get();
+            if ($bundleSaudaIds->isNotEmpty() && $bundleSaudas->count() !== $bundleSaudaIds->count()) {
+                throw ValidationException::withMessages(['sauda_ids' => 'One or more selected Sale lines are no longer available.']);
+            }
+            $bundleByProduct = $bundleSaudas->keyBy('product_id');
+            if ($bundleSaudaIds->isNotEmpty()) {
+                if ($bundleSaudas->pluck('party_id')->unique()->count() !== 1) {
+                    throw ValidationException::withMessages(['sauda_ids' => 'All bundled Sale lines must belong to the same customer.']);
+                }
+                if (collect($data['items'])->pluck('product_id')->diff($bundleByProduct->keys())->isNotEmpty()) {
+                    throw ValidationException::withMessages(['items' => 'Each dispatched product must belong to the selected Sale bundle.']);
+                }
+            }
             if ($sauda) {
                 $remaining = (float) $sauda->quantity - (float) $sauda->fulfilled_quantity;
                 $saudaProduct = DB::table('products')->where('id', $sauda->product_id)->first();
                 if (! $saudaProduct || ! in_array($sauda->status, ['Open', 'Partial'], true)) throw ValidationException::withMessages(['sauda_id' => 'This Sauda is no longer available.']);
                 if (collect($data['items'])->sum('quantity') > $remaining + 0.0001) throw ValidationException::withMessages(['items' => 'Total quantity exceeds the selected Sauda balance.']);
             }
-            $partyId = $sauda?->party_id ?? $data['party_id'];
+            $partyId = $sauda?->party_id ?? ($bundleSaudas->first()?->party_id ?? ($data['party_id'] ?? null));
             $party = DB::table('parties')->where('id', $partyId)->value('name');
+            if (! $party) throw ValidationException::withMessages(['party_id' => 'Please select a valid customer.']);
             $prefix = $module === 'purchase' ? 'PUR' : 'DSP';
             $voucherReference = $prefix.'V-'.Str::upper(Str::random(10));
+            $voucherNumber = $this->nextDailyVoucherNumber();
             $totalWeight = (float) collect($data['items'])->sum('quantity');
             $labour = $this->money(((float) ($data['labour'] ?? 0)) * $totalWeight);
             $discount = $this->money($data['discount'] ?? 0);
@@ -405,7 +526,14 @@ class WorkspaceController
             $isFirstLine = true;
             foreach ($data['items'] as $item) {
                 $product = DB::table('products')->where('id', $item['product_id'])->lockForUpdate()->first();
+                $linkedSauda = $sauda ?? $bundleByProduct->get($product->id);
                 if ($sauda && mb_strtolower($product->group_name) !== mb_strtolower($saudaProduct->group_name)) throw ValidationException::withMessages(['items' => 'All items for a selected Sauda must belong to its Group Head.']);
+                if ($linkedSauda) {
+                    $lineRemaining = (float) $linkedSauda->quantity - (float) $linkedSauda->fulfilled_quantity;
+                    if (! in_array($linkedSauda->status, ['Open', 'Partial'], true) || (float) $item['quantity'] > $lineRemaining + 0.0001) {
+                        throw ValidationException::withMessages(['items' => 'One or more quantities exceed the selected Sale balance.']);
+                    }
+                }
                 if ($module === 'sale' && $product->stock < $item['quantity']) throw ValidationException::withMessages(['items' => 'Insufficient stock for '.$product->name.'. Available: '.$product->stock.' '.$product->unit.'.']);
                 $baseRate = filled($item['base_rate'] ?? null) ? $this->money($item['base_rate']) : (int) $product->purchase_rate_cents;
                 $difference = $this->money($item['difference']);
@@ -413,11 +541,18 @@ class WorkspaceController
                 if ($module === 'sale') DB::table('products')->where('id', $product->id)->decrement('stock', $item['quantity']);
                 if ($module === 'purchase') { $newStock = $product->stock + $item['quantity']; $cost = (int) round(($product->stock * $product->cost_cents + $item['quantity'] * $price) / $newStock); DB::table('products')->where('id', $product->id)->update(['stock' => $newStock, 'cost_cents' => $cost, 'updated_at' => now()]); }
                 $groupHeadId = DB::table('group_heads')->where('name', $product->group_name)->value('id');
-                $newRecordId = DB::table('records')->insertGetId(['reference' => $prefix.'-'.Str::upper(Str::random(10)), 'voucher_reference' => $voucherReference, 'type' => $module, 'group_head_id' => $groupHeadId, 'party_id' => $partyId, 'sauda_id' => $sauda?->id, 'party' => $party, 'product_id' => $product->id, 'goods_number' => $data['goods_number'], 'quantity' => $item['quantity'], 'base_rate_cents' => $baseRate, 'difference_cents' => $difference, 'unit_price_cents' => $price, 'total_cents' => (int) round($price * (float) $item['quantity']), 'date' => $data['date'], 'gst_percent' => $gstPercent, 'labour_cents' => $isFirstLine ? $labour : 0, 'discount_cents' => $isFirstLine ? $discount : 0, 'commission_cents' => $isFirstLine ? $commission : 0, 'freight_cents' => $isFirstLine ? $freight : 0, 'other_charges_cents' => $isFirstLine ? $others : 0, 'status' => $module === 'sale' ? 'Dispatched' : 'Received', 'created_at' => now(), 'updated_at' => now()]);
+                $newRecordId = DB::table('records')->insertGetId(['reference' => $prefix.'-'.Str::upper(Str::random(10)), 'voucher_reference' => $voucherReference, 'voucher_number' => $voucherNumber, 'type' => $module, 'group_head_id' => $groupHeadId, 'party_id' => $partyId, 'sauda_id' => $linkedSauda?->id, 'party' => $party, 'product_id' => $product->id, 'goods_number' => $data['goods_number'], 'quantity' => $item['quantity'], 'base_rate_cents' => $baseRate, 'difference_cents' => $difference, 'unit_price_cents' => $price, 'total_cents' => (int) round($price * (float) $item['quantity']), 'date' => $data['date'], 'gst_percent' => $gstPercent, 'labour_cents' => $isFirstLine ? $labour : 0, 'discount_cents' => $isFirstLine ? $discount : 0, 'commission_cents' => $isFirstLine ? $commission : 0, 'freight_cents' => $isFirstLine ? $freight : 0, 'other_charges_cents' => $isFirstLine ? $others : 0, 'status' => $module === 'sale' ? 'Dispatched' : 'Received', 'created_at' => now(), 'updated_at' => now()]);
                 $recordId ??= $newRecordId;
                 $isFirstLine = false;
             }
             if ($sauda) { $fulfilled = (float) $sauda->fulfilled_quantity + (float) collect($data['items'])->sum('quantity'); DB::table('saudas')->where('id', $sauda->id)->update(['fulfilled_quantity' => $fulfilled, 'status' => $fulfilled + 0.0001 >= (float) $sauda->quantity ? 'Completed' : 'Partial', 'updated_at' => now()]); }
+            foreach ($bundleSaudas as $bundleSauda) {
+                $bundleItem = collect($data['items'])->firstWhere('product_id', $bundleSauda->product_id);
+                if (! $bundleItem) continue;
+                $quantity = (float) $bundleItem['quantity'];
+                $fulfilled = (float) $bundleSauda->fulfilled_quantity + $quantity;
+                DB::table('saudas')->where('id', $bundleSauda->id)->update(['fulfilled_quantity' => $fulfilled, 'status' => $fulfilled + 0.0001 >= (float) $bundleSauda->quantity ? 'Completed' : 'Partial', 'updated_at' => now()]);
+            }
         });
 
         return redirect('/'.$module)->with('success', $module === 'sale' ? 'Sale dispatched and inventory reduced.' : 'Purchase received and inventory increased.')->with('print_url', route('records.print', [$module, $recordId]));

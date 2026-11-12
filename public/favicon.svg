@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 64 64"
+   role="img"
+   aria-label="Logic Integratorz"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="favicon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <defs
+     id="defs3">
+    <linearGradient
+       id="gold"
+       x1="7"
+       y1="6"
+       x2="57"
+       y2="59"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#7a3d12"
+         id="stop1" />
+      <stop
+         offset=".48"
+         stop-color="#d7a366"
+         id="stop2" />
+      <stop
+         offset="1"
+         stop-color="#5b2a0d"
+         id="stop3" />
+    </linearGradient>
+  </defs>
+  <rect
+     width="64"
+     height="64"
+     rx="14"
+     fill="url(#gold)"
+     id="rect3" />
+  <path
+     fill="#fff"
+     d="M13 12h15c10 0 17 7 17 17v23H32V29c0-4-2-6-6-6h-4v29H13V12Zm9 11v18h4c4 0 6-2 6-6V23h-10Z"
+     id="path3" />
+  <circle
+     cx="49"
+     cy="17"
+     r="5"
+     fill="#fff"
+     id="circle3" />
+</svg>

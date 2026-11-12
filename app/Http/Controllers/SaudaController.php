@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -29,11 +30,48 @@ class SaudaController
             $query->where(fn ($builder) => $builder->where('s.reference', 'like', '%'.$search.'%')->orWhere('pa.name', 'like', '%'.$search.'%')->orWhere('p.group_name', 'like', '%'.$search.'%'));
         }
 
-        $saudas = $query->orderByDesc('s.date')->orderByDesc('s.id')->paginate(20)->withQueryString();
+        $allSaudas = $query->orderByDesc('s.date')->orderByDesc('s.id')->get();
+        // A direct Sale can contain several product lines. Those lines are created
+        // together and must be displayed as one Sale in the register.
+        $displaySaudas = $allSaudas->groupBy(function ($sauda) {
+            return $sauda->type === 'sale'
+                ? ($sauda->order_id ? 'order-'.$sauda->order_id : 'sale-'.$sauda->party_id.'-'.$sauda->date.'-'.$sauda->created_at)
+                : 'single-'.$sauda->id;
+        })->map(function ($lines) {
+            $sauda = $lines->first();
+            $sauda->line_count = $lines->count();
+            $sauda->line_ids = $lines->pluck('id')->map(fn ($id) => (int) $id)->values()->all();
+            if ($sauda->type === 'sale' && $lines->count() > 1) {
+                $sauda->quantity = $lines->sum('quantity');
+                $sauda->fulfilled_quantity = $lines->sum('fulfilled_quantity');
+                $sauda->group_head_name = $lines->pluck('group_head_name')->unique()->implode(', ');
+                $sauda->rate_cents = null;
+                $sauda->status = $lines->contains(fn ($line) => $line->status === 'Partial') ? 'Partial' : ($lines->every(fn ($line) => $line->status === 'Completed') ? 'Completed' : 'Open');
+            }
+
+            return $sauda;
+        })->values();
+        $perPage = 20;
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $saudas = new LengthAwarePaginator(
+            $displaySaudas->forPage($page, $perPage)->values(),
+            $displaySaudas->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
         $pendingTotals = DB::table('saudas')
             ->whereIn('status', ['Open', 'Partial'])
             ->selectRaw("type, COUNT(*) as count, COALESCE(SUM(quantity - fulfilled_quantity), 0) as balance")
             ->groupBy('type')->get()->keyBy('type');
+        $pendingSaleLines = DB::table('saudas')
+            ->where('type', 'sale')->whereIn('status', ['Open', 'Partial'])
+            ->get(['party_id', 'date', 'created_at', 'quantity', 'fulfilled_quantity']);
+        $pendingSaleDeals = $pendingSaleLines->groupBy(fn ($sauda) => $sauda->order_id ? 'order-'.$sauda->order_id : $sauda->party_id.'|'.$sauda->date.'|'.$sauda->created_at);
+        $pendingTotals->put('sale', (object) [
+            'count' => $pendingSaleDeals->count(),
+            'balance' => $pendingSaleDeals->sum(fn ($lines) => $lines->sum('quantity') - $lines->sum('fulfilled_quantity')),
+        ]);
 
         return view('saudas.index', compact('saudas', 'type', 'status', 'search', 'pendingTotals'));
     }
@@ -111,6 +149,45 @@ class SaudaController
         return redirect()->route('saudas.index')->with('success', 'Unused Sauda deleted.');
     }
 
+    /** Display every product line that belongs to a consolidated pending Sale entry. */
+    public function showBundle(Request $request): View
+    {
+        $ids = $this->bundleIds($request);
+        $saudas = DB::table('saudas as s')
+            ->join('parties as pa', 's.party_id', '=', 'pa.id')
+            ->join('products as p', 's.product_id', '=', 'p.id')
+            ->whereIn('s.id', $ids)
+            ->select('s.*', 'pa.name as party_name', 'p.name as product_name', 'p.group_name as group_head_name', 'p.unit')
+            ->orderBy('s.id')
+            ->get();
+
+        abort_unless($saudas->count() === $ids->count(), 404);
+
+        return view('saudas.bundle', [
+            'saudas' => $saudas,
+            'ids' => $ids->implode(','),
+            'isSaleBundle' => $saudas->every(fn ($sauda) => $sauda->type === 'sale'),
+        ]);
+    }
+
+    /** Delete all unused product lines in a consolidated pending Sale entry. */
+    public function destroyBundle(Request $request): RedirectResponse
+    {
+        $ids = $this->bundleIds($request);
+        $saudas = DB::table('saudas')->whereIn('id', $ids)->get(['id', 'fulfilled_quantity']);
+        abort_unless($saudas->count() === $ids->count(), 404);
+
+        $hasTransactions = DB::table('records')->whereIn('sauda_id', $ids)->exists();
+        $hasUsedLines = $saudas->contains(fn ($sauda) => (float) $sauda->fulfilled_quantity > 0);
+        if ($hasTransactions || $hasUsedLines) {
+            throw ValidationException::withMessages(['sauda' => 'This entry has dispatched/received quantity and cannot be deleted as a bundle. Delete is available only for fully unused lines.']);
+        }
+
+        DB::table('saudas')->whereIn('id', $ids)->delete();
+
+        return redirect()->route('module', 'sale')->with('success', 'All unused product lines in the pending Sale entry were deleted.');
+    }
+
     private function formView(?object $sauda = null): View
     {
         $parties = DB::table('parties')->orderBy('name')->get();
@@ -122,6 +199,19 @@ class SaudaController
         }
 
         return view('saudas.form', compact('sauda', 'parties', 'groupHeads', 'selectedGroupHeadId'));
+    }
+
+    /** @return \Illuminate\Support\Collection<int, int> */
+    private function bundleIds(Request $request)
+    {
+        $rawIds = (string) $request->input('ids', '');
+        $parts = array_filter(explode(',', $rawIds), fn ($value) => $value !== '');
+        abort_if($parts === [] || count($parts) > 100 || collect($parts)->contains(fn ($id) => ! ctype_digit($id)), 404);
+
+        $ids = collect($parts)->map(fn ($id) => (int) $id)->unique()->values();
+        abort_if($ids->count() !== count($parts), 404);
+
+        return $ids;
     }
 
     /** @return array{type:string,party_id:int,product_id:int,quantity:string,rate:string,date:string} */

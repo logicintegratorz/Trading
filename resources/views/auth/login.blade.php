@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign in · Tradeflow</title>
+    <title>Sign in · Azad Pipes</title>
+    <link rel="icon" type="image/png" href="/favicon.png?v=1">
     <link rel="stylesheet" href="/app.css">
-    <link rel="stylesheet" href="/auth.css?v=1">
+    <link rel="stylesheet" href="/auth.css?v=2">
 </head>
 <body class="auth-page">
 <main class="auth-main">
     <section class="auth-card" aria-labelledby="login-title">
-        <a class="brand" href="{{ route('login') }}"><span class="brandmark">▥</span>tradeflow<span class="brand-dot">.</span></a>
+        <a class="brand" href="{{ route('login') }}"><span class="brandmark">▥</span>Azad Pipes</a>
         <p class="eyebrow">SECURE TRADING WORKSPACE</p>
         <h1 id="login-title">Welcome back<span class="accent">.</span></h1>
         <p class="auth-copy">Sign in to manage inventory, Sauda, stock and order documents.</p>
@@ -27,6 +28,7 @@
         </form>
         <p class="auth-security-note">Protected with encrypted sessions, inactivity timeout and daily midnight sign-out.</p>
     </section>
+    <p class="auth-credit">Managed &amp; crafted with care by <strong>Logic Integratorz</strong></p>
 </main>
 </body>
 </html>
