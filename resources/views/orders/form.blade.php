@@ -21,7 +21,7 @@
         <label><span>Goods / Vehicle No. <small>(optional)</small></span><input name="goods_number" maxlength="60" value="{{ old('goods_number', $order?->goods_number) }}" placeholder="Vehicle or challan no., e.g. PB10CQ3051"><small>Use delivery challan, truck/vehicle number, or your internal goods reference.</small></label>
         <label><span>Voucher Date <b>*</b></span><input required name="date" type="date" value="{{ old('date', $order ? date('Y-m-d', strtotime($order->date)) : today()->toDateString()) }}"></label>
     </div>
-    <div class="order-lines-heading"><div><h2>Material details</h2><p>KG is automatically read from the last number in the product name: 1x1x10 = 10 KG. Pcs = Quantity (kg) ÷ KG; Bundles = Pcs ÷ 52.</p></div><button class="button" type="button" data-add-order-item>＋ Add Line</button></div>
+    <div class="order-lines-heading"><div><h2>Material details</h2><p>KG shows the last value in the product name: 12x15x20 = 20 KG. Pcs uses the per-piece Product Weight saved in Inventory: (Total Qty in Ton × 1000) ÷ Inventory Weight. Bundles = (Total Qty in Ton × 1000) ÷ 52.</p></div><button class="button" type="button" data-add-order-item>＋ Add Line</button></div>
     <div class="order-lines" data-order-items>
         @foreach($formItems as $index => $item)
         @include('orders.item-row', ['index' => $index, 'item' => $item])

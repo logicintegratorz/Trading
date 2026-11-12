@@ -354,12 +354,13 @@ if (orderForm) {
     const updateTotal = () => {
         rows.querySelectorAll('[data-order-row]').forEach(row => {
             const quantity = Number.parseFloat(row.querySelector('[data-item-quantity]')?.value) || 0;
-            const weight = Number.parseFloat(row.querySelector('[data-item-weight]')?.value) || 0;
-            if (weight > 0) {
-                const pieces = Math.round(quantity * 1000 / weight);
-                row.querySelector('[data-item-pieces]').value = pieces;
-                row.querySelector('[data-item-bundles]').value = Math.ceil(pieces / 52);
+            const selectedProduct = row.querySelector('[data-product-select] option:checked');
+            const pieceWeight = Number.parseFloat(selectedProduct?.dataset.weight)
+                || Number.parseFloat(row.querySelector('[data-item-weight]')?.value) || 0;
+            if (pieceWeight > 0) {
+                row.querySelector('[data-item-pieces]').value = ((quantity * 1000) / pieceWeight).toFixed(3);
             }
+            row.querySelector('[data-item-bundles]').value = ((quantity * 1000) / 52).toFixed(3);
         });
     };
     const renumber = () => rows.querySelectorAll('[data-order-row]').forEach((row, index) => { row.querySelector('.line-number').textContent = index + 1; });
@@ -369,8 +370,8 @@ if (orderForm) {
             const option = event.target.options[event.target.selectedIndex];
             if (!option?.value) return;
             row.querySelector('[data-item-description]').value = option.dataset.name || '';
-            const numbers = (option.dataset.name || '').match(/\d+(?:\.\d+)?/g);
-            row.querySelector('[data-item-weight]').value = numbers?.at(-1) || '';
+            const values = (option.dataset.name || '').match(/\d+(?:\.\d+)?/g);
+            row.querySelector('[data-item-weight]').value = values?.at(-1) || '';
             updateTotal();
         });
         row.querySelector('[data-remove-order-item]')?.addEventListener('click', () => {

@@ -50,8 +50,8 @@ class OrderController extends Controller
                 'items.*.difference' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:100000000'],
                 'items.*.base_rate' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:100000000'],
                 'items.*.quantity' => ['required', 'numeric', 'decimal:0,3', 'min:0.001', 'max:1000000'],
-                'items.*.pieces' => ['nullable', 'integer', 'min:0', 'max:100000000'],
-                'items.*.bundles' => ['nullable', 'integer', 'min:0', 'max:100000000'],
+                'items.*.pieces' => ['nullable', 'numeric', 'decimal:0,3', 'min:0', 'max:100000000'],
+                'items.*.bundles' => ['nullable', 'numeric', 'decimal:0,3', 'min:0', 'max:100000000'],
                 'items.*.rate' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:100000000'],
             ];
         } else {
@@ -149,17 +149,21 @@ class OrderController extends Controller
             $basicRate = $this->money($data['basic_rate'] ?? 0);
             $items = collect($rawItems)->map(function (array $item) use ($basicRate): array {
                 $product = ! empty($item['product_id'])
-                    ? DB::table('products')->where('id', $item['product_id'])->select('name', 'sale_rate_cents')->first()
+                    ? DB::table('products')->where('id', $item['product_id'])->select('name', 'weight', 'sale_rate_cents')->first()
                     : null;
-                preg_match_all('/\d+(?:\.\d+)?/', (string) ($product?->name ?? ''), $matches);
+                // The KG column on the Order Parchi shows the last product-name value
+                // (12x15x20 shows 20). Pcs, however, uses the actual per-piece
+                // Inventory Weight (for example 90 KG) in the calculation.
+                preg_match_all('/\d+(?:\.\d+)?/', (string) ($product?->name ?? $item['description'] ?? ''), $matches);
                 $lastNumber = $matches[0] ? end($matches[0]) : null;
                 $weight = $lastNumber !== null ? (float) $lastNumber : (float) ($item['weight_kg'] ?? 0);
+                $pieceWeight = (float) ($product?->weight ?? $weight);
                 $quantity = (float) $item['quantity'];
                 $lineRate = $this->money($item['rate'] ?? 0);
                 $rate = $basicRate > 0 ? $basicRate : ($lineRate > 0 ? $lineRate : (int) ($product?->sale_rate_cents ?? 0));
-                // Quantity is entered in Ton, so convert to kg before applying the requested formula.
-                $pieces = $weight > 0 ? (int) round(($quantity * 1000) / $weight) : 0;
-                $bundles = $pieces > 0 ? (int) ceil($pieces / 52) : 0;
+                // Quantity is entered in Ton, so convert it to KG first.
+                $pieces = $pieceWeight > 0 ? round(($quantity * 1000) / $pieceWeight, 3) : 0;
+                $bundles = round(($quantity * 1000) / 52, 3);
                 return ['product_id' => $item['product_id'] ?? null, 'description' => trim($item['description']), 'weight_kg' => $weight, 'difference_cents' => 0, 'base_rate_cents' => $basicRate, 'quantity' => $quantity, 'pieces' => $pieces, 'bundles' => $bundles, 'rate_cents' => $rate, 'amount_cents' => (int) round($rate * $quantity)];
             });
             $subtotal = (int) $items->sum('amount_cents');
