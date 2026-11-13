@@ -38,7 +38,7 @@
         <table class="stock-register-table">
             <thead>
                 @if($isOrderModule)
-                    <tr><th>Reference</th><th>{{ $module === 'purchase-orders' ? 'Supplier' : 'Party' }}</th><th>Date</th><th class="numeric">Quantity</th><th class="numeric">Amount</th><th>Status</th></tr>
+                    <tr><th>Reference</th><th>{{ $module === 'purchase-orders' ? 'Supplier' : 'Party' }}</th><th>Date</th><th class="numeric">Quantity</th><th class="numeric">Amount</th><th>Status</th><th>Actions</th></tr>
                 @else
                     <tr><th>Supplier / Party</th><th>Group Head</th><th>Date</th><th class="numeric">Qty / Balance</th><th class="numeric">Rate / Amount</th><th>Status</th><th>Action</th></tr>
                 @endif
@@ -53,9 +53,24 @@
                             <td class="numeric">{{ $row->quantity }} Ton</td>
                             <td class="numeric">₹{{ number_format($row->total_cents / 100, 2) }}</td>
                             <td><span class="status {{ $row->status === 'Open' ? 'amber' : 'green' }}">{{ $row->status }}</span></td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="button" href="{{ route('orders.show', [$module, $row->id]) }}">View</a>
+                                    @if($module === 'purchase-orders' || !($row->has_linked_sauda ?? false))
+                                        <a class="button" href="{{ route('orders.edit', [$module, $row->id]) }}">Edit</a>
+                                        <form method="post" action="{{ route('orders.destroy', [$module, $row->id]) }}" data-confirm-delete>
+                                            @csrf
+                                            @method('delete')
+                                            <button class="button danger" type="submit">Delete</button>
+                                        </form>
+                                    @else
+                                        <small class="locked-action">Linked to Sale</small>
+                                    @endif
+                                </div>
+                            </td>
                         </tr>
                     @empty
-                        <tr><td colspan="6" class="empty">No records found.</td></tr>
+                        <tr><td colspan="7" class="empty">No records found.</td></tr>
                     @endforelse
                 @else
                     @foreach($saudas as $sauda)

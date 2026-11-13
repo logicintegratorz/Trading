@@ -43,6 +43,26 @@ class DispatchController
         return view('dispatch.index', compact('dispatches', 'products', 'totals', 'search', 'from', 'to', 'productId'));
     }
 
+    public function pending(Request $request): View
+    {
+        ['search' => $search, 'from' => $from, 'to' => $to, 'productId' => $productId] = $this->filters($request);
+        $query = DB::table('saudas as s')->join('parties as pa', 's.party_id', '=', 'pa.id')->join('products as p', 's.product_id', '=', 'p.id')
+            ->where('s.type', 'sale')->whereIn('s.status', ['Open', 'Partial'])
+            ->select('s.*', 'pa.name as party_name', 'p.name as product_name', 'p.sku', 'p.unit', 'p.stock as product_stock')
+            ->selectRaw('(s.quantity - s.fulfilled_quantity) as pending_quantity');
+        if ($search !== '') {
+            $query->where(fn ($builder) => $builder->where('s.reference', 'like', '%'.$search.'%')->orWhere('pa.name', 'like', '%'.$search.'%')->orWhere('p.name', 'like', '%'.$search.'%'));
+        }
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $from)) $query->whereDate('s.date', '>=', $from);
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $to)) $query->whereDate('s.date', '<=', $to);
+        if ($productId) $query->where('p.id', $productId);
+        $pending = $query->orderBy('pa.name')->orderBy('s.date')->orderBy('s.id')->paginate(30)->withQueryString();
+        $products = DB::table('products')->orderBy('name')->get();
+        $totals = (object) ['records' => $pending->total(), 'quantity' => $pending->sum('pending_quantity')];
+
+        return view('dispatch.pending', compact('pending', 'products', 'totals', 'search', 'from', 'to', 'productId'));
+    }
+
     public function print(Request $request): View
     {
         ['search' => $search, 'from' => $from, 'to' => $to, 'productId' => $productId] = $this->filters($request);

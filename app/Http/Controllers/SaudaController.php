@@ -19,7 +19,8 @@ class SaudaController
         $status = in_array($request->query('status'), ['Open', 'Partial', 'Completed'], true) ? $request->query('status') : '';
         $search = is_string($request->query('q')) ? mb_substr(trim($request->query('q')), 0, 120) : '';
         $query = DB::table('saudas as s')->join('parties as pa', 's.party_id', '=', 'pa.id')->join('products as p', 's.product_id', '=', 'p.id')
-            ->select('s.*', 'pa.name as party_name', 'p.group_name as group_head_name', 'p.unit');
+            ->select('s.*', 'pa.name as party_name', 'p.group_name as group_head_name', 'p.unit')
+            ->selectRaw("(SELECT v.id FROM sale_voucher_items AS i JOIN sale_vouchers AS v ON v.id = i.sale_voucher_id WHERE i.sauda_id = s.id AND v.status IN ('Draft', 'Approved', 'Partial') ORDER BY v.id DESC LIMIT 1) AS sale_voucher_id");
         if ($type !== '') {
             $query->where('s.type', $type);
         }
@@ -66,7 +67,7 @@ class SaudaController
             ->groupBy('type')->get()->keyBy('type');
         $pendingSaleLines = DB::table('saudas')
             ->where('type', 'sale')->whereIn('status', ['Open', 'Partial'])
-            ->get(['party_id', 'date', 'created_at', 'quantity', 'fulfilled_quantity']);
+            ->get(['order_id', 'party_id', 'date', 'created_at', 'quantity', 'fulfilled_quantity']);
         $pendingSaleDeals = $pendingSaleLines->groupBy(fn ($sauda) => $sauda->order_id ? 'order-'.$sauda->order_id : $sauda->party_id.'|'.$sauda->date.'|'.$sauda->created_at);
         $pendingTotals->put('sale', (object) [
             'count' => $pendingSaleDeals->count(),

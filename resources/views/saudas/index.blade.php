@@ -23,8 +23,16 @@
             <td><span class="status {{ $sauda->status === 'Completed' ? 'green' : 'amber' }}">{{ $sauda->status }}</span></td>
             <td><div class="row-actions">
                 @if($balance > 0)
-                    @if($sauda->type === 'sale' && $lineCount > 1)<a class="button primary" href="{{ route('saudas.bundle.show', ['ids' => $lineIds]) }}" title="View and manage all product lines">👁 View &amp; Manage</a>
-                    @else<a class="button primary" href="{{ route('stock-entry.create', $sauda->type) }}?sauda_id={{ $sauda->id }}">{{ $sauda->type === 'purchase' ? 'Receive' : 'Dispatch' }}</a>@endif
+                    @if($sauda->type === 'sale')
+                        @if($sauda->sale_voucher_id)
+                            <a class="button primary" href="{{ route('sales.show', $sauda->sale_voucher_id) }}">Step 3: Dispatch</a>
+                        @else
+                            <a class="button primary" href="{{ route('sales.create', ['sauda_ids' => $lineCount > 1 ? $lineIds : $sauda->id]) }}">Step 2: Prepare Sale</a>
+                        @endif
+                        @if($lineCount > 1)<a class="button" href="{{ route('saudas.bundle.show', ['ids' => $lineIds]) }}" title="View all product lines">👁 View Lines</a>@endif
+                    @else
+                        <a class="button primary" href="{{ route('stock-entry.create', 'purchase') }}?sauda_id={{ $sauda->id }}">Receive</a>
+                    @endif
                 @endif
                 @if($lineCount === 1 && $sauda->status !== 'Completed')<a class="button" href="{{ route('saudas.edit', $sauda->id) }}">Edit</a>@endif
                 @if($lineCount === 1 && (float)$sauda->fulfilled_quantity === 0.0)<form method="post" action="{{ route('saudas.destroy', $sauda->id) }}" data-confirm-delete>@csrf @method('delete')<button class="button danger" type="submit">Delete</button></form>@elseif($lineCount === 1 && $balance <= 0)<span class="status">Completed</span>@elseif($lineCount === 1)<span class="status">Delete locked</span>@endif

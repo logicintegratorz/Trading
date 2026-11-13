@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -120,7 +121,7 @@ class OrderController extends Controller
         return view('orders.parchi', compact('module', 'title', 'order', 'items'));
     }
 
-    public function edit(string $module, int $id): View
+    public function edit(string $module, int $id): View|RedirectResponse
     {
         $title = $this->title($module); $order = $this->order($module, $id); $items = $this->items($order);
         if ($module === 'sale-orders' && DB::table('saudas')->where('order_id', $id)->exists()) {
@@ -166,6 +167,10 @@ class OrderController extends Controller
                 $bundles = round(($quantity * 1000) / 52, 3);
                 return ['product_id' => $item['product_id'] ?? null, 'description' => trim($item['description']), 'weight_kg' => $weight, 'difference_cents' => 0, 'base_rate_cents' => $basicRate, 'quantity' => $quantity, 'pieces' => $pieces, 'bundles' => $bundles, 'rate_cents' => $rate, 'amount_cents' => (int) round($rate * $quantity)];
             });
+            $productIds = $items->pluck('product_id')->filter();
+            if ($productIds->count() !== $productIds->unique()->count()) {
+                throw ValidationException::withMessages(['items' => 'Each product can be selected only once in an Order.']);
+            }
             $subtotal = (int) $items->sum('amount_cents');
             $labour = $this->money($data['labour'] ?? 0); $discount = $this->money($data['discount'] ?? 0); $commission = $this->money($data['commission'] ?? 0); $freight = $this->money($data['freight'] ?? 0); $others = $this->money($data['other_charges'] ?? 0);
             $taxable = max(0, $subtotal + $labour + $commission + $freight + $others - $discount); $gstPercent = (float) ($data['gst_percent'] ?? 0); $gst = (int) round($taxable * $gstPercent / 100); $total = $taxable + $gst;
@@ -214,6 +219,7 @@ class OrderController extends Controller
                     'date' => $order->date, 'status' => 'Open', 'created_at' => $now, 'updated_at' => $now,
                 ]);
             }
+            DB::table('records')->where('id', $order->id)->update(['status' => 'Sauda Created', 'updated_at' => now()]);
             return DB::table('saudas')->where('order_id', $order->id)->orderBy('id')->pluck('id')->all();
         });
 

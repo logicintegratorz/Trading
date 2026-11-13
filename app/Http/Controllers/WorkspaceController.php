@@ -83,6 +83,9 @@ class WorkspaceController
                 $q->where($module === 'inventory' ? 'name' : 'party', 'like', '%'.$search.'%')->orWhere($module === 'inventory' ? 'sku' : 'reference', 'like', '%'.$search.'%');
             });
         }
+        if ($module === 'sale-orders') {
+            $query->select('records.*')->selectRaw('EXISTS (SELECT 1 FROM saudas WHERE saudas.order_id = records.id) as has_linked_sauda');
+        }
         if (in_array($module, ['purchase', 'sale'], true)) {
             // A voucher can contain several material lines. Keep those lines together in
             // the register so one saved purchase/sale is shown as one stock entry.
@@ -171,6 +174,12 @@ class WorkspaceController
 
     public function createRecord(Request $request, string $module): View
     {
+        $initialSale = null;
+        if ($module === 'sale' && $request->filled('sale_id')) {
+            $initialSale = DB::table('sale_vouchers')->where('id', $request->integer('sale_id'))
+                ->whereIn('status', ['Approved', 'Partial'])->first();
+            abort_unless($initialSale, 404);
+        }
         $saudas = DB::table('saudas as s')->join('parties as pa', 's.party_id', '=', 'pa.id')->join('products as p', 's.product_id', '=', 'p.id')
             ->where('s.type', $module)->whereIn('s.status', ['Open', 'Partial'])
             ->select('s.*', 'pa.name as party_name', 'p.group_name')->orderByDesc('s.date')->orderByDesc('s.id')->get();
@@ -178,14 +187,18 @@ class WorkspaceController
         $groups = DB::table('group_heads')->orderBy('name')->get();
         $parties = DB::table('parties')->orderBy('name')->get();
         $title = $module === 'purchase' ? 'Receive Stock' : 'Sale Stock';
-        $initialSaudaIds = collect(explode(',', (string) $request->query('sauda_ids', '')))
+        $requestedSaudaIds = $request->query('sauda_ids', '');
+        $requestedSaudaIds = is_array($requestedSaudaIds) ? $requestedSaudaIds : explode(',', (string) $requestedSaudaIds);
+        $initialSaudaIds = $initialSale
+            ? DB::table('sale_voucher_items')->where('sale_voucher_id', $initialSale->id)->whereColumn('fulfilled_quantity', '<', 'quantity')->pluck('sauda_id')->map(fn ($id) => (int) $id)->values()
+            : collect($requestedSaudaIds)
             ->filter(fn ($id) => ctype_digit($id))->map(fn ($id) => (int) $id)->unique()->values();
         $initialBundle = $initialSaudaIds->isEmpty()
             ? collect()
             : $saudas->whereIn('id', $initialSaudaIds)->values();
         abort_if($initialSaudaIds->isNotEmpty() && ($module !== 'sale' || $initialBundle->count() !== $initialSaudaIds->count()), 404);
 
-        return view('stock-entry-form', compact('module', 'title', 'saudas', 'products', 'parties', 'groups', 'initialSaudaIds', 'initialBundle'));
+        return view('stock-entry-form', compact('module', 'title', 'saudas', 'products', 'parties', 'groups', 'initialSaudaIds', 'initialBundle', 'initialSale'));
     }
 
     public function printRecord(string $module, int $id): View
@@ -233,6 +246,7 @@ class WorkspaceController
             $stockAfter = $module === 'purchase' ? (float)$product->stock - $oldQuantity + $newQuantity : (float)$product->stock + $oldQuantity - $newQuantity;
             if ($stockAfter < -0.0001) throw ValidationException::withMessages(['quantity' => 'Quantity cannot be increased because stock would become negative.']);
             if ($record->sauda_id) $this->adjustSaudaFulfilment((int)$record->sauda_id, $newQuantity - $oldQuantity);
+            if ($record->sale_voucher_id) $this->adjustSaleVoucherFulfilment((int)$record->sale_voucher_id, (int)$record->sauda_id, $newQuantity - $oldQuantity);
             // A blank optional Purchase rate leaves its already-recorded rate unchanged.
             $price = $this->money($data['rate'] ?? ($record->unit_price_cents / 100));
             DB::table('products')->where('id', $product->id)->update(['stock' => max(0, $stockAfter), 'cost_cents' => $module === 'purchase' ? $price : $product->cost_cents, 'updated_at' => now()]);
@@ -251,6 +265,7 @@ class WorkspaceController
             $stockAfter = $module === 'purchase' ? (float)$product->stock - (float)$record->quantity : (float)$product->stock + (float)$record->quantity;
             if ($stockAfter < -0.0001) throw ValidationException::withMessages(['record' => 'This purchase cannot be deleted because its stock has already been dispatched.']);
             if ($record->sauda_id) $this->adjustSaudaFulfilment((int)$record->sauda_id, -(float)$record->quantity);
+            if ($record->sale_voucher_id) $this->adjustSaleVoucherFulfilment((int)$record->sale_voucher_id, (int)$record->sauda_id, -(float)$record->quantity);
             DB::table('products')->where('id', $product->id)->update(['stock' => max(0, $stockAfter), 'updated_at' => now()]);
             DB::table('records')->where('id', $record->id)->delete();
         });
@@ -265,6 +280,24 @@ class WorkspaceController
         if ($fulfilled > (float)$sauda->quantity + 0.0001) throw ValidationException::withMessages(['quantity' => 'Quantity exceeds the linked Sauda balance.']);
         $status = $fulfilled <= 0.0001 ? 'Open' : ($fulfilled + 0.0001 >= (float)$sauda->quantity ? 'Completed' : 'Partial');
         DB::table('saudas')->where('id', $saudaId)->update(['fulfilled_quantity' => $fulfilled, 'status' => $status, 'updated_at' => now()]);
+    }
+
+    private function adjustSaleVoucherFulfilment(int $saleVoucherId, int $saudaId, float $change): void
+    {
+        $item = DB::table('sale_voucher_items')->where('sale_voucher_id', $saleVoucherId)->where('sauda_id', $saudaId)->lockForUpdate()->first();
+        if (! $item) return;
+        $fulfilled = max(0, (float) $item->fulfilled_quantity + $change);
+        if ($fulfilled > (float) $item->quantity + 0.0001) {
+            throw ValidationException::withMessages(['quantity' => 'Quantity exceeds the approved Sale Voucher balance.']);
+        }
+        DB::table('sale_voucher_items')->where('id', $item->id)->update(['fulfilled_quantity' => $fulfilled, 'updated_at' => now()]);
+        $items = DB::table('sale_voucher_items')->where('sale_voucher_id', $saleVoucherId)->lockForUpdate()->get();
+        $hasUsed = $items->contains(fn ($row) => (float) $row->fulfilled_quantity > 0.0001);
+        $complete = $items->isNotEmpty() && $items->every(fn ($row) => (float) $row->fulfilled_quantity + 0.0001 >= (float) $row->quantity);
+        $status = $complete ? 'Completed' : ($hasUsed ? 'Partial' : 'Approved');
+        DB::table('sale_vouchers')->where('id', $saleVoucherId)->update(['status' => $status, 'updated_at' => now()]);
+        $orderId = DB::table('sale_vouchers')->where('id', $saleVoucherId)->value('order_id');
+        if ($orderId) DB::table('records')->where('id', $orderId)->update(['status' => $complete ? 'Completed' : 'Dispatch Partial', 'updated_at' => now()]);
     }
 
     public function createProduct(): View
@@ -282,7 +315,7 @@ class WorkspaceController
 
         $openingRateCents = $this->money($data['opening_rate']);
 
-        DB::table('products')->insert([
+        $productId = DB::table('products')->insertGetId([
             'sku' => 'PRD-'.Str::upper(Str::random(10)),
             'group_name' => $data['group_name'],
             'name' => $data['product_name'],
@@ -299,7 +332,19 @@ class WorkspaceController
             'updated_at' => now(),
         ]);
 
+        if ($request->boolean('popup')) {
+            return redirect()->route('products.quick-created', $productId);
+        }
+
         return redirect()->route('inventory.index')->with('success', 'Product added to inventory.');
+    }
+
+    public function quickCreatedProduct(int $id): View
+    {
+        $product = DB::table('products')->where('id', $id)->first();
+        abort_unless($product, 404);
+
+        return view('products.quick-created', compact('product'));
     }
 
     public function editProduct(int $id): View
@@ -442,6 +487,7 @@ class WorkspaceController
         $data = $request->validate([
             'sauda_id' => ['nullable', 'integer', Rule::exists('saudas', 'id')->where('type', $module)],
             'sauda_ids' => ['nullable', 'string', 'max:1000'],
+            'sale_id' => ['nullable', 'integer', 'exists:sale_vouchers,id'],
             'party_id' => ['required_without_all:sauda_id,sauda_ids', 'nullable', 'integer', 'exists:parties,id'],
             'goods_number' => ['nullable', 'string', 'max:60'],
             'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
@@ -488,6 +534,15 @@ class WorkspaceController
         }
         $recordId = null;
         DB::transaction(function () use ($data, $module, $bundleSaudaIds, &$recordId) {
+            $saleVoucher = !empty($data['sale_id']) && $module === 'sale'
+                ? DB::table('sale_vouchers')->where('id', $data['sale_id'])->lockForUpdate()->first()
+                : null;
+            if (!empty($data['sale_id']) && (! $saleVoucher || !in_array($saleVoucher->status, ['Approved', 'Partial'], true))) {
+                throw ValidationException::withMessages(['sale_id' => 'This Sale Voucher is not available for dispatch.']);
+            }
+            $saleItemsBySauda = $saleVoucher
+                ? DB::table('sale_voucher_items')->where('sale_voucher_id', $saleVoucher->id)->lockForUpdate()->get()->keyBy('sauda_id')
+                : collect();
             $sauda = !empty($data['sauda_id']) ? DB::table('saudas')->where('id', $data['sauda_id'])->lockForUpdate()->first() : null;
             $bundleSaudas = $bundleSaudaIds->isEmpty()
                 ? collect()
@@ -502,6 +557,14 @@ class WorkspaceController
                 }
                 if (collect($data['items'])->pluck('product_id')->diff($bundleByProduct->keys())->isNotEmpty()) {
                     throw ValidationException::withMessages(['items' => 'Each dispatched product must belong to the selected Sale bundle.']);
+                }
+            }
+            if ($saleVoucher) {
+                if ($bundleSaudaIds->isEmpty() || $bundleSaudaIds->diff($saleItemsBySauda->keys())->isNotEmpty()) {
+                    throw ValidationException::withMessages(['items' => 'Each dispatched product must belong to the selected Sale Voucher.']);
+                }
+                if ($saleVoucher->party_id !== $bundleSaudas->first()?->party_id) {
+                    throw ValidationException::withMessages(['items' => 'The Sale Voucher customer does not match the selected Sauda.']);
                 }
             }
             if ($sauda) {
@@ -534,6 +597,13 @@ class WorkspaceController
                         throw ValidationException::withMessages(['items' => 'One or more quantities exceed the selected Sale balance.']);
                     }
                 }
+                if ($saleVoucher) {
+                    $saleItem = $saleItemsBySauda->get($linkedSauda?->id);
+                    $saleRemaining = $saleItem ? (float) $saleItem->quantity - (float) $saleItem->fulfilled_quantity : -1;
+                    if ($saleRemaining < 0 || (float) $item['quantity'] > $saleRemaining + 0.0001) {
+                        throw ValidationException::withMessages(['items' => 'One or more quantities exceed the approved Sale Voucher balance.']);
+                    }
+                }
                 if ($module === 'sale' && $product->stock < $item['quantity']) throw ValidationException::withMessages(['items' => 'Insufficient stock for '.$product->name.'. Available: '.$product->stock.' '.$product->unit.'.']);
                 $baseRate = filled($item['base_rate'] ?? null) ? $this->money($item['base_rate']) : (int) $product->purchase_rate_cents;
                 $difference = $this->money($item['difference']);
@@ -541,7 +611,7 @@ class WorkspaceController
                 if ($module === 'sale') DB::table('products')->where('id', $product->id)->decrement('stock', $item['quantity']);
                 if ($module === 'purchase') { $newStock = $product->stock + $item['quantity']; $cost = (int) round(($product->stock * $product->cost_cents + $item['quantity'] * $price) / $newStock); DB::table('products')->where('id', $product->id)->update(['stock' => $newStock, 'cost_cents' => $cost, 'updated_at' => now()]); }
                 $groupHeadId = DB::table('group_heads')->where('name', $product->group_name)->value('id');
-                $newRecordId = DB::table('records')->insertGetId(['reference' => $prefix.'-'.Str::upper(Str::random(10)), 'voucher_reference' => $voucherReference, 'voucher_number' => $voucherNumber, 'type' => $module, 'group_head_id' => $groupHeadId, 'party_id' => $partyId, 'sauda_id' => $linkedSauda?->id, 'party' => $party, 'product_id' => $product->id, 'goods_number' => $data['goods_number'], 'quantity' => $item['quantity'], 'base_rate_cents' => $baseRate, 'difference_cents' => $difference, 'unit_price_cents' => $price, 'total_cents' => (int) round($price * (float) $item['quantity']), 'date' => $data['date'], 'gst_percent' => $gstPercent, 'labour_cents' => $isFirstLine ? $labour : 0, 'discount_cents' => $isFirstLine ? $discount : 0, 'commission_cents' => $isFirstLine ? $commission : 0, 'freight_cents' => $isFirstLine ? $freight : 0, 'other_charges_cents' => $isFirstLine ? $others : 0, 'status' => $module === 'sale' ? 'Dispatched' : 'Received', 'created_at' => now(), 'updated_at' => now()]);
+                $newRecordId = DB::table('records')->insertGetId(['reference' => $prefix.'-'.Str::upper(Str::random(10)), 'voucher_reference' => $voucherReference, 'voucher_number' => $voucherNumber, 'type' => $module, 'group_head_id' => $groupHeadId, 'party_id' => $partyId, 'sauda_id' => $linkedSauda?->id, 'sale_voucher_id' => $saleVoucher?->id, 'party' => $party, 'product_id' => $product->id, 'goods_number' => $data['goods_number'], 'quantity' => $item['quantity'], 'base_rate_cents' => $baseRate, 'difference_cents' => $difference, 'unit_price_cents' => $price, 'total_cents' => (int) round($price * (float) $item['quantity']), 'date' => $data['date'], 'gst_percent' => $gstPercent, 'labour_cents' => $isFirstLine ? $labour : 0, 'discount_cents' => $isFirstLine ? $discount : 0, 'commission_cents' => $isFirstLine ? $commission : 0, 'freight_cents' => $isFirstLine ? $freight : 0, 'other_charges_cents' => $isFirstLine ? $others : 0, 'status' => $module === 'sale' ? 'Dispatched' : 'Received', 'created_at' => now(), 'updated_at' => now()]);
                 $recordId ??= $newRecordId;
                 $isFirstLine = false;
             }
@@ -552,6 +622,17 @@ class WorkspaceController
                 $quantity = (float) $bundleItem['quantity'];
                 $fulfilled = (float) $bundleSauda->fulfilled_quantity + $quantity;
                 DB::table('saudas')->where('id', $bundleSauda->id)->update(['fulfilled_quantity' => $fulfilled, 'status' => $fulfilled + 0.0001 >= (float) $bundleSauda->quantity ? 'Completed' : 'Partial', 'updated_at' => now()]);
+            }
+            if ($saleVoucher) {
+                foreach ($data['items'] as $item) {
+                    $linkedSauda = $bundleByProduct->get($item['product_id']);
+                    $saleItem = $saleItemsBySauda->get($linkedSauda?->id);
+                    if ($saleItem) DB::table('sale_voucher_items')->where('id', $saleItem->id)->update(['fulfilled_quantity' => (float) $saleItem->fulfilled_quantity + (float) $item['quantity'], 'updated_at' => now()]);
+                }
+                $freshItems = DB::table('sale_voucher_items')->where('sale_voucher_id', $saleVoucher->id)->get();
+                $complete = $freshItems->isNotEmpty() && $freshItems->every(fn ($row) => (float) $row->fulfilled_quantity + 0.0001 >= (float) $row->quantity);
+                DB::table('sale_vouchers')->where('id', $saleVoucher->id)->update(['status' => $complete ? 'Completed' : 'Partial', 'updated_at' => now()]);
+                if ($saleVoucher->order_id) DB::table('records')->where('id', $saleVoucher->order_id)->update(['status' => $complete ? 'Completed' : 'Dispatch Partial', 'updated_at' => now()]);
             }
         });
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaudaController;
+use App\Http\Controllers\SaleVoucherController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::get('/', [WorkspaceController::class, 'home'])->name('home');
 Route::get('/inventory', [WorkspaceController::class, 'inventory'])->name('inventory.index');
 Route::get('/inventory/products/create', [WorkspaceController::class, 'createProduct'])->name('products.create');
 Route::post('/inventory/products', [WorkspaceController::class, 'storeProduct'])->name('products.store');
+Route::get('/inventory/products/{id}/quick-created', [WorkspaceController::class, 'quickCreatedProduct'])->whereNumber('id')->name('products.quick-created');
 Route::get('/inventory/products/{id}/edit', [WorkspaceController::class, 'editProduct'])->whereNumber('id')->name('products.edit');
 Route::put('/inventory/products/{id}', [WorkspaceController::class, 'updateProduct'])->whereNumber('id')->name('products.update');
 Route::delete('/inventory/products/{id}', [WorkspaceController::class, 'destroyProduct'])->whereNumber('id')->name('products.destroy');
@@ -34,7 +36,11 @@ Route::put('/inventory/size-rates/{id}', [WorkspaceController::class, 'updateSiz
 Route::get('/sauda-bundle', [SaudaController::class, 'showBundle'])->name('saudas.bundle.show');
 Route::delete('/sauda-bundle', [SaudaController::class, 'destroyBundle'])->name('saudas.bundle.destroy');
 Route::resource('saudas', SaudaController::class)->except('show');
+Route::get('/sales/create', [SaleVoucherController::class, 'create'])->name('sales.create');
+Route::resource('sales', SaleVoucherController::class)->except(['create'])->parameters(['sales' => 'id']);
+Route::post('/sales/{id}/approve', [SaleVoucherController::class, 'approve'])->whereNumber('id')->name('sales.approve');
 Route::get('/dispatch', [DispatchController::class, 'index'])->name('dispatch.index');
+Route::get('/dispatch/pending', [DispatchController::class, 'pending'])->name('dispatch.pending');
 Route::get('/dispatch/print', [DispatchController::class, 'print'])->name('dispatch.print');
 Route::get('/gate', [GateController::class, 'index'])->name('gate.index');
 Route::get('/gate/create', [GateController::class, 'create'])->name('gate.create');

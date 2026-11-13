@@ -19,7 +19,7 @@
         <div class="threshold-guide"><span class="stock-indicator stock-ok">✓ Above minimum</span><span class="stock-indicator stock-low">⚠ At / below minimum</span></div>
     </div>
     <form class="product-form panel" method="post" action="{{ $isEdit ? route('products.update', $product->id) : route('products.store') }}">
-        @csrf @if($isEdit)@method('put')@endif
+        @csrf @if($isEdit)@method('put')@endif @if(! $isEdit && request()->boolean('popup'))<input type="hidden" name="popup" value="1">@endif
         <div class="product-form-grid">
             <label><span>Group Name <b>*</b></span><select required name="group_name"><option value="">Select a group</option>@foreach($groups as $group)<option value="{{ $group->name }}" @selected(old('group_name', $product?->group_name) === $group->name)>{{ $group->name }}</option>@endforeach</select><small>Manage values from Masters → Group Heads.</small></label>
             <label><span>Product Name <b>*</b></span><input required name="product_name" maxlength="120" value="{{ old('product_name', $product?->name) }}" placeholder="e.g. Stainless Steel Bolt"></label>

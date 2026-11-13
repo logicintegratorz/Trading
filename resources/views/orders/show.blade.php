@@ -7,12 +7,30 @@
     $taxable = max(0, $subtotal + $order->labour_cents + $order->commission_cents + $order->freight_cents + $order->other_charges_cents - $order->discount_cents);
     $gst = $order->total_cents - $taxable;
 @endphp
-<section class="voucher-heading"><div><div class="eyebrow">{{ strtoupper($title) }} / VIEW</div><h1>{{ $title }}<span class="accent">.</span></h1><p>Review the order lines and print the Order Parchi.</p></div><div class="heading-actions"><a class="button primary" target="_blank" href="{{ route('orders.parchi', [$module, $order->id]) }}">Print Order Parchi</a>@if($module === 'sale-orders')@if($saleSaudaIds->isNotEmpty())<a class="button primary" href="{{ route('saudas.bundle.show', ['ids' => $saleSaudaIds->implode(',')]) }}">View Sale & Dispatch</a>@else<form method="post" action="{{ route('orders.create-sale', [$module, $order->id]) }}">@csrf<button class="button primary" type="submit">Create Sale</button></form>@endif@endif</div></section>
+<section class="voucher-heading">
+    <div><div class="eyebrow">{{ strtoupper($title) }} / VIEW</div><h1>{{ $title }}<span class="accent">.</span></h1><p>Review the order lines and print the Order Parchi.</p></div>
+    <div class="heading-actions">
+        <a class="button primary" target="_blank" href="{{ route('orders.parchi', [$module, $order->id]) }}">Print Order Parchi</a>
+        @if($module === 'sale-orders')
+            @if($saleSaudaIds->isNotEmpty())
+                <a class="button primary" href="{{ route('saudas.bundle.show', ['ids' => $saleSaudaIds->implode(',')]) }}">Step 2: Prepare Sale</a>
+            @else
+                <form method="post" action="{{ route('orders.create-sale', [$module, $order->id]) }}">@csrf<button class="button primary" type="submit">Step 1: Create Sauda</button></form>
+            @endif
+        @endif
+    </div>
+</section>
 <section class="voucher-card voucher-view">
     <div class="voucher-grid"><div class="voucher-field"><span>Voucher S.No</span><strong>{{ $order->reference }}</strong></div><div class="voucher-field"><span>Goods / Vehicle No.</span><strong>{{ $order->goods_number ?: '—' }}</strong></div><div class="voucher-field"><span>Group Head</span><strong>{{ $order->group_head_name }}</strong></div><div class="voucher-field"><span>{{ $partyLabel }}</span><strong>{{ $order->party_name }}</strong></div><div class="voucher-field"><span>Basic Rate</span><strong>₹{{ number_format(($order->basic_rate_cents ?? 0) / 100, 2) }}</strong></div><div class="voucher-field"><span>Voucher Date</span><strong>{{ date('d M Y', strtotime($order->date)) }}</strong></div><div class="voucher-field"><span>Total QTY</span><strong>{{ number_format($order->quantity, 3) }} Ton</strong></div></div>
     <div class="table-scroll order-view-lines"><table><thead><tr><th>Sr.</th><th>Description</th><th class="numeric">KG</th><th class="numeric">Qty.</th><th class="numeric">Pcs</th><th class="numeric">Bundle</th></tr></thead><tbody>@foreach($items as $item)<tr><td>{{ $loop->iteration }}</td><td><strong>{{ $item->description }}</strong></td><td class="numeric">{{ number_format($item->weight_kg, 3) }}</td><td class="numeric">{{ number_format($item->quantity, 3) }}</td><td class="numeric">{{ number_format($item->pieces, 3) }}</td><td class="numeric">{{ number_format($item->bundles, 3) }}</td></tr>@endforeach</tbody></table></div>
 </section>
-@if($module === 'purchase-orders' || $saleSaudaIds->isEmpty())<form method="post" action="{{ route('orders.destroy', [$module, $order->id]) }}" class="danger-inline" onsubmit="return confirm('Delete this unused Order?')">@csrf @method('delete')<button class="button danger" type="submit">Delete Order</button></form>@endif
+@if($module === 'purchase-orders' || $saleSaudaIds->isEmpty())
+    <form method="post" action="{{ route('orders.destroy', [$module, $order->id]) }}" class="danger-inline" onsubmit="return confirm('Delete this unused Order?')">
+        @csrf
+        @method('delete')
+        <button class="button danger" type="submit">Delete Order</button>
+    </form>
+@endif
 @include('orders.toolbar', ['mode' => 'view'])
 <dialog id="move-dialog" class="move-dialog"><form method="post" action="{{ route('orders.move', [$module, $order->id]) }}">@csrf @method('patch')<div class="dialog-heading"><div><span class="eyebrow">MOVE VOUCHER</span><h2>Change voucher date</h2></div><button type="button" class="close" data-close-move aria-label="Close">×</button></div><div class="move-content"><p>Choose a new date. The voucher number stays unchanged.</p><label>Voucher S.No<input readonly value="{{ $order->reference }}"></label><label>Move to date<input required name="date" type="date" value="{{ date('Y-m-d', strtotime($order->date)) }}"></label></div><div class="dialog-footer"><button type="button" class="button" data-close-move>Cancel</button><button class="button primary" type="submit">Move Voucher</button></div></form></dialog>
 @endsection

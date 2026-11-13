@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -29,13 +30,15 @@ class MasterDataController extends Controller
         return view('masters.index', compact('master', 'configuration', 'values'));
     }
 
-    public function store(Request $request, string $master): RedirectResponse
+    public function store(Request $request, string $master): RedirectResponse|JsonResponse
     {
         $configuration = $this->configuration($master);
         $data = $request->validate(['name' => ['required', 'string', 'max:'.$configuration['max'], Rule::unique($configuration['table'], 'name')]]);
         $name = trim($data['name']);
         $this->ensureUniqueName($configuration['table'], $name);
-        DB::table($configuration['table'])->insert(['name' => $name, 'created_at' => now(), 'updated_at' => now()]);
+        $id = DB::table($configuration['table'])->insertGetId(['name' => $name, 'created_at' => now(), 'updated_at' => now()]);
+
+        if ($request->expectsJson()) return response()->json(['id' => $id, 'name' => $name], 201);
 
         return back()->with('success', $configuration['label'].' added.');
     }

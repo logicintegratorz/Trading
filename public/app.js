@@ -2,6 +2,45 @@ const dialog = document.querySelector('#create-dialog');
 // Treat spaces and common separators as optional in searchable dropdowns.
 // For example, "1x1x3", "1 x 1 x 3" and "1-X-1-X-3" find the same item.
 const normalizeSelectSearch = value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, '');
+const showToast = (message, type = 'error') => {
+    document.querySelectorAll('.app-toast').forEach(toast => toast.remove());
+    const toast = document.createElement('div');
+    toast.className = `app-toast app-toast-${type}`;
+    toast.setAttribute('role', 'alert');
+    toast.textContent = message;
+    toast.style.cssText = 'position:fixed;z-index:9999;top:18px;left:50%;transform:translateX(-50%);max-width:min(540px,calc(100vw - 32px));padding:13px 18px;border-radius:10px;background:#a84b3c;color:#fff;box-shadow:0 14px 32px rgba(25,48,45,.28);font:600 14px/1.4 system-ui,-apple-system,sans-serif;cursor:pointer;';
+    toast.addEventListener('click', () => toast.remove());
+    document.body.append(toast);
+    window.setTimeout(() => toast.remove(), 4000);
+};
+
+// A material line can contain a product only once. This is intentionally
+// delegated so it also covers rows that are added dynamically.
+const isMultiLineProductSelect = select => select instanceof HTMLSelectElement
+    && select.matches('[data-product-select], [data-row-product]');
+document.addEventListener('change', event => {
+    const select = event.target;
+    if (!isMultiLineProductSelect(select) || !select.value) return;
+
+    const form = select.closest('form');
+    if (!form) return;
+    const productSelects = [...form.querySelectorAll('[data-product-select], [data-row-product]')];
+    const isDuplicate = productSelects.some(other => other !== select && other.value === select.value);
+    if (!isDuplicate) {
+        select.dataset.lastProductId = select.value;
+        return;
+    }
+
+    const productName = select.options[select.selectedIndex]?.textContent?.trim() || 'This product';
+    select.value = select.dataset.lastProductId || '';
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    showToast(`${productName} is already selected in this entry. Please choose another product.`);
+});
+document.querySelectorAll('[data-pending-dispatch-form]').forEach(form => form.addEventListener('submit', event => {
+    if (form.querySelector('input[type="checkbox"]:checked')) return;
+    event.preventDefault();
+    showToast('Select at least one pending product to dispatch.');
+}));
 document.querySelectorAll('[data-open-create]').forEach(button => button.addEventListener('click', () => dialog.showModal()));
 document.querySelectorAll('[data-close-create]').forEach(button => button.addEventListener('click', () => dialog.close()));
 if (dialog?.hasAttribute('data-auto-open')) dialog.showModal();
@@ -293,6 +332,17 @@ document.addEventListener('click', event => document.querySelectorAll('.search-s
         trigger?.setAttribute('aria-expanded', 'false');
     }
 }));
+// A fixed-position menu must not remain on screen when the operator scrolls
+// anywhere outside that menu. Option-list scrolling remains available.
+document.addEventListener('scroll', event => {
+    const target = event.target;
+    if (target instanceof Element && target.closest('.search-select-menu')) return;
+    document.querySelectorAll('.search-select-menu:not([hidden])').forEach(menu => {
+        menu.hidden = true;
+        menu.closest('.search-select')?.querySelector('[data-search-select-trigger]')?.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.nav-dropdown[open]').forEach(menu => menu.open = false);
+}, { capture: true, passive: true });
 window.addEventListener('resize', () => document.querySelectorAll('.search-select-menu:not([hidden])').forEach(menu => {
     menu.hidden = true;
     menu.closest('.search-select')?.querySelector('[data-search-select-trigger]')?.setAttribute('aria-expanded', 'false');
@@ -351,6 +401,21 @@ const orderForm = document.querySelector('#order-form');
 if (orderForm) {
     const rows = orderForm.querySelector('[data-order-items]');
     const template = document.querySelector('#order-item-template');
+    let newProductTargetRow = null;
+    orderForm.querySelector('[data-order-new-party]')?.addEventListener('click', async () => {
+        const name = window.prompt('Enter new Party name');
+        if (!name?.trim()) return;
+        const token = orderForm.querySelector('[name="_token"]')?.value;
+        try {
+            const response = await fetch('/masters/parties', { method: 'POST', headers: { 'X-CSRF-TOKEN': token, 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ name: name.trim() }) });
+            if (!response.ok) throw new Error();
+            const party = await response.json();
+            const select = orderForm.querySelector('[name="party_id"]');
+            select.add(new Option(party.name, party.id, true, true));
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+            showToast(`${party.name} added and selected.`, 'success');
+        } catch (_) { showToast('Could not add this Party. It may already exist.'); }
+    });
     const updateTotal = () => {
         rows.querySelectorAll('[data-order-row]').forEach(row => {
             const quantity = Number.parseFloat(row.querySelector('[data-item-quantity]')?.value) || 0;
@@ -366,6 +431,13 @@ if (orderForm) {
     const renumber = () => rows.querySelectorAll('[data-order-row]').forEach((row, index) => { row.querySelector('.line-number').textContent = index + 1; });
     const bindRow = row => {
         row.addEventListener('input', updateTotal);
+        row.querySelector('[data-order-new-product]')?.addEventListener('click', () => {
+            // The Order remains open in this tab, so none of the already-filled
+            // voucher details are lost while a new inventory product is created.
+            newProductTargetRow = row;
+            const popup = window.open('/inventory/products/create?popup=1', 'order-product-create', 'popup=yes,width=1080,height=820');
+            if (!popup) showToast('Please allow pop-ups to add a new product without leaving this Order.');
+        });
         row.querySelector('[data-product-select]')?.addEventListener('change', event => {
             const option = event.target.options[event.target.selectedIndex];
             if (!option?.value) return;
@@ -386,6 +458,27 @@ if (orderForm) {
         wrapper.innerHTML = template.innerHTML.replaceAll('__INDEX__', index).trim();
         const row = wrapper.firstElementChild;
         rows.appendChild(row); bindRow(row); renumber(); row.querySelector('[data-item-description]').focus();
+    });
+    window.addEventListener('message', event => {
+        if (event.origin !== window.location.origin || event.data?.type !== 'tradeflow-product-created') return;
+        const product = event.data.product;
+        if (!product?.id || !product?.name) return;
+        orderForm.querySelectorAll('[data-product-select]').forEach(select => {
+            if (![...select.options].some(option => option.value === String(product.id))) {
+                const option = new Option(product.name, product.id);
+                option.dataset.name = product.name;
+                option.dataset.weight = product.weight || '';
+                option.dataset.rate = product.rate || '0.00';
+                select.add(option);
+            }
+        });
+        const select = newProductTargetRow?.querySelector('[data-product-select]');
+        if (select) {
+            select.value = String(product.id);
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        newProductTargetRow = null;
+        showToast(`${product.name} added and selected.`, 'success');
     });
     updateTotal();
 }
