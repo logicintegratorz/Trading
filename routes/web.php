@@ -55,6 +55,10 @@ Route::get('/masters/{master}', [MasterDataController::class, 'index'])->where('
 Route::post('/masters/{master}', [MasterDataController::class, 'store'])->where('master', 'group-heads|parties')->name('masters.store');
 Route::put('/masters/{master}/{id}', [MasterDataController::class, 'update'])->where('master', 'group-heads|parties')->whereNumber('id')->name('masters.update');
 Route::delete('/masters/{master}/{id}', [MasterDataController::class, 'destroy'])->where('master', 'group-heads|parties')->whereNumber('id')->name('masters.destroy');
+// Keep the top-bar destination explicit. Orders are sale orders by default;
+// using a dedicated endpoint prevents this navigation from ever resolving to
+// the separate Sale Voucher register (/sales).
+Route::redirect('/orders', '/sale-orders')->name('orders.index');
 Route::get('/{module}/create', [OrderController::class, 'create'])->where('module', 'purchase-orders|sale-orders')->name('orders.create');
 Route::post('/{module}/orders', [OrderController::class, 'store'])->where('module', 'purchase-orders|sale-orders')->name('orders.store');
 Route::get('/{module}/{id}/receipt', [OrderController::class, 'receipt'])->where('module', 'purchase-orders|sale-orders')->whereNumber('id')->name('orders.receipt');

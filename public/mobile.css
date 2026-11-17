@@ -1,6 +1,7 @@
 /* Phone-first refinements. Loaded after the module styles so they apply everywhere. */
 .logout-form{margin:0}.logout-form button{border:1px solid #dce4dd;border-radius:6px;padding:8px 10px;background:#fff;color:#52655b;font:600 12px 'DM Sans',sans-serif}
 @media (max-width: 800px) {
+    html { -webkit-text-size-adjust: 100%; }
     body { overflow-x: hidden; }
 
     .nav-wrap {
@@ -36,7 +37,12 @@
         min-width: 0;
         max-height: calc(100dvh - 92px);
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
+
+    /* Every actionable control remains comfortably tappable on a phone. */
+    .nav-wrap nav > a, .nav-wrap summary, .workspace .button,
+    .row-actions .button, .button { min-height: 44px; }
 
     /* Masters and Logout remain available on phones; they must not disappear
        simply because the desktop navigation becomes compact. */
@@ -130,6 +136,11 @@
     .product-form-actions { align-items: stretch; flex-direction: column-reverse; }
     .product-form-actions .button { width: 100%; }
     footer { align-items: flex-start; flex-direction: column; padding: 0 16px 18px; }
+
+    /* Fixed searchable menus must sit within the visual viewport when the
+       keyboard is shown or a control is close to the lower screen edge. */
+    .search-select-menu { max-height: min(280px, calc(100dvh - 24px)); }
+    .search-select-options { max-height: 190px; }
 }
 
 @media (max-width: 480px) {

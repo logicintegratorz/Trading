@@ -1,6 +1,10 @@
 services:
   app:
     build: .
+    # The deploy script tags the verified release as tradeflow-app:latest
+    # before recreating this service.  Pinning the service to that tag ensures
+    # Compose never starts an older project-generated image after deployment.
+    image: tradeflow-app:latest
     ports:
       - "127.0.0.1:8001:8000"
     env_file: .env

@@ -6,6 +6,11 @@ RUN apt-get update \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
-RUN composer install --no-interaction --prefer-dist
-RUN mkdir -p bootstrap/cache storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs
+# The release image is built without the live .env by design. Composer's
+# Laravel hooks boot Artisan and can therefore fail during this build phase.
+# Install production dependencies only; the deployment runs `artisan optimize`
+# after recreating the container with its real environment.
+RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --optimize-autoloader
+RUN mkdir -p bootstrap/cache storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs \
+    && chown -R www-data:www-data bootstrap/cache storage
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]

@@ -44,7 +44,7 @@ class SaleVoucherController
         return view('sales.show', compact('sale', 'lines'));
     }
 
-    public function edit(int $id): View
+    public function edit(int $id): View|RedirectResponse
     {
         $sale = $this->sale($id);
         if ($sale->status !== 'Draft') return redirect()->route('sales.show', $id)->withErrors(['sale' => 'Only a Draft Sale Voucher can be edited.']);

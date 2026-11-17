@@ -197,6 +197,9 @@ const enhanceSearchableSelects = (root = document) => {
             menu.style.top = `${rect.bottom + 6}px`;
             menu.style.width = `${width}px`;
             menu.style.right = 'auto';
+            // Keep the search field and at least a few options usable on a
+            // short phone viewport. The menu still always opens downwards.
+            menu.style.maxHeight = `${Math.max(132, window.innerHeight - rect.bottom - 18)}px`;
         };
         const choose = (option, advance = false) => {
             select.value = option.value;
@@ -343,17 +346,26 @@ document.addEventListener('scroll', event => {
     });
     document.querySelectorAll('.nav-dropdown[open]').forEach(menu => menu.open = false);
 }, { capture: true, passive: true });
-window.addEventListener('resize', () => document.querySelectorAll('.search-select-menu:not([hidden])').forEach(menu => {
-    menu.hidden = true;
-    menu.closest('.search-select')?.querySelector('[data-search-select-trigger]')?.setAttribute('aria-expanded', 'false');
-}));
+window.addEventListener('resize', () => {
+    document.querySelectorAll('.search-select-menu:not([hidden])').forEach(menu => {
+        menu.hidden = true;
+        menu.closest('.search-select')?.querySelector('[data-search-select-trigger]')?.setAttribute('aria-expanded', 'false');
+    });
+    // Orientation/viewport changes can otherwise leave a fixed mobile menu
+    // detached from its navigation trigger.
+    document.querySelectorAll('.nav-dropdown[open]').forEach(menu => menu.open = false);
+});
 document.querySelectorAll('.nav-dropdown').forEach(details => details.addEventListener('toggle', () => {
     if (!details.open || !window.matchMedia('(max-width: 800px)').matches) return;
+    document.querySelectorAll('.nav-dropdown[open]').forEach(other => {
+        if (other !== details) other.open = false;
+    });
     const summary = details.querySelector('summary');
     const dropdown = details.querySelector('.dropdown');
     if (!summary || !dropdown) return;
     const rect = summary.getBoundingClientRect();
     dropdown.style.top = `${rect.bottom + 6}px`;
+    dropdown.style.maxHeight = `${Math.max(140, window.innerHeight - rect.bottom - 18)}px`;
 }));
 new MutationObserver(mutations => mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
     if (node.nodeType === Node.ELEMENT_NODE) enhanceSearchableSelects(node);

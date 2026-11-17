@@ -192,7 +192,7 @@ class WorkspaceController
         $initialSaudaIds = $initialSale
             ? DB::table('sale_voucher_items')->where('sale_voucher_id', $initialSale->id)->whereColumn('fulfilled_quantity', '<', 'quantity')->pluck('sauda_id')->map(fn ($id) => (int) $id)->values()
             : collect($requestedSaudaIds)
-            ->filter(fn ($id) => ctype_digit($id))->map(fn ($id) => (int) $id)->unique()->values();
+            ->filter(fn ($id) => ctype_digit((string) $id))->map(fn ($id) => (int) $id)->unique()->values();
         $initialBundle = $initialSaudaIds->isEmpty()
             ? collect()
             : $saudas->whereIn('id', $initialSaudaIds)->values();
@@ -506,7 +506,7 @@ class WorkspaceController
             'gst_percent' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:100'],
         ]);
         $bundleSaudaIds = collect(explode(',', (string) ($data['sauda_ids'] ?? '')))
-            ->filter(fn ($id) => ctype_digit($id))->map(fn ($id) => (int) $id)->unique()->values();
+            ->filter(fn ($id) => ctype_digit((string) $id))->map(fn ($id) => (int) $id)->unique()->values();
         if (filled($data['sauda_ids'] ?? null) && $bundleSaudaIds->isEmpty()) {
             throw ValidationException::withMessages(['sauda_ids' => 'The selected Sale bundle is invalid. Please reopen it and try again.']);
         }

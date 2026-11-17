@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // The production app is behind the host Nginx TLS proxy while the
+        // container itself receives HTTP. Force generated login/redirect URLs
+        // to retain HTTPS whenever the configured public URL is HTTPS.
+        if (str_starts_with((string) config('app.url'), 'https://')) {
+            URL::forceScheme('https');
+        }
+
         View::composer('layout', function ($view): void {
             $pendingStockSaudas = DB::table('saudas as s')
                 ->join('parties as pa', 's.party_id', '=', 'pa.id')
